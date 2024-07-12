@@ -1,0 +1,19 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  Devsk\DsNotifier\:
+    resource: '../Classes/*'
+    exclude:
+      - '../Classes/Attribute/*'
+      - '../Classes/Event/*'
+
+  Devsk\DsNotifier\EventListener\NotifierListener:
+    tags:
+      - name: event.listener
+
+  Devsk\DsNotifier\EventListener\Typo3\Core\Cache\CacheFlushListener:
+    tags:
+      - name: event.listener
