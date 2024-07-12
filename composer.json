@@ -1,0 +1,38 @@
+{
+    "name": "devskio/ds_notifier",
+    "type": "typo3-cms-extension",
+    "description": "Notifier",
+    "license": "GPL-2.0-or-later",
+    "keywords": [
+        "Notifier",
+        "Notification",
+        "TYPO3 CMS"
+    ],
+    "authors": [
+        {
+            "name": "DEVSK Team",
+            "role": "Developer",
+            "email": "development@devsk.io",
+            "homepage": "https://www.devsk.io/"
+        }
+    ],
+    "minimum-stability": "dev",
+    "version": "0.0.1",
+    "require": {
+        "php" : "^8.3",
+        "typo3/cms-core": "^12.4"
+    },
+    "require-dev": {
+
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "ds_notifier"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Devsk\\DsNotifier\\": "Classes/"
+        }
+    }
+}
