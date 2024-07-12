@@ -18,6 +18,15 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.event">
         <source>Event</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Cache\CacheFlush">
+        <source>TYPO3: Cache Flush</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.eventGroup.DEFAULT">
+        <source>Default</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.eventGroup.TYPO3">
+        <source>Typo3</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

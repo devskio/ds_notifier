@@ -5,6 +5,7 @@ namespace Devsk\DsNotifier\Attribute;
 
 use Attribute;
 use Devsk\DsNotifier\Enum\EventGroup;
+use Devsk\DsNotifier\Enum\EventGroupInterface;
 
 #[Attribute(Attribute::TARGET_CLASS)]
 class NotifierEvent
@@ -13,8 +14,7 @@ class NotifierEvent
     public function __construct(
         protected string $identifier,
         protected string $label,
-//        protected ?string $description = null, // TODO: Is Required?
-        protected ?EventGroup $group = EventGroup::DEFAULT,
+        protected ?EventGroupInterface $group = EventGroup::DEFAULT,
     )
     {}
 

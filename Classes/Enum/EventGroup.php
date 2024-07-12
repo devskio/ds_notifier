@@ -7,13 +7,13 @@ namespace Devsk\DsNotifier\Enum;
  * Class EventGroup
  * @package Digitalwerk\DwIoeb\Notifier
  */
-enum EventGroup
+enum EventGroup implements EventGroupInterface
 {
     case DEFAULT;
     case TYPO3;
 
     public function getLabel(): string
     {
-        return $this->name;
+        return "LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.eventGroup.{$this->name}";
     }
 }
