@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="de" datatype="plaintext" original="messages" date="2017-05-30T08:36:53Z" product-name="ds_notifier">
+    <header/>
+    <body>
+      <trans-unit id="tx_dsnotifier_domain_model_notification">
+        <source>Notifier Notification</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.title">
+        <source>Title</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.channel">
+        <source>Channel</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.channel.email">
+        <source>Email</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event">
+        <source>Event</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

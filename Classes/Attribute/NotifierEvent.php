@@ -17,4 +17,19 @@ class NotifierEvent
         protected ?EventGroup $group = EventGroup::DEFAULT,
     )
     {}
+
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
+    }
+
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
+    public function getGroup(): ?EventGroup
+    {
+        return $this->group;
+    }
 }
