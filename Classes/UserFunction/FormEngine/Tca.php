@@ -5,9 +5,7 @@ namespace Devsk\DsNotifier\UserFunction\FormEngine;
 
 use Devsk\DsNotifier\Attribute\NotifierEvent;
 use Devsk\DsNotifier\StructureScout\NotifierEventStructureScout;
-use ReflectionAttribute;
 use ReflectionClass;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Class Tca
@@ -15,22 +13,39 @@ use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 class Tca
 {
 
+    /**
+     * Populate items with discovered Notifier Events and group them
+     * @param $params
+     * @return void
+     * @throws \ReflectionException
+     */
     public function notificationEventItemsProcFunc(&$params)
     {
+        $groups = [];
+
+        //TODO: Maybe nicer way to group items
         foreach (NotifierEventStructureScout::create()->get() as $eventClass) {
             /** @var NotifierEvent $notifierEventAttribute */
             $notifierEventAttribute = (new ReflectionClass($eventClass))
                 ->getAttributes(NotifierEvent::class)[0]
                 ->newInstance();
 
-            $params['items'][] = [
-                'label' => $notifierEventAttribute->getGroup()->getLabel(),
-                'value' => '--div--',
-            ];
-            $params['items'][] = [
+            $groups[$notifierEventAttribute->getGroup()->getLabel()][] = [
                 'label' => $notifierEventAttribute->getLabel(),
                 'value' => $notifierEventAttribute->getIdentifier(),
             ];
+        }
+
+        if (!empty($groups)) {
+            foreach ($groups as $group => $groupItems) {
+                $params['items'][] = [
+                    'label' => $group,
+                    'value' => '--div--',
+                ];
+                foreach ($groupItems as $item) {
+                    $params['items'][] = $item;
+                }
+            }
         }
 
     }
