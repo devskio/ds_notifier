@@ -7,7 +7,6 @@ use Devsk\DsNotifier\StructureScout\Helper;
 use Psr\Log\LoggerInterface;
 use Spatie\StructureDiscoverer\Support\StructureScoutManager;
 use TYPO3\CMS\Core\Cache\Event\CacheWarmupEvent;
-use TYPO3\CMS\Core\Core\Environment;
 
 final class CacheWarmupListener
 {
