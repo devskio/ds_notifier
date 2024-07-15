@@ -9,7 +9,6 @@ use Spatie\StructureDiscoverer\Cache\DiscoverCacheDriver;
 use Spatie\StructureDiscoverer\Cache\FileDiscoverCacheDriver;
 use Spatie\StructureDiscoverer\Discover;
 use Spatie\StructureDiscoverer\StructureScout;
-use TYPO3\CMS\Core\Core\Environment;
 
 /**
  * Class NotifierEventStructureScout
@@ -20,13 +19,13 @@ class NotifierEventStructureScout extends StructureScout
 
     protected function definition(): Discover
     {
-        return Discover::in(Environment::getProjectPath())
+        return Discover::in(Helper::getDiscoveryDirectory())
             ->withAttribute(NotifierEvent::class)
             ->implementing(EventInterface::class);
     }
 
     public function cacheDriver(): DiscoverCacheDriver
     {
-        return new FileDiscoverCacheDriver(Environment::getVarPath() . '/cache/data/ds_notifier/');
+        return new FileDiscoverCacheDriver(Helper::getCacheDirectory());
     }
 }

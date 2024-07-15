@@ -17,3 +17,7 @@ services:
   Devsk\DsNotifier\EventListener\Typo3\Core\Cache\CacheFlushListener:
     tags:
       - name: event.listener
+
+  Devsk\DsNotifier\EventListener\Typo3\Core\Cache\CacheWarmupListener:
+    tags:
+      - name: event.listener
