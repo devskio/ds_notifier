@@ -117,7 +117,12 @@ return [
                         'label' => "{$lll}:tx_dsnotifier_domain_model_notification.channel.email",
                         'value' => \Devsk\DsNotifier\Enum\Channel::EMAIL->value,
                         'icon' => 'content-elements-mailform'
-                    ]
+                    ],
+                    [
+                        'label' => "{$lll}:tx_dsnotifier_domain_model_notification.channel.slack",
+                        'value' => \Devsk\DsNotifier\Enum\Channel::SLACK->value,
+                        'icon' => 'actions-brand-slack'
+                    ],
                 ],
                 'fieldWizard' => [
                     'selectIcons' => [
@@ -126,17 +131,9 @@ return [
                 ],
             ],
         ],
-        'site' => [
-            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.site",
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectCheckBox',
-                'foreign_table' => 'pages',
-                'foreign_table_where' => 'AND {#pages}.{#is_siteroot} = 1 AND {#pages}.{#sys_language_uid} = 0 ORDER BY sorting',
-            ],
-        ],
         'event' => [
             'label' => "{$lll}:tx_dsnotifier_domain_model_notification.event",
+            'onChange' => 'reload',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -144,12 +141,58 @@ return [
 
             ],
         ],
+        'sites' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.sites",
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectCheckBox',
+                'foreign_table' => 'pages',
+                'foreign_table_where' => 'AND {#pages}.{#is_siteroot} = 1 AND {#pages}.{#sys_language_uid} = 0 ORDER BY sorting',
+            ],
+        ],
+        'subject' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.subject",
+            'config' => [
+                'type' => 'input',
+                'eval' => 'trim',
+                'max' => 255,
+            ],
+        ],
+        'body' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.body",
+            'config' => [
+                'type' => 'text',
+                'eval' => 'trim',
+                'rows' => 10,
+            ],
+        ],
+        'email_to' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.email_to",
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
+            ],
+        ],
+        'email_cc' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.email_cc",
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
+            ],
+        ],
+        'email_bcc' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.email_bcc",
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
+            ],
+        ],
     ],
     'types' => [
         '0' => [
             'showitem' => '
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-                    --palette--;;common,
+                    --palette--;;general,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
                     --palette--;;access,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,
@@ -158,25 +201,36 @@ return [
                 '
         ],
         \Devsk\DsNotifier\Enum\Channel::EMAIL->value => [
-            'showitem' => '
+            'showitem' => "
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
-                    --palette--;;common,
+                    --palette--;;general,
+                --div--;{$lll}:tx_dsnotifier_domain_model_notification.tab.email,
+                    --palette--;;email,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
                     --palette--;;access,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,
                     --palette--;;language,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
-                ',
+                ",
             'subtype_value_field' => 'event'
         ],
     ],
     'palettes' => [
-        'common' => [
-            'label' => 'Testing label',
+        'general' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.palette.general",
             'showitem' => 'title,
                           --linebreak--, channel,
                           --linebreak--, event,
-                          --linebreak--, site
+                          --linebreak--, sites
+                          '
+        ],
+        'email' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.palette.email",
+            'showitem' => 'subject,
+                          --linebreak--, body,
+                          --linebreak--, email_to,
+                          --linebreak--, email_cc,
+                          --linebreak--, email_bcc
                           '
         ],
         'access' => [
@@ -185,6 +239,7 @@ return [
                            --linebreak--, starttime, endtime'
         ],
         'language' => [
+            'label' => 'LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language',
             'showitem' => 'sys_language_uid, l10n_parent',
         ],
     ],

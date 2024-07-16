@@ -15,11 +15,29 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.channel.email">
         <source>Email</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.channel.slack">
+        <source>Slack</source>
+      </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.event">
         <source>Event</source>
       </trans-unit>
-      <trans-unit id="tx_dsnotifier_domain_model_notification.site">
-        <source>Site</source>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.sites">
+        <source>Sites</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.subject">
+        <source>Subject</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.body">
+        <source>Body</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.email_to">
+        <source>To</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.email_cc">
+        <source>CC</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.email_bcc">
+        <source>BCC</source>
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Cache\CacheFlush">
         <source>TYPO3: Cache Flush</source>
@@ -29,6 +47,15 @@
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.eventGroup.TYPO3">
         <source>Typo3</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.tab.email">
+        <source>Email</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.palette.general">
+        <source>General</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.palette.email">
+        <source>Email</source>
       </trans-unit>
     </body>
   </file>

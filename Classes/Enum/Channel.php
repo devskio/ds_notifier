@@ -6,4 +6,6 @@ namespace Devsk\DsNotifier\Enum;
 enum Channel: string
 {
     case EMAIL = 'email';
+
+    case SLACK = 'slack';
 }
