@@ -4,7 +4,7 @@
     <header/>
     <body>
       <trans-unit id="tx_dsnotifier_domain_model_notification">
-        <source>Notifier Notification</source>
+        <source>Notification</source>
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.title">
         <source>Title</source>
@@ -17,6 +17,9 @@
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.event">
         <source>Event</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.site">
+        <source>Site</source>
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Cache\CacheFlush">
         <source>TYPO3: Cache Flush</source>
