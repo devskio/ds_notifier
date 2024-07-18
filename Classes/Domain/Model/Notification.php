@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Devsk\DsNotifier\Domain\Model;
 
-use Devsk\DsNotifier\Enum\Channel;
-use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
@@ -24,6 +22,11 @@ class Notification extends AbstractEntity
 
     protected ?string $body = null;
 
+    static function tableName(): string
+    {
+        return 'tx_dsnotifier_domain_model_notification';
+    }
+
     /**
      * @var ObjectStorage<Site>
      */
@@ -34,9 +37,9 @@ class Notification extends AbstractEntity
         return $this->title;
     }
 
-    public function getChannel(): ?Channel
+    public function getChannel(): string
     {
-        return Channel::tryFrom($this->channel);
+        return $this->channel;
     }
 
     public function getEvent(): ?string

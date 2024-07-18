@@ -26,7 +26,7 @@ class NotificationRepository extends Repository
 
     public function findByEvent(string|EventInterface $event): QueryResultInterface
     {
-        $event = ($event instanceof EventInterface) ? $event::class : $event;
+        $event = ($event instanceof EventInterface) ? $event::identifier() : $event;
 
         return $this->findBy([
             'event' => $event

@@ -22,7 +22,7 @@ return [
         'typeicon_column' => 'channel',
         'typeicon_classes' => [
             'default' => 'content-elements-mailform',
-            \Devsk\DsNotifier\Enum\Channel::EMAIL->value => 'content-elements-mailform',
+            \Devsk\DsNotifier\Domain\Model\Notification\Email::class => 'content-elements-mailform',
         ],
         'searchFields' => 'title',
     ],
@@ -115,12 +115,12 @@ return [
                 'items' => [
                     [
                         'label' => "{$lll}:tx_dsnotifier_domain_model_notification.channel.email",
-                        'value' => \Devsk\DsNotifier\Enum\Channel::EMAIL->value,
+                        'value' => \Devsk\DsNotifier\Domain\Model\Notification\Email::class,
                         'icon' => 'content-elements-mailform'
                     ],
                     [
                         'label' => "{$lll}:tx_dsnotifier_domain_model_notification.channel.slack",
-                        'value' => \Devsk\DsNotifier\Enum\Channel::SLACK->value,
+                        'value' => \Devsk\DsNotifier\Domain\Model\Notification\Slack::class,
                         'icon' => 'actions-brand-slack'
                     ],
                 ],
@@ -208,7 +208,7 @@ return [
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
                 '
         ],
-        \Devsk\DsNotifier\Enum\Channel::EMAIL->value => [
+        \Devsk\DsNotifier\Domain\Model\Notification\Email::class => [
             'showitem' => "
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
                     --palette--;;general,

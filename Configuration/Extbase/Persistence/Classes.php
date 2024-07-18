@@ -12,7 +12,8 @@ return [
         ],
     ],
     Model\Notification\Email::class => [
-        'recordType' => \Devsk\DsNotifier\Enum\Channel::EMAIL->value,
+        'recordType' => Model\Notification\Email::class,
+        'tableName' => Model\Notification\Email::tableName(),
         'properties' => [
             'to' => [
                 'fieldName' => 'email_to',
@@ -26,10 +27,11 @@ return [
         ],
     ],
     Model\Notification\Slack::class => [
-        'recordType' => \Devsk\DsNotifier\Enum\Channel::SLACK->value,
+        'recordType' => Model\Notification\Slack::class,
+        'tableName' => Model\Notification\Slack::tableName(),
     ],
     Model\Site::class => [
-        'tableName' => 'pages',
+        'tableName' => Model\Site::tableName(),
     ],
 
 ];
