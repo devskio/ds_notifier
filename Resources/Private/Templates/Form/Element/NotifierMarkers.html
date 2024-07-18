@@ -20,11 +20,13 @@
         </tbody>
       </table>
       <p class="small text-end text-muted">
-        <f:translate key="message.markers.tableInfo" extensionName="DsNotifier">
-          These markers are provided &amp; will be replaced by the event
-          “<f:translate key="{event.attribute.label}" extensionName="DsNotifier">{event.attribute.label}</f:translate>”
-        </f:translate>
-        [<span class="font-monospace">{event.identifier}</span>]
+        <f:format.raw>
+          <f:translate key="message.markers.tableInfo" extensionName="DsNotifier">
+            These markers are provided &amp; will be replaced by the event
+            “<f:translate key="{event.attribute.label}" extensionName="DsNotifier">{event.attribute.label}</f:translate>”
+          </f:translate>
+          [<span class="font-monospace">{event.identifier}</span>]
+        </f:format.raw>
       </p>
     </f:then>
     <f:else>
