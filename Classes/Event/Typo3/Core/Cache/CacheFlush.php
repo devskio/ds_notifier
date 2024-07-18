@@ -30,7 +30,16 @@ class CacheFlush extends AbstractEvent
         public readonly CacheFlushEvent $cacheFlushEvent
     )
     {
-        $this->email = 'test@test.at';
         $this->groups = implode(', ', $this->cacheFlushEvent->getGroups());
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function getGroups(): ?string
+    {
+        return $this->groups;
     }
 }

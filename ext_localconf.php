@@ -22,4 +22,11 @@ call_user_func(function ($extKey) {
         'class' => \Devsk\DsNotifier\Form\Element\NotifierMarkersElement::class,
     ];
 
+    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1721307957]
+        = "EXT:{$extKey}/Resources/Private/Templates/Email";
+    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['partialRootPaths'][1721307957]
+        = "EXT:{$extKey}/Resources/Private/Layouts/Email";
+    $GLOBALS['TYPO3_CONF_VARS']['MAIL']['layoutRootPaths'][1721307957]
+        = "EXT:{$extKey}/Resources/Private/Layouts/Email";
+
 }, 'ds_notifier');

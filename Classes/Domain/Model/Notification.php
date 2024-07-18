@@ -3,13 +3,14 @@ declare(strict_types=1);
 
 namespace Devsk\DsNotifier\Domain\Model;
 
+use Devsk\DsNotifier\Event\EventInterface;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * Class Notification
  * @package Devsk\DsNotifier\Domain\Model
  */
-class Notification extends AbstractEntity
+abstract class Notification extends AbstractEntity
 {
 
     protected ?string $title = null;
@@ -26,6 +27,8 @@ class Notification extends AbstractEntity
     {
         return 'tx_dsnotifier_domain_model_notification';
     }
+
+    abstract public function send(EventInterface $event): void;
 
     /**
      * @var ObjectStorage<Site>

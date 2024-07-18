@@ -4,6 +4,11 @@ declare(strict_types=1);
 namespace Devsk\DsNotifier\Domain\Model\Notification;
 
 use Devsk\DsNotifier\Domain\Model\Notification;
+use Devsk\DsNotifier\Event\EventInterface;
+use TYPO3\CMS\Core\Mail\FluidEmail;
+use TYPO3\CMS\Core\Mail\MailerInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3Fluid\Fluid\View\Exception\InvalidTemplateResourceException;
 
 /**
  * Class Email
@@ -16,18 +21,25 @@ class Email extends Notification
     protected ?string $cc = null;
     protected ?string $bcc = null;
 
-    public function getTo(): ?string
+    public function send(EventInterface $event): void
     {
-        return $this->to;
-    }
+        $message = new FluidEmail();
+        $message->to('test@test.at')
+            ->subject($this->subject)
+            ->setTemplate($event::modelName())
+//            ->setRequest()
+            ->assignMultiple([
+                'title' => $event::getNotifierEventAttribute()->getLabel(),
+                'body' => $this->body,
+            ])
+            ->assignMultiple($event->getMarkerProperties());
 
-    public function getCc(): ?string
-    {
-        return $this->cc;
-    }
+        try {
+            $message->getBody();
+        } catch (InvalidTemplateResourceException) {
+            $message->setTemplate('Default');
+        }
 
-    public function getBcc(): ?string
-    {
-        return $this->bcc;
+        GeneralUtility::makeInstance(MailerInterface::class)->send($message);
     }
 }

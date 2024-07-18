@@ -5,10 +5,12 @@ namespace Devsk\DsNotifier\Event;
 
 use Devsk\DsNotifier\Attribute\Event\Marker;
 use Devsk\DsNotifier\Attribute\NotifierEvent;
+use Devsk\DsNotifier\Domain\Model\Event\Property;
 use Devsk\DsNotifier\Domain\Model\Event\Property\Placeholder;
 use Devsk\DsNotifier\Exception\NotifierException;
 use ReflectionAttribute;
 use ReflectionClass;
+use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
 /**
  * Class AbstractEvent
@@ -16,6 +18,11 @@ use ReflectionClass;
  */
 abstract class AbstractEvent implements EventInterface
 {
+
+    public static function modelName(): string
+    {
+        return static::getReflectionClass()->getShortName();
+    }
 
     public static function identifier(): string
     {
@@ -51,6 +58,23 @@ abstract class AbstractEvent implements EventInterface
         }
 
         return $markers;
+    }
+
+    /**
+     * @return Property[]
+     */
+    public function getMarkerProperties(): array
+    {
+        $properties = [];
+
+
+        foreach (static::getMarkerPlaceholders() as $placeholder) {
+            if (ObjectAccess::isPropertyGettable($this, $placeholder->getPropertyName())) {
+                $properties[$placeholder->getPropertyName()] = ObjectAccess::getProperty($this, $placeholder->getPropertyName());
+            }
+        }
+
+        return $properties;
     }
 
     protected static function getReflectionClass(): ReflectionClass

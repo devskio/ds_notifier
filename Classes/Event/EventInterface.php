@@ -13,4 +13,8 @@ interface EventInterface
     public static function getNotifierEventAttribute(): NotifierEvent;
 
     public static function getMarkerPlaceholders(): array;
+
+    public function getMarkerProperties(): array;
+
+    public static function modelName(): string;
 }
