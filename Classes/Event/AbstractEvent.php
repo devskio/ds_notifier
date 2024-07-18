@@ -5,13 +5,10 @@ namespace Devsk\DsNotifier\Event;
 
 use Devsk\DsNotifier\Attribute\Event\Marker;
 use Devsk\DsNotifier\Attribute\NotifierEvent;
+use Devsk\DsNotifier\Domain\Model\Event\Property\Placeholder;
 use Devsk\DsNotifier\Exception\NotifierException;
 use ReflectionAttribute;
 use ReflectionClass;
-use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-use function sprintf;
-use function stat;
 
 /**
  * Class AbstractEvent
@@ -41,18 +38,15 @@ abstract class AbstractEvent implements EventInterface
     }
 
     /**
-     * @return Marker[]
+     * @return Placeholder[]
      */
-    public static function getMarkers(): array
+    public static function getMarkerPlaceholders(): array
     {
         $markers = [];
         foreach (static::getReflectionClass()->getProperties() as $property) {
             $marker = $property->getAttributes(Marker::class)[0] ?? null;
             if ($marker) {
-                $markers[] = new \Devsk\DsNotifier\Domain\Model\Marker(
-                    $marker->newInstance(),
-                    $property
-                );
+                $markers[] = new Placeholder($marker->newInstance(), $property);
             }
         }
 

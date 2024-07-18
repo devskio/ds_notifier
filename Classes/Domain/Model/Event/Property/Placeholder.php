@@ -1,22 +1,21 @@
 <?php
 declare(strict_types=1);
 
-namespace Devsk\DsNotifier\Domain\Model;
+namespace Devsk\DsNotifier\Domain\Model\Event\Property;
 
-use Reflection;
+use Devsk\DsNotifier\Attribute\Event\Marker;
 use ReflectionProperty;
-use function sprintf;
 
 /**
  * Class Marker
  * @package Devsk\DsNotifier\Domain\Model
  */
-class Marker
+readonly class Placeholder
 {
 
     public function __construct(
-        protected readonly \Devsk\DsNotifier\Attribute\Event\Marker $markerAttribute,
-        protected readonly ReflectionProperty $property
+        protected Marker $markerAttribute,
+        protected ReflectionProperty $property,
     )
     {
     }

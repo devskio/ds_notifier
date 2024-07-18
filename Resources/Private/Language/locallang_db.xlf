@@ -45,6 +45,9 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Cache\CacheFlush">
         <source>TYPO3: Cache Flush</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Cache\CacheFlush.marker.groups">
+        <source>Groups</source>
+      </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.eventGroup.DEFAULT">
         <source>Default</source>
       </trans-unit>

@@ -27,7 +27,7 @@ class NotifierMarkersElement extends AbstractFormElement
                 'event' => [
                     'identifier' => $eventClass,
                     'attribute' => $eventClass::getNotifierEventAttribute(),
-                    'markers' => $eventClass::getMarkers()
+                    'markers' => $eventClass::getMarkerPlaceholders()
                 ],
             ]);
         }
