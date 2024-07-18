@@ -11,4 +11,9 @@ class Marker
     public function __construct(
         protected ?string $label = null
     ){}
+
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
 }

@@ -1,0 +1,26 @@
+<f:if condition="{event.markers}">
+  <f:then>
+    <table class="mt-2 table table-sm table-hover table-bordered">
+      <tbody>
+        <f:for each="{event.markers}" as="marker">
+          <tr>
+            <td><strong>{marker.placeholder}</strong></td>
+            <td>
+              <f:translate key="{marker.label}" extensionName="DsNotifier">{marker.label}</f:translate>
+            </td>
+          </tr>
+        </f:for>
+      </tbody>
+    </table>
+    <p class="small text-end text-muted">
+      <f:translate key="message.markers.tableInfo" extensionName="DsNotifier">
+        These markers are provided &amp; will be replaced by the event
+        “<f:translate key="{event.attribute.label}" extensionName="DsNotifier">{event.attribute.label}</f:translate>”
+      </f:translate>
+      [<span class="font-monospace">{event.identifier}</span>]
+    </p>
+  </f:then>
+  <f:else>
+    <p><f:translate key="message.markers.noFound" extensionName="DsNotifier">No markers defined for event</f:translate></p>
+  </f:else>
+</f:if>

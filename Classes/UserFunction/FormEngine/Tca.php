@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Devsk\DsNotifier\UserFunction\FormEngine;
 
 use Devsk\DsNotifier\Attribute\NotifierEvent;
+use Devsk\DsNotifier\Event\EventInterface;
 use Devsk\DsNotifier\StructureScout\NotifierEventStructureScout;
-use ReflectionClass;
 
 /**
  * Class Tca
@@ -24,15 +24,14 @@ class Tca
         $groups = [];
 
         //TODO: Maybe nicer way to group items
+        /** @var EventInterface $eventClass */
         foreach (NotifierEventStructureScout::create()->get() as $eventClass) {
             /** @var NotifierEvent $notifierEventAttribute */
-            $notifierEventAttribute = (new ReflectionClass($eventClass))
-                ->getAttributes(NotifierEvent::class)[0]
-                ->newInstance();
+            $notifierEventAttribute = $eventClass::getNotifierEventAttribute();
 
             $groups[$notifierEventAttribute->getGroup()->getLabel()][] = [
                 'label' => $notifierEventAttribute->getLabel(),
-                'value' => $notifierEventAttribute->getIdentifier(),
+                'value' => $eventClass::identifier(),
             ];
         }
 

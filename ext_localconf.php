@@ -6,8 +6,20 @@ defined('TYPO3') or die();
 
 call_user_func(function ($extKey) {
 
+    /**
+     * Cache configuration
+     */
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$extKey] ??= [];
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$extKey]['backend']
         ??= \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
+
+    /**
+     * Custom node registrations
+     */
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1721218749] = [
+        'nodeName' => 'notifierMarkers',
+        'priority' => 40,
+        'class' => \Devsk\DsNotifier\Form\Element\NotifierMarkersElement::class,
+    ];
 
 }, 'ds_notifier');

@@ -12,16 +12,10 @@ class NotifierEvent
 {
 
     public function __construct(
-        protected string $identifier,
         protected string $label,
         protected ?EventGroupInterface $group = EventGroup::DEFAULT,
     )
     {}
-
-    public function getIdentifier(): string
-    {
-        return $this->identifier;
-    }
 
     public function getLabel(): string
     {
