@@ -17,7 +17,7 @@ use TYPO3Fluid\Fluid\View\Exception\InvalidTemplateResourceException;
 class Email extends Notification
 {
 
-    protected ?string $to = null;
+    protected ?Notification\Email\Recipients $to = null;
     protected ?string $cc = null;
     protected ?string $bcc = null;
 

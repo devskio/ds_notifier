@@ -179,6 +179,10 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
+                'items' => [
+                    ['test@test.at', 'test@test.at'],
+                    ['Test 2', 'Test 2<test2@test.at>']
+                ],
             ],
         ],
         'email_cc' => [
@@ -186,6 +190,10 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
+                'items' => [
+                    ['test3@test.at', 'test3@test.at'],
+                    ['Test 4', 'Test 4<test4@test.at>']
+                ],
             ],
         ],
         'email_bcc' => [
@@ -193,6 +201,10 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
+                'items' => [
+                    ['test5@test.at', 'test5@test.at'],
+                    ['Test 5', 'Test 5<test5@test.at>']
+                ],
             ],
         ],
     ],

@@ -6,6 +6,7 @@ namespace Devsk\DsNotifier\Attribute;
 use Attribute;
 use Devsk\DsNotifier\Enum\EventGroup;
 use Devsk\DsNotifier\Enum\EventGroupInterface;
+use Doctrine\Common\Annotations\Annotation\Enum;
 
 #[Attribute(Attribute::TARGET_CLASS)]
 class NotifierEvent
@@ -22,7 +23,7 @@ class NotifierEvent
         return $this->label;
     }
 
-    public function getGroup(): ?EventGroup
+    public function getGroup(): ?EventGroupInterface
     {
         return $this->group;
     }
