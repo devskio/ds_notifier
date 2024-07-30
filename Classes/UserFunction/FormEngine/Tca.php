@@ -7,6 +7,7 @@ use Devsk\DsNotifier\Attribute\Event\Email;
 use Devsk\DsNotifier\Attribute\NotifierEvent;
 use Devsk\DsNotifier\Event\EventInterface;
 use Devsk\DsNotifier\StructureScout\NotifierEventStructureScout;
+use TYPO3\CMS\Core\Site\Entity\NullSite;
 
 /**
  * Class Tca
@@ -82,20 +83,22 @@ class Tca
      */
     private function addYamlConfigEmails(array &$parsedEmails, $site)
     {
-        $siteSettings = $site->getSettings()->get('ds_notifier');
-        $emails = $siteSettings['channel']['email']['recipients'] ?? [];
-        if (!empty($emails)) {
-            $parsedEmails[] = ['label' => 'YAML Configuration Emails', 'value' => '--div--'];
-            foreach ($emails as $email => $name) {
-                if (is_string($email) && preg_match('/^(.+?):(.+)$/', $email, $matches)) {
-                    $emailAddress = trim($matches[1]);
-                    $recipientName = trim($matches[2]);
-                    $parsedEmails[] = [$emailAddress, "$recipientName<$emailAddress>"];
-                } elseif (is_string($name)) {
-                    $this->parseEmailString($parsedEmails, $name);
-                } elseif (is_array($name)) {
-                    foreach ($name as $emailAddress => $recipientName) {
+        if(!$site instanceof NullSite){
+            $siteSettings = $site->getSettings()->get('ds_notifier');
+            $emails = $siteSettings['channel']['email']['recipients'] ?? [];
+            if (!empty($emails)) {
+                $parsedEmails[] = ['label' => 'YAML Configuration Emails', 'value' => '--div--'];
+                foreach ($emails as $email => $name) {
+                    if (is_string($email) && preg_match('/^(.+?):(.+)$/', $email, $matches)) {
+                        $emailAddress = trim($matches[1]);
+                        $recipientName = trim($matches[2]);
                         $parsedEmails[] = [$emailAddress, "$recipientName<$emailAddress>"];
+                    } elseif (is_string($name)) {
+                        $this->parseEmailString($parsedEmails, $name);
+                    } elseif (is_array($name)) {
+                        foreach ($name as $emailAddress => $recipientName) {
+                            $parsedEmails[] = [$emailAddress, "$recipientName<$emailAddress>"];
+                        }
                     }
                 }
             }

@@ -23,6 +23,8 @@ abstract class Notification extends AbstractEntity
 
     protected ?string $body = null;
 
+    protected ?bool $languageAware = false;
+
     static function tableName(): string
     {
         return 'tx_dsnotifier_domain_model_notification';
@@ -64,4 +66,10 @@ abstract class Notification extends AbstractEntity
     {
         return $this->body;
     }
+
+    public function getLanguageAware(): ?bool
+    {
+        return $this->languageAware;
+    }
+
 }

@@ -14,6 +14,7 @@ use Devsk\DsNotifier\Exception\NotifierException;
 use ReflectionAttribute;
 use ReflectionClass;
 use TYPO3\CMS\Core\Site\Entity\NullSite;
+use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
 /**
@@ -24,6 +25,7 @@ abstract class AbstractEvent implements EventInterface
 {
 
     protected ?bool $cancelled = false;
+
     public static function modelName(): string
     {
         return static::getReflectionClass()->getShortName();
@@ -65,7 +67,7 @@ abstract class AbstractEvent implements EventInterface
         return $markers;
     }
 
-    public static function getEmailProperties():array
+    public static function getEmailProperties(): array
     {
         $emails = [];
         foreach (static::getReflectionClass()->getProperties() as $property) {
@@ -109,8 +111,25 @@ abstract class AbstractEvent implements EventInterface
      */
     public function checkIfCancelled(Notification $notification): void
     {
+        $request = $GLOBALS['TYPO3_REQUEST'];
+
+        if ($notification->getLanguageAware()) {
+            if ($request) {
+                $language = $request->getAttribute('language');
+                /** @var SiteLanguage $language */
+                if(is_null($language)){
+                    $this->cancelled = true;
+                }else{
+                    if ($notification->_getProperty($notification::PROPERTY_LANGUAGE_UID) === $language->getLanguageId()) {
+                        $this->cancelled = false;
+                    } else {
+                        $this->cancelled = true;
+                    }
+                }
+            }
+        }
+
         if ($notification->getSites()->count() > 0) {
-            $request = $GLOBALS['TYPO3_REQUEST'];
             if ($request) {
                 $site = $request->getAttribute('site');
                 if ($site instanceof NullSite) {

@@ -21,20 +21,20 @@ class CustomEvent extends AbstractEvent
 {
 
     #[Email (label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Custom\CustomEvent.email.emailTo')]
-    protected ?string $emailTo = null;
+    protected ?string $emailTo;
 
     #[Email (label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Custom\CustomEvent.email.emailFrom')]
-    protected ?string $emailFrom = null;
+    protected ?string $emailFrom;
 
     #[Marker (label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Custom\CustomEvent.marker.name')]
-    protected ?string $name = '';
+    protected ?string $name;
 
     /**
      * @param string|null $emailTo
      * @param string|null $emailFrom
      * @param string|null $name
      */
-    public function __construct(?string $emailTo, ?string $emailFrom, ?string $name, ?bool $cancelled = false)
+    public function __construct(?string $emailTo = '', ?string $emailFrom = '', ?string $name = '', ?bool $cancelled = false)
     {
         $this->emailTo = $emailTo;
         $this->emailFrom = $emailFrom;
