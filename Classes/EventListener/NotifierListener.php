@@ -6,6 +6,7 @@ namespace Devsk\DsNotifier\EventListener;
 use Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Domain\Repository\NotificationRepository;
 use Devsk\DsNotifier\Event\EventInterface;
+use Devsk\DsNotifier\Exception\EventCancelledException;
 use Psr\Log\LoggerInterface;
 
 
@@ -27,6 +28,7 @@ final class NotifierListener
         /** @var Notification $notification */
         foreach ($notifications as $notification) {
             try {
+                $event->checkIfCancelled($notification);
                 $notification->send($event);
                 $this->logger->info('Notification sent', [
                     'event' => $event::identifier(),

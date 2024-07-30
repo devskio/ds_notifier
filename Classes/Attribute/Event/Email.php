@@ -8,4 +8,12 @@ use Attribute;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class Email
 {
+    public function __construct(
+        protected ?string $label = null
+    ){}
+
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
 }

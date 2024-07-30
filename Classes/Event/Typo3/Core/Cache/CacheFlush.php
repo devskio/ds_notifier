@@ -20,14 +20,15 @@ use TYPO3\CMS\Core\Cache\Event\CacheFlushEvent;
 class CacheFlush extends AbstractEvent
 {
 
-    #[Email]
-    protected ?string $email = null;
+    #[Email (label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Cache\CacheFlush.marker.email')]
+    protected ?string $email = '';
 
     #[Marker(label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Cache\CacheFlush.marker.groups')]
-    protected ?string $groups = null;
+    protected ?string $groups = '';
 
     public function __construct(
-        public readonly CacheFlushEvent $cacheFlushEvent
+        public readonly CacheFlushEvent $cacheFlushEvent,
+        public ?bool $cancelled = false
     )
     {
         $this->groups = implode(', ', $this->cacheFlushEvent->getGroups());

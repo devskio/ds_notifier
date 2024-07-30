@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Devsk\DsNotifier\UserFunction\FormEngine;
 
+use Devsk\DsNotifier\Attribute\Event\Email;
 use Devsk\DsNotifier\Attribute\NotifierEvent;
 use Devsk\DsNotifier\Event\EventInterface;
 use Devsk\DsNotifier\StructureScout\NotifierEventStructureScout;
@@ -47,5 +48,71 @@ class Tca
             }
         }
 
+    }
+
+    public function notificationEventEmailsItemsProcFunc(&$params)
+    {
+        $parsedEmails = [];
+        $this->addEventEmails($parsedEmails, $params['row']['event'][0]);
+        $this->addYamlConfigEmails($parsedEmails, $params['site']);
+        $params['items'] = $parsedEmails;
+    }
+
+    /**
+     * Add emails from event classes.
+     */
+    private function addEventEmails(array &$parsedEmails, $eventId)
+    {
+        foreach (NotifierEventStructureScout::create()->get() as $eventClass) {
+            if ($eventClass::identifier() == $eventId) {
+                $emailsProperties = $eventClass::getEmailProperties();
+                if (!empty($emailsProperties)) {
+                    $parsedEmails[] = ['label' => 'Email Markers', 'value' => '--div--'];
+                    foreach ($emailsProperties as $emailProperty) {
+                        $parsedEmails[] = ['label' => $emailProperty['label'], 'value' => $emailProperty['value']];
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * Add emails from YAML configuration.
+     */
+    private function addYamlConfigEmails(array &$parsedEmails, $site)
+    {
+        $siteSettings = $site->getSettings()->get('ds_notifier');
+        $emails = $siteSettings['channel']['email']['recipients'] ?? [];
+        if (!empty($emails)) {
+            $parsedEmails[] = ['label' => 'YAML Configuration Emails', 'value' => '--div--'];
+            foreach ($emails as $email => $name) {
+                if (is_string($email) && preg_match('/^(.+?):(.+)$/', $email, $matches)) {
+                    $emailAddress = trim($matches[1]);
+                    $recipientName = trim($matches[2]);
+                    $parsedEmails[] = [$emailAddress, "$recipientName<$emailAddress>"];
+                } elseif (is_string($name)) {
+                    $this->parseEmailString($parsedEmails, $name);
+                } elseif (is_array($name)) {
+                    foreach ($name as $emailAddress => $recipientName) {
+                        $parsedEmails[] = [$emailAddress, "$recipientName<$emailAddress>"];
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Parse an email string and add it to the parsed emails array.
+     */
+    private function parseEmailString(array &$parsedEmails, $emailString)
+    {
+        if (filter_var($emailString, FILTER_VALIDATE_EMAIL)) {
+            $parsedEmails[] = [$emailString, $emailString];
+        } elseif (preg_match('/^(.+?)<(.+?)>$/', $emailString, $matches)) {
+            $recipientName = trim($matches[1]);
+            $emailAddress = $matches[2];
+            $parsedEmails[] = [$emailAddress, "$recipientName<$emailAddress>"];
+        }
     }
 }

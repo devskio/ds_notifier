@@ -3,13 +3,17 @@ declare(strict_types=1);
 
 namespace Devsk\DsNotifier\Event;
 
+use Devsk\DsNotifier\Attribute\Event\Email;
 use Devsk\DsNotifier\Attribute\Event\Marker;
 use Devsk\DsNotifier\Attribute\NotifierEvent;
 use Devsk\DsNotifier\Domain\Model\Event\Property;
 use Devsk\DsNotifier\Domain\Model\Event\Property\Placeholder;
+use Devsk\DsNotifier\Domain\Model\Notification;
+use Devsk\DsNotifier\Exception\EventCancelledException;
 use Devsk\DsNotifier\Exception\NotifierException;
 use ReflectionAttribute;
 use ReflectionClass;
+use TYPO3\CMS\Core\Site\Entity\NullSite;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
 /**
@@ -19,6 +23,7 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 abstract class AbstractEvent implements EventInterface
 {
 
+    protected ?bool $cancelled = false;
     public static function modelName(): string
     {
         return static::getReflectionClass()->getShortName();
@@ -60,6 +65,23 @@ abstract class AbstractEvent implements EventInterface
         return $markers;
     }
 
+    public static function getEmailProperties():array
+    {
+        $emails = [];
+        foreach (static::getReflectionClass()->getProperties() as $property) {
+            $email = $property->getAttributes(Email::class)[0] ?? null;
+            if ($email) {
+                $emails[] = [
+                    'label' => $email->newInstance()->getLabel(),
+                    'name' => $property->getName(),
+                    'value' => sprintf("{%s}", $property->getName())
+                ];
+            }
+        }
+
+        return $emails;
+    }
+
     /**
      * @return Property[]
      */
@@ -80,5 +102,34 @@ abstract class AbstractEvent implements EventInterface
     protected static function getReflectionClass(): ReflectionClass
     {
         return new ReflectionClass(static::class);
+    }
+
+    /**
+     * @throws EventCancelledException
+     */
+    public function checkIfCancelled(Notification $notification): void
+    {
+        if ($notification->getSites()->count() > 0) {
+            $request = $GLOBALS['TYPO3_REQUEST'];
+            if ($request) {
+                $site = $request->getAttribute('site');
+                if ($site instanceof NullSite) {
+                    $this->cancelled = true;
+                }
+                foreach ($notification->getSites() as $notificationSite) {
+                    if ($site->getRootPageId() === $notificationSite->getUid()) {
+                        $this->cancelled = false;
+                        break;
+                    } else {
+                        $this->cancelled = true;
+                    }
+                }
+            } else {
+                $this->cancelled = true;
+            }
+        }
+        if ($this->cancelled) {
+            throw new EventCancelledException();
+        }
     }
 }

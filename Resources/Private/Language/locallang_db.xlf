@@ -48,11 +48,26 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Cache\CacheFlush.marker.groups">
         <source>Groups</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Custom\CustomEvent">
+        <source>Notifier: Custom Event</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Custom\CustomEvent.email.emailFrom">
+        <source>Email From</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Custom\CustomEvent.email.emailTo">
+        <source>Email To</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Custom\CustomEvent.marker.name">
+        <source>Email To</source>
+      </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.eventGroup.DEFAULT">
         <source>Default</source>
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.eventGroup.TYPO3">
         <source>Typo3</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.eventGroup.CUSTOM">
+        <source>Custom</source>
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.tab.email">
         <source>Email</source>
