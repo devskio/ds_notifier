@@ -14,7 +14,11 @@ interface EventInterface
 
     public static function getMarkerPlaceholders(): array;
 
+    public static function getEmailPlaceholders(): array;
+
     public function getMarkerProperties(): array;
+
+    public function getEmailProperties(): array;
 
     public static function modelName(): string;
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Devsk\DsNotifier\Domain\Model\Event\Property;
 
 use Devsk\DsNotifier\Attribute\Event\Marker;
+use Devsk\DsNotifier\Attribute\Event\MarkerInterface;
 use ReflectionProperty;
 
 /**
@@ -14,7 +15,7 @@ readonly class Placeholder
 {
 
     public function __construct(
-        protected Marker $markerAttribute,
+        protected MarkerInterface $markerAttribute,
         protected ReflectionProperty $property,
     )
     {

@@ -54,34 +54,33 @@ abstract class AbstractEvent implements EventInterface
     /**
      * @return Placeholder[]
      */
-    public static function getMarkerPlaceholders(): array
+    private static function getPlaceholders(string $placeholderType = null): array
     {
-        $markers = [];
+        $placeholders = [];
         foreach (static::getReflectionClass()->getProperties() as $property) {
-            $marker = $property->getAttributes(Marker::class)[0] ?? null;
-            if ($marker) {
-                $markers[] = new Placeholder($marker->newInstance(), $property);
+            $placeholder = $property->getAttributes($placeholderType)[0] ?? null;
+            if ($placeholder) {
+                $placeholders[] = new Placeholder($placeholder->newInstance(), $property);
             }
         }
 
-        return $markers;
+        return $placeholders;
     }
 
-    public static function getEmailProperties(): array
+    /**
+     * @return Placeholder[]
+     */
+    public static function getMarkerPlaceholders(): array
     {
-        $emails = [];
-        foreach (static::getReflectionClass()->getProperties() as $property) {
-            $email = $property->getAttributes(Email::class)[0] ?? null;
-            if ($email) {
-                $emails[] = [
-                    'label' => $email->newInstance()->getLabel(),
-                    'name' => $property->getName(),
-                    'value' => sprintf("{%s}", $property->getName())
-                ];
-            }
-        }
+        return static::getPlaceholders(Marker::class);
+    }
 
-        return $emails;
+    /**
+     * @return Placeholder[]
+     */
+    public static function getEmailPlaceholders(): array
+    {
+        return static::getPlaceholders(Email::class);
     }
 
     /**
@@ -98,6 +97,11 @@ abstract class AbstractEvent implements EventInterface
         }
 
         return $properties;
+    }
+
+    public function getEmailProperties(): array
+    {
+        return [];
     }
 
     protected static function getReflectionClass(): ReflectionClass

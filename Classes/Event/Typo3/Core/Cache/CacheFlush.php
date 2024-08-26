@@ -20,9 +20,6 @@ use TYPO3\CMS\Core\Cache\Event\CacheFlushEvent;
 class CacheFlush extends AbstractEvent
 {
 
-    #[Email (label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Cache\CacheFlush.marker.email')]
-    protected ?string $email = '';
-
     #[Marker(label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Cache\CacheFlush.marker.groups')]
     protected ?string $groups = '';
 
@@ -32,11 +29,6 @@ class CacheFlush extends AbstractEvent
     )
     {
         $this->groups = implode(', ', $this->cacheFlushEvent->getGroups());
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
     }
 
     public function getGroups(): ?string

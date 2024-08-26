@@ -6,7 +6,7 @@ namespace Devsk\DsNotifier\Attribute\Event;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Marker
+class Marker implements MarkerInterface
 {
     public function __construct(
         protected ?string $label = null

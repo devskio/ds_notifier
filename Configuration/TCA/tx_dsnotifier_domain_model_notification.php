@@ -181,7 +181,7 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'minitems' => 1,
-                'itemsProcFunc' => Devsk\DsNotifier\UserFunction\FormEngine\Tca::class . '->notificationEventEmailsItemsProcFunc',
+                'itemsProcFunc' => Devsk\DsNotifier\UserFunction\FormEngine\Tca::class . '->notificationEmailItemsProcFunc',
             ],
         ],
         'email_cc' => [
@@ -189,7 +189,7 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
-                'itemsProcFunc' => Devsk\DsNotifier\UserFunction\FormEngine\Tca::class . '->notificationEventEmailsItemsProcFunc',
+                'itemsProcFunc' => Devsk\DsNotifier\UserFunction\FormEngine\Tca::class . '->notificationEmailItemsProcFunc',
             ],
         ],
         'email_bcc' => [
@@ -197,10 +197,7 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
-                'items' => [
-                    ['test5@test.at', 'test5@test.at'],
-                    ['Test 5', 'Test 5<test5@test.at>']
-                ],
+                'itemsProcFunc' => Devsk\DsNotifier\UserFunction\FormEngine\Tca::class . '->notificationEmailItemsProcFunc',
             ],
         ],
     ],
