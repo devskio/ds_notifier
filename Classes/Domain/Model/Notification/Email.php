@@ -26,10 +26,11 @@ class Email extends Notification
         $message = new FluidEmail();
 
         $message->setTemplate($event::modelName())
-            ->assignMultiple(array_merge([
-                'title' => $event::getNotifierEventAttribute()->getLabel(),
-                'body' => $this->body,
-            ], $event->getMarkerProperties()));
+            ->assignMultiple([
+                '_title' => $event::getNotifierEventAttribute()->getLabel(),
+                '_body' => $this->body,
+                ...$event->getMarkerProperties(),
+            ]);
 
         // Replace placeholders in to, cc, and bcc
         $this->replaceEmailPlaceholders($event);
