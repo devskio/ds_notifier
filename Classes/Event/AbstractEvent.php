@@ -91,7 +91,6 @@ abstract class AbstractEvent implements EventInterface
     {
         $properties = [];
 
-
         foreach (static::getMarkerPlaceholders() as $placeholder) {
             if (ObjectAccess::isPropertyGettable($this, $placeholder->getPropertyName())) {
                 $properties[$placeholder->getPropertyName()] = ObjectAccess::getProperty($this, $placeholder->getPropertyName());

@@ -4,7 +4,10 @@ declare(strict_types=1);
 namespace Devsk\DsNotifier\Domain\Model;
 
 use Devsk\DsNotifier\Event\EventInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Fluid\View\TemplatePaths;
 
 /**
  * Class Notification
@@ -72,4 +75,13 @@ abstract class Notification extends AbstractEntity
         return $this->languageAware;
     }
 
+    protected function standaloneView(array $variables = [], string $format = 'html'): StandaloneView
+    {
+        $view = GeneralUtility::makeInstance(StandaloneView::class);
+        $view->getRenderingContext()->setTemplatePaths(new TemplatePaths($GLOBALS['TYPO3_CONF_VARS']['MAIL']));
+        $view->assignMultiple($variables)
+            ->setFormat($format);
+
+        return $view;
+    }
 }

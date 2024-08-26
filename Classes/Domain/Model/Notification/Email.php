@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Devsk\DsNotifier\Domain\Model\Notification;
 
-use Devsk\DsNotifier\Attribute\Event\Marker;
-use Devsk\DsNotifier\Domain\Model\Event\Property\Placeholder;
 use Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Event\EventInterface;
 use TYPO3\CMS\Core\Mail\FluidEmail;
@@ -26,6 +24,7 @@ class Email extends Notification
     public function send(EventInterface $event): void
     {
         $message = new FluidEmail();
+
         $message->setTemplate($event::modelName())
             ->assignMultiple(array_merge([
                 'title' => $event::getNotifierEventAttribute()->getLabel(),
@@ -49,10 +48,12 @@ class Email extends Notification
             }
         }
 
-        // Replace placeholders in the subject
-        $this->replaceSubjectPlaceholders($event);
-
-        $message->subject($this->subject);
+        $message->subject(
+            $this->standaloneView([
+                '_subject' => $this->subject,
+                ...$event->getMarkerProperties()
+            ])
+                ->render('Subject'));
 
         try {
             $message->getBody();
@@ -76,16 +77,4 @@ class Email extends Notification
             }
         }
     }
-
-    private function replaceSubjectPlaceholders(EventInterface $event): void
-    {
-        $markers = $event->getMarkerPlaceholders();
-        foreach ($markers as $marker) {
-            $getter = 'get' . ucfirst($marker->getPropertyName());
-            if (str_contains($this->subject, $marker->getPlaceholder())) {
-                $this->subject = str_replace($marker->getPlaceholder(), $event->{$getter}(), $this->subject);
-            }
-        }
-    }
-
 }
