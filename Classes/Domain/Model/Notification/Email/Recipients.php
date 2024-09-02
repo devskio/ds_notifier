@@ -4,17 +4,15 @@ declare(strict_types=1);
 namespace Devsk\DsNotifier\Domain\Model\Notification\Email;
 
 use Symfony\Component\Mime\Address;
+use Traversable;
 use TYPO3\CMS\Core\Type\TypeInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-use function array_map;
-use function implode;
 
 /**
  * Class Recipients
  * @package Devsk\DsNotifier\Domain\Model\Notification\Email
  */
-class Recipients implements TypeInterface
+class Recipients implements TypeInterface, \IteratorAggregate
 {
 
     /**
@@ -36,5 +34,10 @@ class Recipients implements TypeInterface
     public function __toString()
     {
         return implode(',', array_map(fn (Address $address) => $address->toString(), $this->recipients));
+    }
+
+    public function getIterator(): Traversable
+    {
+        return yield from $this->recipients;
     }
 }

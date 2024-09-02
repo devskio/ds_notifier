@@ -65,15 +65,6 @@ abstract class Notification extends AbstractEntity
         return $this->subject;
     }
 
-    public function getSubjectCompiled(EventInterface $event): string
-    {
-        return $this->standaloneView([
-            '_subject' => $this->subject,
-            ...$event->getMarkerProperties()
-        ])
-            ->render('Subject');
-    }
-
     public function getBody(): ?string
     {
         return $this->body;
@@ -84,13 +75,14 @@ abstract class Notification extends AbstractEntity
         return $this->languageAware;
     }
 
-    protected function standaloneView(array $variables = [], string $format = 'html'): StandaloneView
+    protected function parseTemplateString(?string $templateString, array $variables = [], bool $escape = true): string
     {
         $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $view->getRenderingContext()->setTemplatePaths(new TemplatePaths($GLOBALS['TYPO3_CONF_VARS']['MAIL']));
-        $view->assignMultiple($variables)
-            ->setFormat($format);
-
-        return $view;
+        $escaping = $escape ? null : '{escaping off}';
+        return (string)$view->assignMultiple($variables)
+            ->getRenderingContext()
+            ->getTemplateParser()
+            ->parse($escaping . $templateString)
+            ->render($view->getRenderingContext());
     }
 }

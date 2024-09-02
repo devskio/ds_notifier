@@ -81,7 +81,7 @@ class Tca
             foreach ($emailPlaceholders as $emailPlaceholder) {
                 $parsedEmails[] = [
                     'label' => $emailPlaceholder->getLabel(),
-                    'value' => $emailPlaceholder->getPropertyName()
+                    'value' => $emailPlaceholder->getPlaceholder(),
                 ];
             }
 
@@ -108,7 +108,7 @@ class Tca
                 foreach ($emails as $email) {
                     $parsedEmails[] = [
                         'label' => $email->toString(),
-                        'value' => $email->getAddress(),
+                        'value' => $email->toString(),
                     ];
                 }
             }

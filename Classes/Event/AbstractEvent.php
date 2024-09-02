@@ -85,14 +85,18 @@ abstract class AbstractEvent implements EventInterface, Stringable
     }
 
     /**
-     * @return Property[]
+     * @param Placeholder[] $placeholders
+     * @return array
+     * @throws \TYPO3\CMS\Extbase\Reflection\Exception\PropertyNotAccessibleException
      */
-    public function getMarkerProperties(): array
+    private function getProperties(array $placeholders): array
     {
         $properties = [];
 
-        foreach (static::getMarkerPlaceholders() as $placeholder) {
-            if (ObjectAccess::isPropertyGettable($this, $placeholder->getPropertyName())) {
+        foreach ($placeholders as $placeholder) {
+            if ($placeholder instanceof Placeholder
+                && ObjectAccess::isPropertyGettable($this, $placeholder->getPropertyName())
+            ) {
                 $properties[$placeholder->getPropertyName()] = ObjectAccess::getProperty($this, $placeholder->getPropertyName());
             }
         }
@@ -100,9 +104,17 @@ abstract class AbstractEvent implements EventInterface, Stringable
         return $properties;
     }
 
+    /**
+     * @return Property[]
+     */
+    public function getMarkerProperties(): array
+    {
+        return $this->getProperties(static::getMarkerPlaceholders());
+    }
+
     public function getEmailProperties(): array
     {
-        return [];
+        return $this->getProperties(static::getEmailPlaceholders());
     }
 
     protected static function getReflectionClass(): ReflectionClass

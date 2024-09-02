@@ -30,27 +30,13 @@ class Email extends Notification
                 '_subject' => $this->subject,
                 '_body' => $this->body,
                 ...$event->getMarkerProperties(),
-            ]);
+            ])
+            ->subject($this->parseTemplateString($this->subject, $event->getMarkerProperties()))
+            ->to(...$this->getRecipients($this->to, $event))
+            ->cc(...$this->getRecipients($this->cc, $event))
+            ->bcc(...$this->getRecipients($this->bcc, $event));
 
-        // Replace placeholders in to, cc, and bcc
-        $this->replaceEmailPlaceholders($event);
-
-        $recipients = [
-            'to' => $this->to,
-            'cc' => $this->cc,
-            'bcc' => $this->bcc
-        ];
-
-        foreach ($recipients as $type => $address) {
-            if (!empty($address)) {
-                $recipientsObj = new Notification\Email\Recipients($address);
-                $recipientMethod = [$message, $type];
-                $recipientMethod($recipientsObj->__toString());
-            }
-        }
-
-        $message->subject($this->getSubjectCompiled($event));
-
+        # Try to compile email body for Event specific template if not exists fallback to Default template
         try {
             $message->getBody();
         } catch (InvalidTemplateResourceException) {
@@ -60,17 +46,10 @@ class Email extends Notification
         GeneralUtility::makeInstance(MailerInterface::class)->send($message);
     }
 
-    private function replaceEmailPlaceholders(EventInterface $event): void
+    protected function getRecipients(?string $recipients, EventInterface $event): Notification\Email\Recipients
     {
-        $emailProperties = $event->getEmailProperties();
-        foreach ($emailProperties as $emailProperty) {
-            $getter = 'get' . ucfirst($emailProperty['name']);
-
-            foreach (['to', 'cc', 'bcc'] as $field) {
-                if (str_contains($this->{$field}, $emailProperty['value'])) {
-                    $this->{$field} = str_replace($emailProperty['value'], $event->{$getter}(), $this->{$field});
-                }
-            }
-        }
+        return new Notification\Email\Recipients(
+            $this->parseTemplateString($recipients, $event->getEmailProperties(), false)
+        );
     }
 }
