@@ -11,7 +11,6 @@ enum EventGroup implements EventGroupInterface
 {
     case DEFAULT;
     case TYPO3;
-    case CUSTOM;
 
     public function getLabel(): string
     {

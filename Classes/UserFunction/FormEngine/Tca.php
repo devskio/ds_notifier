@@ -94,7 +94,7 @@ class Tca
      */
     private function addSiteGlobalEmails(array &$parsedEmails, $site)
     {
-        if($site instanceof Site){
+        if ($site instanceof Site) {
             $siteSettings = $site->getSettings()->get('ds_notifier');
             $emails = $siteSettings['channel']['email']['recipients'] ?? [];
 

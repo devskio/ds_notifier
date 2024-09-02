@@ -27,7 +27,7 @@ class Email extends Notification
 
         $message->setTemplate($event::modelName())
             ->assignMultiple([
-                '_title' => $event::getNotifierEventAttribute()->getLabel(),
+                '_subject' => $this->subject,
                 '_body' => $this->body,
                 ...$event->getMarkerProperties(),
             ]);
@@ -49,12 +49,7 @@ class Email extends Notification
             }
         }
 
-        $message->subject(
-            $this->standaloneView([
-                '_subject' => $this->subject,
-                ...$event->getMarkerProperties()
-            ])
-                ->render('Subject'));
+        $message->subject($this->getSubjectCompiled($event));
 
         try {
             $message->getBody();

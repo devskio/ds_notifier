@@ -65,6 +65,15 @@ abstract class Notification extends AbstractEntity
         return $this->subject;
     }
 
+    public function getSubjectCompiled(EventInterface $event): string
+    {
+        return $this->standaloneView([
+            '_subject' => $this->subject,
+            ...$event->getMarkerProperties()
+        ])
+            ->render('Subject');
+    }
+
     public function getBody(): ?string
     {
         return $this->body;
