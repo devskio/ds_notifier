@@ -6,8 +6,9 @@ namespace Devsk\DsNotifier\EventListener;
 use Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Domain\Repository\NotificationRepository;
 use Devsk\DsNotifier\Event\EventInterface;
-use Devsk\DsNotifier\Exception\EventCancelledException;
+use Devsk\DsNotifier\Event\Notifier\NotificationSendError;
 use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 
 
 final class NotifierListener
@@ -16,6 +17,7 @@ final class NotifierListener
     public function __construct(
         private readonly LoggerInterface $logger,
         protected readonly NotificationRepository $notificationRepository,
+        protected readonly EventDispatcher $eventDispatcher,
     )
     {}
 
@@ -39,8 +41,13 @@ final class NotifierListener
                     'event' => $event::identifier(),
                     'notification' => $notification->getUid(),
                 ]);
+                if (!($event instanceof NotificationSendError)) {
+                    $this->eventDispatcher->dispatch(new NotificationSendError(
+                        $e,
+                        $event
+                    ));
+                }
             }
         }
-
     }
 }

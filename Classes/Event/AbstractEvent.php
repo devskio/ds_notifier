@@ -13,6 +13,7 @@ use Devsk\DsNotifier\Exception\EventCancelledException;
 use Devsk\DsNotifier\Exception\NotifierException;
 use ReflectionAttribute;
 use ReflectionClass;
+use Stringable;
 use TYPO3\CMS\Core\Site\Entity\NullSite;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
@@ -21,7 +22,7 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
  * Class AbstractEvent
  * @package Digitalwerk\DwIoeb\Notifier
  */
-abstract class AbstractEvent implements EventInterface
+abstract class AbstractEvent implements EventInterface, Stringable
 {
 
     protected ?bool $cancelled = false;
@@ -153,5 +154,10 @@ abstract class AbstractEvent implements EventInterface
         if ($this->cancelled) {
             throw new EventCancelledException();
         }
+    }
+
+    public function __toString(): string
+    {
+        return static::class;
     }
 }

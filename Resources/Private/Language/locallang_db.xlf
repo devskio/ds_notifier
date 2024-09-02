@@ -54,11 +54,29 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Cache\CacheFlush.marker.groups">
         <source>Groups</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\NotificationSendError">
+        <source>Notifier: Notification Send Error</source>
+      </trans-unit>
+        <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\NotificationSendError.marker.error.message">
+        <source>Error Message</source>
+      </trans-unit>
+        <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\NotificationSendError.marker.error.code">
+        <source>Error Code</source>
+      </trans-unit>
+        <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\NotificationSendError.marker.event">
+        <source>Event</source>
+      </trans-unit>
+        <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\NotificationSendError.email.emergencyEmail">
+        <source>Emergency Email</source>
+      </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.eventGroup.DEFAULT">
         <source>Default</source>
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.eventGroup.TYPO3">
         <source>Typo3</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.eventGroup.NOTIFIER">
+        <source>Notifier</source>
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.tab.email">
         <source>Email</source>
