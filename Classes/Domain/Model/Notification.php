@@ -25,7 +25,7 @@ abstract class Notification extends AbstractEntity
 
     protected ?string $body = null;
 
-    protected ?bool $languageAware = false;
+    protected string $layout = '';
 
     static function tableName(): string
     {
@@ -69,9 +69,9 @@ abstract class Notification extends AbstractEntity
         return $this->body;
     }
 
-    public function getLanguageAware(): ?bool
+    public function getLayout(): string
     {
-        return $this->languageAware;
+        return $this->layout;
     }
 
     protected function parseTemplateString(?string $templateString, array $variables = [], bool $escape = true): string

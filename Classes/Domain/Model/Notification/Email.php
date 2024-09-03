@@ -5,6 +5,7 @@ namespace Devsk\DsNotifier\Domain\Model\Notification;
 
 use Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Event\EventInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\MailerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -27,6 +28,7 @@ class Email extends Notification
 
         $message->setTemplate($event::modelName())
             ->assignMultiple([
+                '_notification' => $this,
                 '_subject' => $this->subject,
                 '_body' => $this->body,
                 ...$event->getMarkerProperties(),
@@ -35,6 +37,10 @@ class Email extends Notification
             ->to(...$this->getRecipients($this->to, $event))
             ->cc(...$this->getRecipients($this->cc, $event))
             ->bcc(...$this->getRecipients($this->bcc, $event));
+
+        if ($GLOBALS['TYPO3_REQUEST'] instanceof ServerRequestInterface) {
+            $message->setRequest($GLOBALS['TYPO3_REQUEST']);
+        }
 
         # Try to compile email body for Event specific template if not exists fallback to Default template
         try {

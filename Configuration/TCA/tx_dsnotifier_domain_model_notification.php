@@ -184,6 +184,19 @@ return [
                 'templatePath' => \Devsk\DsNotifier\Form\Element\NotifierMarkersElement::DEFAULT_TEMPLATE_PATH,
             ],
         ],
+        'layout' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.layout",
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    [
+                        'label' => "{$lll}:tx_dsnotifier_domain_model_notification.layout.default",
+                        'value' => '',
+                    ]
+                ],
+            ],
+        ],
         'email_to' => [
             'label' => "{$lll}:tx_dsnotifier_domain_model_notification.email_to",
             'config' => [
@@ -248,7 +261,7 @@ return [
         ],
         'email' => [
             'label' => "{$lll}:tx_dsnotifier_domain_model_notification.palette.email",
-            'showitem' => 'subject,
+            'showitem' => 'subject, layout,
                           --linebreak--, body, markers,
                           --linebreak--, email_to,
                           --linebreak--, email_cc,

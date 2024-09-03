@@ -33,6 +33,12 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.markers">
         <source>Markers</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.layout">
+        <source>Layout</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.layout.default">
+        <source>Default</source>
+      </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.email_to">
         <source>To</source>
       </trans-unit>

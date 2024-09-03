@@ -5,7 +5,7 @@
   xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
 >
 
-  <f:layout name="SystemEmail" />
+  <f:layout name="{f:if(condition: _notification.layout, then: _notification.layout, else: 'SystemEmail')}" />
 
   <f:section name="Title">
     <f:inline>{_subject}</f:inline>
