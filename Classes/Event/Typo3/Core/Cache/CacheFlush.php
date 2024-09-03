@@ -25,7 +25,6 @@ class CacheFlush extends AbstractEvent
 
     public function __construct(
         public readonly CacheFlushEvent $cacheFlushEvent,
-        public ?bool $cancelled = false
     )
     {
         $this->groups = implode(', ', $this->cacheFlushEvent->getGroups());

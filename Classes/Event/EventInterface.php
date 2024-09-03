@@ -21,4 +21,6 @@ interface EventInterface
     public function getEmailProperties(): array;
 
     public static function modelName(): string;
+
+    public function isTerminated(): bool;
 }

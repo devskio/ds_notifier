@@ -23,6 +23,11 @@ final class NotifierListener
 
     public function __invoke(EventInterface $event)
     {
+        if ($event->isTerminated()) {
+            $this->logger->info("Event " . $event::class . " terminated");
+            return;
+        }
+
         $this->logger->info("Event " . $event::class . " triggered");
 
         $notifications = $this->notificationRepository->findByEvent($event);
@@ -30,7 +35,6 @@ final class NotifierListener
         /** @var Notification $notification */
         foreach ($notifications as $notification) {
             try {
-                $event->checkIfCancelled($notification);
                 $notification->send($event);
                 $this->logger->info('Notification sent', [
                     'event' => $event::identifier(),

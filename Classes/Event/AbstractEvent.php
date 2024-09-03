@@ -8,14 +8,10 @@ use Devsk\DsNotifier\Attribute\Event\Marker;
 use Devsk\DsNotifier\Attribute\NotifierEvent;
 use Devsk\DsNotifier\Domain\Model\Event\Property;
 use Devsk\DsNotifier\Domain\Model\Event\Property\Placeholder;
-use Devsk\DsNotifier\Domain\Model\Notification;
-use Devsk\DsNotifier\Exception\EventCancelledException;
 use Devsk\DsNotifier\Exception\NotifierException;
 use ReflectionAttribute;
 use ReflectionClass;
 use Stringable;
-use TYPO3\CMS\Core\Site\Entity\NullSite;
-use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
 /**
@@ -25,7 +21,7 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 abstract class AbstractEvent implements EventInterface, Stringable
 {
 
-    protected ?bool $cancelled = false;
+    private bool $terminated = false;
 
     public static function modelName(): string
     {
@@ -122,50 +118,15 @@ abstract class AbstractEvent implements EventInterface, Stringable
         return new ReflectionClass(static::class);
     }
 
-    /**
-     * @throws EventCancelledException
-     */
-    public function checkIfCancelled(Notification $notification): void
+    public function isTerminated(): bool
     {
-        $request = $GLOBALS['TYPO3_REQUEST'];
+        return $this->terminated;
+    }
 
-        if ($notification->getLanguageAware()) {
-            if ($request) {
-                $language = $request->getAttribute('language');
-                /** @var SiteLanguage $language */
-                if(is_null($language)){
-                    $this->cancelled = true;
-                }else{
-                    if ($notification->_getProperty($notification::PROPERTY_LANGUAGE_UID) === $language->getLanguageId()) {
-                        $this->cancelled = false;
-                    } else {
-                        $this->cancelled = true;
-                    }
-                }
-            }
-        }
-
-        if ($notification->getSites()->count() > 0) {
-            if ($request) {
-                $site = $request->getAttribute('site');
-                if ($site instanceof NullSite) {
-                    $this->cancelled = true;
-                }
-                foreach ($notification->getSites() as $notificationSite) {
-                    if ($site->getRootPageId() === $notificationSite->getUid()) {
-                        $this->cancelled = false;
-                        break;
-                    } else {
-                        $this->cancelled = true;
-                    }
-                }
-            } else {
-                $this->cancelled = true;
-            }
-        }
-        if ($this->cancelled) {
-            throw new EventCancelledException();
-        }
+    public function terminate(): static
+    {
+        $this->terminated = true;
+        return $this;
     }
 
     public function __toString(): string
