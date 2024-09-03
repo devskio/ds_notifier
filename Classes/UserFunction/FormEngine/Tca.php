@@ -59,7 +59,7 @@ class Tca
      */
     public function notificationEmailItemsProcFunc(&$params)
     {
-        $this->addEventEmails($params['items'], $params['row']['event'][0]);
+        $this->addEventEmails($params['items'], $params['row']['event'][0] ?? '');
         $this->addSiteGlobalEmails($params['items'], $params['site']);
     }
 

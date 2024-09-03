@@ -13,6 +13,7 @@ return [
         'languageField' => 'sys_language_uid',
         'transOrigPointerField' => 'l10n_parent',
         'transOrigDiffSourceField' => 'l10n_diffsource',
+        'translationSource' => 'l10n_source',
         'enablecolumns' => [
             'disabled' => 'disable',
             'starttime' => 'starttime',
@@ -55,6 +56,11 @@ return [
             'config' => [
                 'type' => 'passthrough',
                 'default' => '',
+            ],
+        ],
+        'l10n_source' => [
+            'config' => [
+                'type' => 'passthrough',
             ],
         ],
         'crdate' => [
@@ -109,6 +115,7 @@ return [
         'channel' => [
             'label' => "{$lll}:tx_dsnotifier_domain_model_notification.channel",
             'onChange' => 'reload',
+            'l10n_mode' => 'exclude',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -134,6 +141,7 @@ return [
         'event' => [
             'label' => "{$lll}:tx_dsnotifier_domain_model_notification.event",
             'onChange' => 'reload',
+            'l10n_mode' => 'exclude',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -142,6 +150,7 @@ return [
         ],
         'sites' => [
             'label' => "{$lll}:tx_dsnotifier_domain_model_notification.sites",
+            'l10n_mode' => 'exclude',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectCheckBox',

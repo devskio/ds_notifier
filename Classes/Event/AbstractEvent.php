@@ -108,6 +108,9 @@ abstract class AbstractEvent implements EventInterface, Stringable
         return $this->getProperties(static::getMarkerPlaceholders());
     }
 
+    /**
+     * @return Property[]
+     */
     public function getEmailProperties(): array
     {
         return $this->getProperties(static::getEmailPlaceholders());

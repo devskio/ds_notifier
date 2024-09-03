@@ -20,8 +20,6 @@ class NotificationRepository extends Repository
     {
         $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
-        $querySettings->setRespectSysLanguage(false);
-
         $this->setDefaultQuerySettings($querySettings);
     }
 
