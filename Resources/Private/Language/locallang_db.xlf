@@ -24,12 +24,6 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.sites">
         <source>Sites</source>
       </trans-unit>
-      <trans-unit id="tx_dsnotifier_domain_model_notification.language_aware">
-        <source>Language aware</source>
-      </trans-unit>
-      <trans-unit id="tx_dsnotifier_domain_model_notification.language_aware.checkbox.label">
-        <source>Should notification be language aware?</source>
-      </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.subject">
         <source>Subject</source>
       </trans-unit>
