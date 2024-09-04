@@ -11,6 +11,7 @@ CREATE TABLE tx_dsnotifier_domain_model_notification (
     body text,
     markers varchar(255) DEFAULT '' NOT NULL,
     layout varchar(255) DEFAULT '' NOT NULL,
+    configuration text,
     email_to varchar(255) DEFAULT '' NOT NULL,
     email_cc varchar(255) DEFAULT '' NOT NULL,
     email_bcc varchar(255) DEFAULT '' NOT NULL,

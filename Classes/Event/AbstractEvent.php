@@ -132,6 +132,11 @@ abstract class AbstractEvent implements EventInterface, Stringable
         return $this;
     }
 
+    public static function flexFomConfigurationFile(): ?string
+    {
+        return null;
+    }
+
     public function __toString(): string
     {
         return static::class;

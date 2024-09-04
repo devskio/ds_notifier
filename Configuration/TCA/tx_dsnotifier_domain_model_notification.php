@@ -197,6 +197,10 @@ return [
                 ],
             ],
         ],
+        'configuration' => array_merge_recursive(
+            ['label' => "{$lll}:tx_dsnotifier_domain_model_notification.configuration"],
+            \Devsk\DsNotifier\UserFunction\FormEngine\Tca::flexFormTcaConfiguration(),
+        ),
         'email_to' => [
             'label' => "{$lll}:tx_dsnotifier_domain_model_notification.email_to",
             'config' => [
@@ -241,6 +245,8 @@ return [
                     --palette--;;general,
                 --div--;{$lll}:tx_dsnotifier_domain_model_notification.tab.email,
                     --palette--;;email,
+                --div--;{$lll}:tx_dsnotifier_domain_model_notification.tab.configuration,
+                    --palette--;;configuration,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
                     --palette--;;access,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,
@@ -258,6 +264,10 @@ return [
                           --linebreak--, event,
                           --linebreak--, sites
                           '
+        ],
+        'configuration' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.palette.configuration",
+            'showitem' => 'configuration'
         ],
         'email' => [
             'label' => "{$lll}:tx_dsnotifier_domain_model_notification.palette.email",

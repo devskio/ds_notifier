@@ -7,7 +7,6 @@ use Devsk\DsNotifier\Attribute\NotifierEvent;
 
 interface EventInterface
 {
-
     public static function identifier(): string;
 
     public static function getNotifierEventAttribute(): NotifierEvent;
@@ -23,4 +22,6 @@ interface EventInterface
     public static function modelName(): string;
 
     public function isTerminated(): bool;
+
+    public static function flexFomConfigurationFile(): ?string;
 }

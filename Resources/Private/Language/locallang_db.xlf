@@ -39,6 +39,9 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.layout.default">
         <source>Default</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.configuration">
+        <source>Configuration</source>
+      </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.email_to">
         <source>To</source>
       </trans-unit>
@@ -81,8 +84,14 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.tab.email">
         <source>Email</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.tab.configuration">
+        <source>Configuration</source>
+      </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.palette.general">
         <source>General</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.palette.configuration">
+        <source>Configuration</source>
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.palette.email">
         <source>Email</source>
