@@ -13,7 +13,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  * Class Notification
  * @package Devsk\DsNotifier\Domain\Model
  */
-abstract class Notification extends AbstractEntity
+abstract class Notification extends AbstractEntity implements NotificationInterface
 {
 
     protected ?string $title = null;
@@ -65,6 +65,10 @@ abstract class Notification extends AbstractEntity
     public function getSubject(): ?string
     {
         return $this->subject;
+    }
+    public function getCompiledSubject(array $variables = []): ?string
+    {
+        return $this->parseTemplateString($this->subject, $variables);
     }
 
     public function getBody(): ?string

@@ -33,7 +33,7 @@ class Email extends Notification
                 '_body' => $this->body,
                 ...$event->getMarkerProperties(),
             ])
-            ->subject($this->parseTemplateString($this->subject, $event->getMarkerProperties()))
+            ->subject($this->getCompiledSubject($event->getMarkerProperties()))
             ->to(...$this->getRecipients($this->to, $event))
             ->cc(...$this->getRecipients($this->cc, $event))
             ->bcc(...$this->getRecipients($this->bcc, $event));
