@@ -73,8 +73,8 @@ class Tca
 
         /** @var EventInterface $eventClass */
         foreach (NotifierEventStructureScout::create()->get() as $eventClass) {
-            if ($eventClass::configurationFile()) {
-                $definitionsStructures[$eventClass::identifier()] = $eventClass::configurationFile();
+            if ($flexibleConfigurationFile = $eventClass::getNotifierEventAttribute()->getFlexibleConfigurationFile()) {
+                $definitionsStructures[$eventClass::identifier()] = $flexibleConfigurationFile;
             }
         }
 

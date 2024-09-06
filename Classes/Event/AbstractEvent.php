@@ -126,11 +126,6 @@ abstract class AbstractEvent implements EventInterface, Stringable
         throw new EventNotificationTerminatedException($reason, 1725633639);
     }
 
-    public static function configurationFile(): ?string
-    {
-        return null;
-    }
-
     public function applyNotificationConfiguration(?Notification\FlexibleConfiguration $configuration): void
     {
     }

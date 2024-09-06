@@ -24,7 +24,5 @@ interface EventInterface
 
     public function terminateEventNotification(string $reason = ''): void;
 
-    public static function configurationFile(): ?string;
-
     public function applyNotificationConfiguration(?Notification\FlexibleConfiguration $configuration): void;
 }
