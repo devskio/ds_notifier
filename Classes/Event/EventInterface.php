@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Devsk\DsNotifier\Event;
 
 use Devsk\DsNotifier\Attribute\NotifierEvent;
+use Devsk\DsNotifier\Domain\Model\Notification;
 
 interface EventInterface
 {
@@ -21,7 +22,9 @@ interface EventInterface
 
     public static function modelName(): string;
 
-    public function isTerminated(): bool;
+    public function terminateEventNotification(string $reason = ''): void;
 
-    public static function flexFomConfigurationFile(): ?string;
+    public static function configurationFile(): ?string;
+
+    public function applyNotificationConfiguration(?Notification\FlexibleConfiguration $configuration): void;
 }

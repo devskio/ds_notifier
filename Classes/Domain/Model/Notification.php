@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Devsk\DsNotifier\Domain\Model;
 
-use Devsk\DsNotifier\Domain\Model\Notification\FlexForm;
+use Devsk\DsNotifier\Domain\Model\Notification\FlexibleConfiguration;
 use Devsk\DsNotifier\Event\EventInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
@@ -28,7 +28,7 @@ abstract class Notification extends AbstractEntity implements NotificationInterf
 
     protected string $layout = '';
 
-    protected ?FlexForm $configuration = null;
+    protected ?FlexibleConfiguration $configuration = null;
 
     static function tableName(): string
     {
@@ -81,7 +81,7 @@ abstract class Notification extends AbstractEntity implements NotificationInterf
         return $this->layout;
     }
 
-    public function getConfiguration(): ?FlexForm
+    public function getConfiguration(): ?FlexibleConfiguration
     {
         return $this->configuration;
     }

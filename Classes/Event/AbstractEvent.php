@@ -8,6 +8,8 @@ use Devsk\DsNotifier\Attribute\Event\Marker;
 use Devsk\DsNotifier\Attribute\NotifierEvent;
 use Devsk\DsNotifier\Domain\Model\Event\Property;
 use Devsk\DsNotifier\Domain\Model\Event\Property\Placeholder;
+use Devsk\DsNotifier\Domain\Model\Notification;
+use Devsk\DsNotifier\Exception\EventNotificationTerminatedException;
 use Devsk\DsNotifier\Exception\NotifierException;
 use ReflectionAttribute;
 use ReflectionClass;
@@ -20,8 +22,6 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
  */
 abstract class AbstractEvent implements EventInterface, Stringable
 {
-
-    private bool $terminated = false;
 
     public static function modelName(): string
     {
@@ -121,20 +121,18 @@ abstract class AbstractEvent implements EventInterface, Stringable
         return new ReflectionClass(static::class);
     }
 
-    public function isTerminated(): bool
+    public function terminateEventNotification(string $reason = ''): void
     {
-        return $this->terminated;
+        throw new EventNotificationTerminatedException($reason, 1725633639);
     }
 
-    public function terminate(): static
-    {
-        $this->terminated = true;
-        return $this;
-    }
-
-    public static function flexFomConfigurationFile(): ?string
+    public static function configurationFile(): ?string
     {
         return null;
+    }
+
+    public function applyNotificationConfiguration(?Notification\FlexibleConfiguration $configuration): void
+    {
     }
 
     public function __toString(): string

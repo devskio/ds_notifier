@@ -7,6 +7,7 @@ use Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Domain\Repository\NotificationRepository;
 use Devsk\DsNotifier\Event\EventInterface;
 use Devsk\DsNotifier\Event\Notifier\NotificationSendError;
+use Devsk\DsNotifier\Exception\EventNotificationTerminatedException;
 use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 
@@ -23,11 +24,6 @@ final class NotifierListener
 
     public function __invoke(EventInterface $event)
     {
-        if ($event->isTerminated()) {
-            $this->logger->info("Event " . $event::class . " terminated");
-            return;
-        }
-
         $this->logger->info("Event " . $event::class . " triggered");
 
         $notifications = $this->notificationRepository->findByEvent($event);
@@ -35,15 +31,32 @@ final class NotifierListener
         /** @var Notification $notification */
         foreach ($notifications as $notification) {
             try {
+                $event->applyNotificationConfiguration($notification->getConfiguration());
                 $notification->send($event);
                 $this->logger->info('Notification sent', [
                     'event' => $event::identifier(),
-                    'notification' => $notification->getUid(),
+                    'notification' => [
+                        'class' => $notification::class,
+                        'uid' => $notification->getUid(),
+                    ]
                 ]);
+            } catch (EventNotificationTerminatedException $e) {
+                $this->logger->info('Notification terminated',[
+                    'reason' => $e->getMessage(),
+                    'event' => $event::identifier(),
+                    'notification' => [
+                        'class' => $notification::class,
+                        'uid' => $notification->getUid(),
+                    ]
+                ]);
+                continue;
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage(), [
                     'event' => $event::identifier(),
-                    'notification' => $notification->getUid(),
+                    'notification' => [
+                        'class' => $notification::class,
+                        'uid' => $notification->getUid(),
+                    ]
                 ]);
                 if (!($event instanceof NotificationSendError)) {
                     $this->eventDispatcher->dispatch(new NotificationSendError(

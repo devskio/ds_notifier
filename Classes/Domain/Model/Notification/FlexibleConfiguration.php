@@ -9,10 +9,10 @@ use TYPO3\CMS\Core\Type\TypeInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Class FlexForm
+ * Class FlexibleConfiguration
  * @package Devsk\DsNotifier\Domain\Model\Notification
  */
-class FlexForm implements TypeInterface
+class FlexibleConfiguration implements TypeInterface
 {
 
     protected array $data = [];
