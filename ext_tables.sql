@@ -16,3 +16,12 @@ CREATE TABLE tx_dsnotifier_domain_model_notification (
     email_cc varchar(255) DEFAULT '' NOT NULL,
     email_bcc varchar(255) DEFAULT '' NOT NULL,
 );
+
+#
+# Table structure for table 'tx_dsnotifier_domain_model_recipient'
+#
+CREATE TABLE tx_dsnotifier_domain_model_recipient (
+    channel varchar(255) DEFAULT '' NOT NULL,
+    email varchar(255) DEFAULT '' NOT NULL,
+    name varchar(255) DEFAULT '' NOT NULL,
+);

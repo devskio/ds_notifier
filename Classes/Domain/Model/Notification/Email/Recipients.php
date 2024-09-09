@@ -5,8 +5,10 @@ namespace Devsk\DsNotifier\Domain\Model\Notification\Email;
 
 use Symfony\Component\Mime\Address;
 use Traversable;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Type\TypeInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  * Class Recipients
@@ -27,17 +29,50 @@ class Recipients implements TypeInterface, \IteratorAggregate
         }
 
         foreach ($recipients as $recipient) {
-            $this->recipients[] = Address::create($recipient);
+            if (MathUtility::canBeInterpretedAsInteger($recipient)) {
+                if ($address = $this->getAddressByUid($recipient)) {
+                    $this->recipients[] = $address;
+                }
+            } elseif (str_contains($recipient, '@')) {
+                $this->recipients[] = Address::create($recipient);
+            } else {
+                $this->recipients[] = $recipient;
+            }
         }
     }
 
     public function __toString()
     {
-        return implode(',', array_map(fn (Address $address) => $address->toString(), $this->recipients));
+        return implode(',', array_map(fn (Address|string $address) =>
+            $address instanceof Address ? $address->toString() : (string)$address,
+            $this->recipients
+        ));
     }
 
     public function getIterator(): Traversable
     {
         return yield from $this->recipients;
+    }
+
+    protected function getAddressByUid($uid): ?Address
+    {
+        $recipient = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable('tx_dsnotifier_domain_model_recipient')
+            ->select(
+                ['email', 'name'],
+                'tx_dsnotifier_domain_model_recipient',
+                ['uid' => $uid]
+            )->fetchAssociative();
+
+        return $recipient ? new Address($recipient['email'], $recipient['name']) : null;
+    }
+
+    public function setRecipient(?Address $address, int $key): self
+    {
+        if ($address) {
+            $this->recipients[$key] = $address;
+        }
+
+        return $this;
     }
 }

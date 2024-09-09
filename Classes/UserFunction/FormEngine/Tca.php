@@ -110,16 +110,13 @@ class Tca
     {
         if (is_subclass_of($eventClass, EventInterface::class)) {
             $emailPlaceholders = $eventClass::getEmailPlaceholders();
-            $parsedEmails[] = [
-                'label' => $eventClass::getNotifierEventAttribute()->getLabel(),
-                'value' => '--div--'
-            ];
 
             /** @var Placeholder $emailPlaceholder */
             foreach ($emailPlaceholders as $emailPlaceholder) {
                 $parsedEmails[] = [
                     'label' => $emailPlaceholder->getLabel(),
                     'value' => $emailPlaceholder->getPlaceholder(),
+                    'group' => 'event',
                 ];
             }
 
@@ -137,20 +134,16 @@ class Tca
             $emails = $siteSettings['channel']['email']['recipients'] ?? [];
 
             if (!empty($emails)) {
-                $parsedEmails[] = [
-                    'label' => 'Global email recipients',
-                    'value' => '--div--'
-                ];
                 $emails = Address::createArray($emails);
 
                 foreach ($emails as $email) {
                     $parsedEmails[] = [
                         'label' => $email->toString(),
                         'value' => $email->toString(),
+                        'group' => 'site'
                     ];
                 }
             }
-
         }
     }
 }

@@ -145,6 +145,11 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
+                'items' => [
+                    ['label' => '', 'value' => '']
+                ],
+                'default' => '',
+                'required' => true,
                 'itemsProcFunc' => Devsk\DsNotifier\UserFunction\FormEngine\Tca::class . '->notificationEventItemsProcFunc',
             ],
         ],
@@ -206,8 +211,18 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
+                'foreign_table' => 'tx_dsnotifier_domain_model_recipient',
+                'foreign_table_where' => 'AND {#tx_dsnotifier_domain_model_recipient}.{#pid} IN (###CURRENT_PID###, ###SITEROOT###, ###SITE:settings.ds_notifier.recipients.storagePid###)
+                                          AND {#tx_dsnotifier_domain_model_recipient}.{#channel} = ' . \Devsk\DsBoilerplate\Utility\BoilerplateUtility::escapeFQCNForTCA(Devsk\DsNotifier\Domain\Model\Notification\Email::class),
+                'foreign_table_item_group' => 'channel',
+                'allowNonIdValues' => true,
                 'minitems' => 1,
                 'itemsProcFunc' => Devsk\DsNotifier\UserFunction\FormEngine\Tca::class . '->notificationEmailItemsProcFunc',
+                'itemGroups' => [
+                    'event' => "{$lll}:tx_dsnotifier_domain_model_notification.email.itemGroup.event",
+                    Devsk\DsNotifier\Domain\Model\Notification\Email::class => "{$lll}:tx_dsnotifier_domain_model_notification.email.itemGroup.db",
+                    'site' => "{$lll}:tx_dsnotifier_domain_model_notification.email.itemGroup.site",
+                ],
             ],
         ],
         'email_cc' => [
@@ -215,7 +230,17 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
+                'foreign_table' => 'tx_dsnotifier_domain_model_recipient',
+                'foreign_table_where' => 'AND {#tx_dsnotifier_domain_model_recipient}.{#pid} IN (###CURRENT_PID###, ###SITEROOT###, ###SITE:settings.ds_notifier.recipients.storagePid###)
+                                          AND {#tx_dsnotifier_domain_model_recipient}.{#channel} = ' . \Devsk\DsBoilerplate\Utility\BoilerplateUtility::escapeFQCNForTCA(Devsk\DsNotifier\Domain\Model\Notification\Email::class),
+                'foreign_table_item_group' => 'channel',
+                'allowNonIdValues' => true,
                 'itemsProcFunc' => Devsk\DsNotifier\UserFunction\FormEngine\Tca::class . '->notificationEmailItemsProcFunc',
+                'itemGroups' => [
+                    'event' => "{$lll}:tx_dsnotifier_domain_model_notification.email.itemGroup.event",
+                    Devsk\DsNotifier\Domain\Model\Notification\Email::class => "{$lll}:tx_dsnotifier_domain_model_notification.email.itemGroup.db",
+                    'site' => "{$lll}:tx_dsnotifier_domain_model_notification.email.itemGroup.site",
+                ],
             ],
         ],
         'email_bcc' => [
@@ -223,7 +248,17 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
+                'foreign_table' => 'tx_dsnotifier_domain_model_recipient',
+                'foreign_table_where' => 'AND {#tx_dsnotifier_domain_model_recipient}.{#pid} IN (###CURRENT_PID###, ###SITEROOT###, ###SITE:settings.ds_notifier.recipients.storagePid###)
+                                          AND {#tx_dsnotifier_domain_model_recipient}.{#channel} = ' . \Devsk\DsBoilerplate\Utility\BoilerplateUtility::escapeFQCNForTCA(Devsk\DsNotifier\Domain\Model\Notification\Email::class),
+                'foreign_table_item_group' => 'channel',
+                'allowNonIdValues' => true,
                 'itemsProcFunc' => Devsk\DsNotifier\UserFunction\FormEngine\Tca::class . '->notificationEmailItemsProcFunc',
+                'itemGroups' => [
+                    'event' => "{$lll}:tx_dsnotifier_domain_model_notification.email.itemGroup.event",
+                    Devsk\DsNotifier\Domain\Model\Notification\Email::class => "{$lll}:tx_dsnotifier_domain_model_notification.email.itemGroup.db",
+                    'site' => "{$lll}:tx_dsnotifier_domain_model_notification.email.itemGroup.site",
+                ],
             ],
         ],
     ],

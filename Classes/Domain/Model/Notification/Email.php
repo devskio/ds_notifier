@@ -6,6 +6,7 @@ namespace Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Event\EventInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\MailerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -18,9 +19,9 @@ use TYPO3Fluid\Fluid\View\Exception\InvalidTemplateResourceException;
 class Email extends Notification
 {
 
-    protected ?string $to = null;
-    protected ?string $cc = null;
-    protected ?string $bcc = null;
+    protected ?Notification\Email\Recipients $to = null;
+    protected ?Notification\Email\Recipients $cc = null;
+    protected ?Notification\Email\Recipients $bcc = null;
 
     public function send(EventInterface $event): void
     {
@@ -34,9 +35,9 @@ class Email extends Notification
                 ...$event->getMarkerProperties(),
             ])
             ->subject($this->getCompiledSubject($event->getMarkerProperties()))
-            ->to(...$this->getRecipients($this->to, $event))
-            ->cc(...$this->getRecipients($this->cc, $event))
-            ->bcc(...$this->getRecipients($this->bcc, $event));
+            ->to(...$this->getTo($event))
+            ->cc(...$this->getCc($event))
+            ->bcc(...$this->getBcc($event));
 
         if ($GLOBALS['TYPO3_REQUEST'] instanceof ServerRequestInterface) {
             $message->setRequest($GLOBALS['TYPO3_REQUEST']);
@@ -52,10 +53,34 @@ class Email extends Notification
         GeneralUtility::makeInstance(MailerInterface::class)->send($message);
     }
 
-    protected function getRecipients(?string $recipients, EventInterface $event): Notification\Email\Recipients
+    private function getCompiledRecipientsFor(?Notification\Email\Recipients $recipients, ?EventInterface $event): Notification\Email\Recipients
     {
-        return new Notification\Email\Recipients(
-            $this->parseTemplateString($recipients, $event->getEmailProperties(), false)
-        );
+        if ($event) {
+            foreach ($recipients as $key => $recipient) {
+                if (is_string($recipient) && str_contains($recipient, '{') && str_contains($recipient, '}')) {
+                    $recipients->setRecipient(
+                        Address::create($this->parseTemplateString($recipient, $event->getEmailProperties(), false)),
+                        $key
+                    );
+                }
+            }
+        }
+
+        return $recipients;
+    }
+
+    public function getTo(?EventInterface $event): ?Email\Recipients
+    {
+        return $this->getCompiledRecipientsFor($this->to, $event);
+    }
+
+    public function getCc(?EventInterface $event): ?Email\Recipients
+    {
+        return $this->getCompiledRecipientsFor($this->cc, $event);
+    }
+
+    public function getBcc(?EventInterface $event): ?Email\Recipients
+    {
+        return $this->getCompiledRecipientsFor($this->bcc, $event);
     }
 }

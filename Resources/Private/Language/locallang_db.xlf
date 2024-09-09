@@ -42,6 +42,15 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.configuration">
         <source>Configuration</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.email.itemGroup.db">
+        <source>Records recipients</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.email.itemGroup.event">
+        <source>Event recipients</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.email.itemGroup.site">
+        <source>Site recipients</source>
+      </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.email_to">
         <source>To</source>
       </trans-unit>
@@ -95,6 +104,24 @@
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.palette.email">
         <source>Email</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_recipient">
+        <source>Recipient</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_recipient.palette.general">
+        <source></source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_recipient.channel">
+        <source>Channel</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_recipient.channel.email">
+        <source>Email</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_recipient.email">
+        <source>Email Address</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_recipient.name">
+        <source>Name</source>
       </trans-unit>
     </body>
   </file>
