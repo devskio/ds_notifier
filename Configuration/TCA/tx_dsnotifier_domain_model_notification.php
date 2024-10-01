@@ -1,4 +1,6 @@
 <?php
+
+use Devsk\DsNotifier\Utility\NotifierUtility;
 $lll = 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf';
 
 return [
@@ -213,7 +215,7 @@ return [
                 'renderType' => 'selectMultipleSideBySide',
                 'foreign_table' => 'tx_dsnotifier_domain_model_recipient',
                 'foreign_table_where' => 'AND {#tx_dsnotifier_domain_model_recipient}.{#pid} IN (###CURRENT_PID###, ###SITEROOT###, ###SITE:settings.ds_notifier.recipients.storagePid###)
-                                          AND {#tx_dsnotifier_domain_model_recipient}.{#channel} = ' . \Devsk\DsBoilerplate\Utility\BoilerplateUtility::escapeFQCNForTCA(Devsk\DsNotifier\Domain\Model\Notification\Email::class),
+                                          AND {#tx_dsnotifier_domain_model_recipient}.{#channel} = ' . NotifierUtility::escapeFQCNForTCA(Devsk\DsNotifier\Domain\Model\Notification\Email::class),
                 'foreign_table_item_group' => 'channel',
                 'allowNonIdValues' => true,
                 'minitems' => 1,
@@ -232,7 +234,7 @@ return [
                 'renderType' => 'selectMultipleSideBySide',
                 'foreign_table' => 'tx_dsnotifier_domain_model_recipient',
                 'foreign_table_where' => 'AND {#tx_dsnotifier_domain_model_recipient}.{#pid} IN (###CURRENT_PID###, ###SITEROOT###, ###SITE:settings.ds_notifier.recipients.storagePid###)
-                                          AND {#tx_dsnotifier_domain_model_recipient}.{#channel} = ' . \Devsk\DsBoilerplate\Utility\BoilerplateUtility::escapeFQCNForTCA(Devsk\DsNotifier\Domain\Model\Notification\Email::class),
+                                          AND {#tx_dsnotifier_domain_model_recipient}.{#channel} = ' . NotifierUtility::escapeFQCNForTCA(Devsk\DsNotifier\Domain\Model\Notification\Email::class),
                 'foreign_table_item_group' => 'channel',
                 'allowNonIdValues' => true,
                 'itemsProcFunc' => Devsk\DsNotifier\UserFunction\FormEngine\Tca::class . '->notificationEmailItemsProcFunc',
@@ -250,7 +252,7 @@ return [
                 'renderType' => 'selectMultipleSideBySide',
                 'foreign_table' => 'tx_dsnotifier_domain_model_recipient',
                 'foreign_table_where' => 'AND {#tx_dsnotifier_domain_model_recipient}.{#pid} IN (###CURRENT_PID###, ###SITEROOT###, ###SITE:settings.ds_notifier.recipients.storagePid###)
-                                          AND {#tx_dsnotifier_domain_model_recipient}.{#channel} = ' . \Devsk\DsBoilerplate\Utility\BoilerplateUtility::escapeFQCNForTCA(Devsk\DsNotifier\Domain\Model\Notification\Email::class),
+                                          AND {#tx_dsnotifier_domain_model_recipient}.{#channel} = ' . NotifierUtility::escapeFQCNForTCA(Devsk\DsNotifier\Domain\Model\Notification\Email::class),
                 'foreign_table_item_group' => 'channel',
                 'allowNonIdValues' => true,
                 'itemsProcFunc' => Devsk\DsNotifier\UserFunction\FormEngine\Tca::class . '->notificationEmailItemsProcFunc',
