@@ -45,7 +45,7 @@ class NotificationRepository extends Repository
 
     private function site(): ?SiteInterface
     {
-        return $GLOBALS['TYPO3_REQUEST']?->getAttribute('site');
+        return isset($GLOBALS['TYPO3_REQUEST']) ? $GLOBALS['TYPO3_REQUEST']->getAttribute('site') : null;
     }
 
 }
