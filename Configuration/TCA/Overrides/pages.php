@@ -17,6 +17,10 @@ call_user_func(static function ($extKey, $lll) {
                 'config' => [
                     'items' => array_merge($GLOBALS['TCA']['pages']['columns']['module']['config']['items'], [
                         [
+                            'label' => "{$lll}:plugin.name",
+                            'value' => '--div--',
+                        ],
+                        [
                             'label' => "{$lll}:pages.module.ds_notifier-notification",
                             'value' => 'ds_notifier-notification',
                             'icon' => 'content-elements-mailform',
