@@ -58,9 +58,9 @@ class Email extends Notification
         if ($event) {
             foreach ($recipients as $key => $recipient) {
                 if (is_string($recipient) && str_contains($recipient, '{') && str_contains($recipient, '}')) {
-                    $recipients->setRecipient(
-                        Address::create($this->parseTemplateString($recipient, $event->getEmailProperties(), false)),
-                        $key
+                    $recipients->unsetRecipient($key);
+                    $recipients->addRecipients(
+                        $this->parseTemplateString($recipient, $event->getEmailProperties(), false)
                     );
                 }
             }

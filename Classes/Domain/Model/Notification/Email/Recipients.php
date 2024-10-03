@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Devsk\DsNotifier\Domain\Model\Notification\Email;
 
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Exception\InvalidArgumentException;
 use Traversable;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Type\TypeInterface;
@@ -67,12 +68,47 @@ class Recipients implements TypeInterface, \IteratorAggregate
         return $recipient ? new Address($recipient['email'], $recipient['name']) : null;
     }
 
-    public function setRecipient(?Address $address, int $key): self
+    public function addRecipients(Address|string ...$addresses): self
+    {
+        foreach ($addresses as $address) {
+            $this->recipients = array_merge($this->recipients, $this->parseAddress($address));
+        }
+        return $this;
+    }
+
+    public function updateRecipient(?Address $address, int $key): self
     {
         if ($address) {
             $this->recipients[$key] = $address;
         }
 
         return $this;
+    }
+
+    public function unsetRecipient(int $key): self
+    {
+        if (array_key_exists($key, $this->recipients)) {
+            unset($this->recipients[$key]);
+        }
+
+        return $this;
+    }
+
+    /**
+     *
+     * @param Address|array|string $address
+     * @return Address[]
+     * @throws InvalidArgumentException
+     */
+    protected function parseAddress(Address|array|string $address): array
+    {
+        if ($address instanceof Address) {
+            return [$address];
+        }
+        if (is_array($address)) {
+            return Address::createArray($address);
+        }
+
+        return Address::createArray(preg_split('/[,;]/', $address));
     }
 }
