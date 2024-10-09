@@ -1,0 +1,17 @@
+prototypes:
+  standard:
+    finishersDefinition:
+      DispatchFormNotifierFinisher:
+        implementationClassName: 'Devsk\DsNotifier\Domain\Finisher\DispatchFormNotifierFinisher'
+        formEditor:
+          iconIdentifier: 'form-finisher'
+          label: 'Notifier Finisher'
+      Form:
+        formEditor:
+          editors:
+            900:
+              # Extend finisher drop down
+              selectOptions:
+                35:
+                  value: 'DispatchFormNotifierFinisher'
+                  label: 'Notifier Finisher'
