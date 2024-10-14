@@ -27,6 +27,11 @@ class FlexibleConfiguration implements TypeInterface
         $this->data = $this->flexFormService->convertFlexFormContentToArray($flexFormString);
     }
 
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
     public function __call($method, $arguments): mixed
     {
         if (str_starts_with($method, 'get')
