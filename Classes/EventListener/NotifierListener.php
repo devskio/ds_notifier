@@ -51,6 +51,7 @@ final class NotifierListener
                 ]);
                 continue;
             } catch (\Exception $e) {
+                // @extensionScannerIgnoreLine
                 $this->logger->error($e->getMessage(), [
                     'event' => $event::identifier(),
                     'notification' => [
