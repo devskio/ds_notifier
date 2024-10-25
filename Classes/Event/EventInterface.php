@@ -5,6 +5,7 @@ namespace Devsk\DsNotifier\Event;
 
 use Devsk\DsNotifier\Attribute\NotifierEvent;
 use Devsk\DsNotifier\Domain\Model\Notification;
+use Devsk\DsNotifier\Exception\EventNotificationTerminatedException;
 
 interface EventInterface
 {
@@ -23,6 +24,10 @@ interface EventInterface
     public static function modelName(): string;
 
     public function terminateEventNotification(string $reason = ''): void;
+
+    public function getTerminationException(): ?EventNotificationTerminatedException;
+
+    public function isTerminated(): bool;
 
     public function applyNotificationConfiguration(?Notification\FlexibleConfiguration $configuration): void;
 }
