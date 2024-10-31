@@ -9,6 +9,7 @@ use Devsk\DsNotifier\Domain\Model\Notification\FlexibleConfiguration;
 use Devsk\DsNotifier\Enum\EventGroup;
 use Devsk\DsNotifier\Event\AbstractEvent;
 use TYPO3\CMS\Form\Domain\Finishers\FinisherContext;
+use TYPO3\CMS\Form\Domain\Model\Renderable\AbstractRenderable;
 
 /**
  * Class NotificationSendError
@@ -43,5 +44,20 @@ class SubmitFinisherEvent extends AbstractEvent
     public function getFormValues(): array
     {
         return $this->formValues;
+    }
+
+    public function getEmailProperties(): array
+    {
+        $properties = parent::getEmailProperties();
+
+        /** @var AbstractRenderable $renderable */
+        foreach ($this->finisherContext->getFormRuntime()->getFormDefinition()->getRenderablesRecursively() as $renderable) {
+            if ($renderable->getType() === 'Email') {
+                $properties['form'][$renderable->getIdentifier()] =
+                    $this->formValues[$renderable->getIdentifier()];
+            }
+        }
+
+        return $properties;
     }
 }

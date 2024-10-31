@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Devsk\DsNotifier\Domain\Model\Notification;
@@ -6,6 +7,7 @@ namespace Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Event\EventInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\MailerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -13,11 +15,9 @@ use TYPO3Fluid\Fluid\View\Exception\InvalidTemplateResourceException;
 
 /**
  * Class Email
- * @package Devsk\DsNotifier\Domain\Model
  */
 class Email extends Notification
 {
-
     protected ?Notification\Email\Recipients $to = null;
     protected ?Notification\Email\Recipients $cc = null;
     protected ?Notification\Email\Recipients $bcc = null;
@@ -42,7 +42,7 @@ class Email extends Notification
             $message->setRequest($GLOBALS['TYPO3_REQUEST']);
         }
 
-        # Try to compile email body for Event specific template if not exists fallback to Default template
+        // Try to compile email body for Event specific template if not exists fallback to Default template
         try {
             $message->getBody();
         } catch (InvalidTemplateResourceException) {
@@ -57,9 +57,10 @@ class Email extends Notification
         if ($event) {
             foreach ($recipients as $key => $recipient) {
                 if (is_string($recipient) && str_contains($recipient, '{') && str_contains($recipient, '}')) {
-                    $recipients->unsetRecipient($key);
-                    $recipients->addRecipients(
-                        $this->parseTemplateString($recipient, $event->getEmailProperties(), false)
+                    $parsedEmail = $this->parseTemplateString($recipient, $event->getEmailProperties(), false);
+                    $recipients->updateRecipient(
+                        Address::create($parsedEmail),
+                        $key
                     );
                 }
             }

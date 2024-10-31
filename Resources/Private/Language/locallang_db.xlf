@@ -60,6 +60,9 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.email.itemGroup.site">
         <source>Site recipients</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.email.itemGroup.form">
+        <source>Form Framework recipients</source>
+      </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.email_to">
         <source>To</source>
       </trans-unit>

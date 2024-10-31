@@ -16,4 +16,24 @@ class NotifierUtility
     {
         return '"' . \str_replace('\\', '\\\\', $fqcn) . '"';
     }
+
+    public static function collectFormEmailRenderables(array $renderables): array
+    {
+        $emailRenderables = [];
+
+        foreach ($renderables as $renderable) {
+            if (isset($renderable['renderables'])) {
+                $emailRenderables = array_merge(
+                    $emailRenderables,
+                    static::collectFormEmailRenderables($renderable['renderables'])
+                );
+            } elseif (isset($renderable['type'])
+                && $renderable['type'] === 'Email'
+            ) {
+                $emailRenderables[] = $renderable;
+            }
+        }
+
+        return $emailRenderables;
+    }
 }
