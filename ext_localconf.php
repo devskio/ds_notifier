@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 defined('TYPO3') or die();
 
 call_user_func(function ($extKey) {
-
     /**
      * Cache configuration
      */
@@ -29,4 +30,24 @@ call_user_func(function ($extKey) {
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['layoutRootPaths'][1721307957]
         = "EXT:{$extKey}/Resources/Private/Layouts/Email";
 
+    if (ExtensionManagementUtility::isLoaded('form')) {
+        ExtensionManagementUtility::addTypoScriptSetup("<![CDATA[
+            plugin.tx_form {
+                settings {
+                    yamlConfigurations {
+                            1730364095 = EXT:{$extKey}/Configuration/Form/Backend.yaml
+                        }
+                    }
+                }
+            }
+            module.tx_form {
+                settings {
+                    yamlConfigurations {
+                            1730364095 = EXT:{$extKey}/Configuration/Form/Backend.yaml
+                        }
+                    }
+                }
+            ]]>"
+        );
+    }
 }, 'ds_notifier');

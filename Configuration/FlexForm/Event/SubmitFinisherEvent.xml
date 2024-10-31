@@ -1,0 +1,21 @@
+<T3DataStructure>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <type>array</type>
+                <el>
+                    <formDefinition>
+                        <label>LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Form\SubmitFinisherEvent.flexForm.formDefinition</label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <itemsProcFunc>Devsk\DsNotifier\UserFunction\FormEngine\Tca->formDefinitionItemsProcFunc</itemsProcFunc>
+                            <size>8</size>
+                            <eval>required</eval>
+                        </config>
+                    </formDefinition>
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
+</T3DataStructure>

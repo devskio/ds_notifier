@@ -6,7 +6,6 @@ namespace Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Event\EventInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\MailerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -39,7 +38,7 @@ class Email extends Notification
             ->cc(...$this->getCc($event))
             ->bcc(...$this->getBcc($event));
 
-        if ($GLOBALS['TYPO3_REQUEST'] instanceof ServerRequestInterface) {
+        if (isset($GLOBALS['TYPO3_REQUEST']) && $GLOBALS['TYPO3_REQUEST'] instanceof ServerRequestInterface) {
             $message->setRequest($GLOBALS['TYPO3_REQUEST']);
         }
 

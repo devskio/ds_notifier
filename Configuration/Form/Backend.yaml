@@ -1,17 +1,34 @@
 prototypes:
   standard:
     finishersDefinition:
-      DispatchFormNotifierFinisher:
-        implementationClassName: 'Devsk\DsNotifier\Domain\Finisher\DispatchFormNotifierFinisher'
+      DsNotifierFormFrameworkFinisher:
+        implementationClassName: 'Devsk\DsNotifier\FormFramework\Finisher\DsNotifierFormFrameworkFinisher'
         formEditor:
           iconIdentifier: 'form-finisher'
-          label: 'Notifier Finisher'
+          label: form.notifierFinisher.label
+          predefinedDefaults:
+            options: {  }
+    formEditor:
+      translationFiles:
+        1730364843: 'EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf'
+    formElementsDefinition:
       Form:
         formEditor:
           editors:
             900:
-              # Extend finisher drop down
               selectOptions:
-                35:
-                  value: 'DispatchFormNotifierFinisher'
-                  label: 'Notifier Finisher'
+                1730364843:
+                  value: 'DsNotifierFormFrameworkFinisher'
+                  label: form.notifierFinisher.label
+          propertyCollections:
+            finishers:
+              1730364843:
+                identifier: 'DsNotifierFormFrameworkFinisher'
+                editors:
+                  100:
+                    identifier: header
+                    templateName: Inspector-CollectionElementHeaderEditor
+                    label: form.notifierFinisher.label
+                  9999:
+                    identifier: removeButton
+                    templateName: Inspector-RemoveElementEditor

@@ -81,6 +81,12 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Form\SubmitFinisherEvent">
         <source>Form: Submit Finisher</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Form\SubmitFinisherEvent.marker.formValues">
+        <source>Form Values</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Form\SubmitFinisherEvent.flexForm.formDefinition">
+        <source>Form definition</source>
+      </trans-unit>
         <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\NotificationSendError.marker.error.message">
         <source>Error Message</source>
       </trans-unit>
@@ -137,6 +143,9 @@
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_recipient.name">
         <source>Name</source>
+      </trans-unit>
+      <trans-unit id="form.notifierFinisher.label">
+        <source>Notifier Finisher</source>
       </trans-unit>
     </body>
   </file>

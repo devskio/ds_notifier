@@ -6,9 +6,12 @@ namespace Devsk\DsNotifier\UserFunction\FormEngine;
 use Devsk\DsNotifier\Attribute\NotifierEvent;
 use Devsk\DsNotifier\Domain\Model\Event\Property\Placeholder;
 use Devsk\DsNotifier\Event\EventInterface;
+use Devsk\DsNotifier\FormFramework\Finisher\DsNotifierFormFrameworkFinisher;
 use Devsk\DsNotifier\StructureScout\NotifierEventStructureScout;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Site\Entity\Site;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 
 /**
  * Class Tca
@@ -141,6 +144,26 @@ class Tca
                         'label' => $email->toString(),
                         'value' => $email->toString(),
                         'group' => 'site'
+                    ];
+                }
+            }
+        }
+    }
+
+    public function formDefinitionItemsProcFunc(&$params)
+    {
+        $formPersistenceManager = GeneralUtility::makeInstance(FormPersistenceManagerInterface::class);
+
+        foreach ($formPersistenceManager->listForms() as $form) {
+            $persistenceIdentifier = $form['persistenceIdentifier'];
+            $formDefinition = $formPersistenceManager->load($persistenceIdentifier);
+            $finishers = $formDefinition['finishers'] ?? [];
+
+            foreach ($finishers as $finisher) {
+                if ($finisher['identifier'] === DsNotifierFormFrameworkFinisher::getIdentifier()) {
+                    $params['items'][] = [
+                        'label' => $formDefinition['label'] . ' (' . $persistenceIdentifier . ')',
+                        'value' => $persistenceIdentifier,
                     ];
                 }
             }
