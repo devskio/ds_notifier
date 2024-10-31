@@ -32,6 +32,9 @@ final class NotifierListener
         foreach ($notifications as $notification) {
             try {
                 $event->applyNotificationConfiguration($notification->getConfiguration());
+                if ($event->isTerminated()) {
+                    throw $event->getTerminationException();
+                }
                 $notification->send($event);
                 $this->logger->info('Notification sent', [
                     'event' => $event::identifier(),
@@ -51,6 +54,7 @@ final class NotifierListener
                 ]);
                 continue;
             } catch (\Exception $e) {
+                // @extensionScannerIgnoreLine
                 $this->logger->error($e->getMessage(), [
                     'event' => $event::identifier(),
                     'notification' => [

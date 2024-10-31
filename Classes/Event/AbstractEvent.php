@@ -22,6 +22,7 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
  */
 abstract class AbstractEvent implements EventInterface, Stringable
 {
+    private ?EventNotificationTerminatedException $terminationException = null;
 
     public static function modelName(): string
     {
@@ -123,7 +124,17 @@ abstract class AbstractEvent implements EventInterface, Stringable
 
     public function terminateEventNotification(string $reason = ''): void
     {
-        throw new EventNotificationTerminatedException($reason, 1725633639);
+        $this->terminationException = new EventNotificationTerminatedException($reason, 1725633639);
+    }
+
+    public function getTerminationException(): ?EventNotificationTerminatedException
+    {
+        return $this->terminationException;
+    }
+
+    public function isTerminated(): bool
+    {
+        return $this->terminationException instanceof EventNotificationTerminatedException;
     }
 
     public function applyNotificationConfiguration(?Notification\FlexibleConfiguration $configuration): void

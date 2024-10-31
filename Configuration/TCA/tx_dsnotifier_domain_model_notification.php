@@ -1,6 +1,8 @@
 <?php
 
 use Devsk\DsNotifier\Utility\NotifierUtility;
+use TYPO3\CMS\Core\Information\Typo3Version;
+
 $lll = 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf';
 
 return [
@@ -180,7 +182,7 @@ return [
                 'type' => 'text',
                 'eval' => 'trim',
                 'required' => true,
-                'rows' => 10,
+                'rows' => 14,
             ],
         ],
         'markers' => [
@@ -290,7 +292,15 @@ return [
                     --palette--;;language,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
                 ",
-            'subtype_value_field' => 'event'
+            'subtype_value_field' => 'event',
+            'columnsOverrides' => [
+                'body' => [
+                    'config' => [
+                        'renderType' => ((new Typo3Version())->getMajorVersion() > 12) ? 'codeEditor' : 't3editor',
+                        'format' => 'html',
+                    ],
+                ],
+            ],
         ],
     ],
     'palettes' => [
