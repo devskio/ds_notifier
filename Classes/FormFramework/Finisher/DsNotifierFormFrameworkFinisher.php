@@ -9,16 +9,22 @@ use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
 
-class DsNotifierFormFrameworkFinisher extends AbstractFinisher
-{
-    protected function executeInternal()
+if (class_exists(AbstractFinisher::class)) {
+    class DsNotifierFormFrameworkFinisher extends AbstractFinisher
     {
-        GeneralUtility::makeInstance(EventDispatcher::class)
-            ->dispatch(new SubmitFinisherEvent($this->finisherContext));
-    }
+        protected function executeInternal()
+        {
+            GeneralUtility::makeInstance(EventDispatcher::class)
+                ->dispatch(new SubmitFinisherEvent($this->finisherContext));
+        }
 
-    public static function getIdentifier(): string
+        public static function getIdentifier(): string
+        {
+            return (new \ReflectionClass(self::class))->getShortName();
+        }
+    }
+} else {
+    class DsNotifierFormFrameworkFinisher
     {
-        return (new \ReflectionClass(self::class))->getShortName();
     }
 }
