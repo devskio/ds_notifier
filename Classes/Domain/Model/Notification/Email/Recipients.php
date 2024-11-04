@@ -85,12 +85,9 @@ class Recipients implements TypeInterface, \IteratorAggregate
         return $this;
     }
 
-    public function unsetRecipient(int $key): self
+    public function unsetRecipient(Address|string $recipient): self
     {
-        if (array_key_exists($key, $this->recipients)) {
-            unset($this->recipients[$key]);
-        }
-
+        $this->recipients = array_filter($this->recipients, fn ($address) => $address !== $recipient);
         return $this;
     }
 
@@ -102,13 +99,16 @@ class Recipients implements TypeInterface, \IteratorAggregate
      */
     protected function parseAddress(Address|array|string $address): array
     {
+        if (is_string($address)) {
+            return $this->parseAddress(preg_split('/[,;]/', $address));
+        }
+
         if ($address instanceof Address) {
             return [$address];
         }
+
         if (is_array($address)) {
             return Address::createArray($address);
         }
-
-        return Address::createArray(preg_split('/[,;]/', $address));
     }
 }

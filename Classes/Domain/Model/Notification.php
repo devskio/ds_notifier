@@ -68,7 +68,7 @@ abstract class Notification extends AbstractEntity implements NotificationInterf
     }
     public function getCompiledSubject(array $variables = []): ?string
     {
-        return $this->parseTemplateString($this->subject, $variables);
+        return $this->compileTemplateString($this->subject, $variables);
     }
 
     public function getBody(): ?string
@@ -86,7 +86,7 @@ abstract class Notification extends AbstractEntity implements NotificationInterf
         return $this->configuration;
     }
 
-    protected function parseTemplateString(?string $templateString, array $variables = [], bool $escape = true): string
+    protected function compileTemplateString(?string $templateString, array $variables = [], bool $escape = true): string
     {
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $escaping = $escape ? null : '{escaping off}';

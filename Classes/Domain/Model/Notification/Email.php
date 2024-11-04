@@ -55,13 +55,11 @@ class Email extends Notification
     private function getCompiledRecipientsFor(?Notification\Email\Recipients $recipients, ?EventInterface $event): Notification\Email\Recipients
     {
         if ($event) {
-            foreach ($recipients as $key => $recipient) {
+            foreach ($recipients as $recipient) {
                 if (is_string($recipient) && str_contains($recipient, '{') && str_contains($recipient, '}')) {
-                    $parsedEmail = $this->parseTemplateString($recipient, $event->getEmailProperties(), false);
-                    $recipients->updateRecipient(
-                        Address::create($parsedEmail),
-                        $key
-                    );
+                    $recipients->unsetRecipient($recipient);
+                    $compiledEmails = $this->compileTemplateString($recipient, $event->getEmailProperties(), false);
+                    $recipients->addRecipients($compiledEmails);
                 }
             }
         }
