@@ -60,6 +60,9 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.email.itemGroup.site">
         <source>Site recipients</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.email.itemGroup.form">
+        <source>Form Framework recipients</source>
+      </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.email_to">
         <source>To</source>
       </trans-unit>
@@ -77,6 +80,15 @@
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\NotificationSendError">
         <source>Notifier: Notification Send Error</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Form\SubmitFinisherEvent">
+        <source>Form: Submit Finisher</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Form\SubmitFinisherEvent.marker.formValues">
+        <source>Form Values</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Form\SubmitFinisherEvent.flexForm.formDefinition">
+        <source>Form definition</source>
       </trans-unit>
         <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\NotificationSendError.marker.error.message">
         <source>Error Message</source>
@@ -98,6 +110,9 @@
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.eventGroup.NOTIFIER">
         <source>Notifier</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.eventGroup.FORM">
+        <source>Form</source>
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.tab.email">
         <source>Email</source>
@@ -131,6 +146,9 @@
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_recipient.name">
         <source>Name</source>
+      </trans-unit>
+      <trans-unit id="form.notifierFinisher.label">
+        <source>Notifier Finisher</source>
       </trans-unit>
     </body>
   </file>

@@ -6,9 +6,14 @@ namespace Devsk\DsNotifier\UserFunction\FormEngine;
 use Devsk\DsNotifier\Attribute\NotifierEvent;
 use Devsk\DsNotifier\Domain\Model\Event\Property\Placeholder;
 use Devsk\DsNotifier\Event\EventInterface;
+use Devsk\DsNotifier\Event\Form\SubmitFinisherEvent;
+use Devsk\DsNotifier\FormFramework\Finisher\DsNotifierFormFrameworkFinisher;
 use Devsk\DsNotifier\StructureScout\NotifierEventStructureScout;
+use Devsk\DsNotifier\Utility\NotifierUtility;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Site\Entity\Site;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 
 /**
  * Class Tca
@@ -59,7 +64,7 @@ class Tca
      */
     public function notificationEmailItemsProcFunc(&$params)
     {
-        $this->addEventEmails($params['items'], $params['row']['event'][0] ?? '');
+        $this->addEventEmails($params['items'], $params['row']['event'][0] ?? '', $params['row']);
         $this->addSiteGlobalEmails($params['items'], $params['site']);
     }
 
@@ -106,10 +111,11 @@ class Tca
      * @param string|EventInterface $eventClass
      * @return void
      */
-    private function addEventEmails(array &$parsedEmails, string|EventInterface $eventClass)
+    private function addEventEmails(array &$parsedEmails, string|EventInterface $eventClass, array $row = [])
     {
         if (is_subclass_of($eventClass, EventInterface::class)) {
             $emailPlaceholders = $eventClass::getEmailPlaceholders();
+
 
             /** @var Placeholder $emailPlaceholder */
             foreach ($emailPlaceholders as $emailPlaceholder) {
@@ -120,9 +126,26 @@ class Tca
                 ];
             }
 
+            if ($eventClass === SubmitFinisherEvent::class) {
+                $formPersistenceIdentifier = $row['configuration']['data']['sDEF']['lDEF']['formDefinition']['vDEF'][0] ?? null;
+                if ($formPersistenceIdentifier) {
+                    $formPersistenceManager = GeneralUtility::makeInstance(FormPersistenceManagerInterface::class);
+                    if ($formPersistenceManager->exists($formPersistenceIdentifier)) {
+                        $formDefinition = $formPersistenceManager->load($formPersistenceIdentifier);
+                        foreach (NotifierUtility::collectFormEmailRenderables($formDefinition['renderables']) as $emailRenderable) {
+                            $parsedEmails[] = [
+                                'label' => $emailRenderable['label'],
+                                'value' => "{form.{$emailRenderable['identifier']}}",
+                                'group' => 'form',
+                            ];
+                        }
+                    }
+                }
+            }
         }
-
     }
+
+
 
     /**
      * Add emails from Site settings.
@@ -141,6 +164,26 @@ class Tca
                         'label' => $email->toString(),
                         'value' => $email->toString(),
                         'group' => 'site'
+                    ];
+                }
+            }
+        }
+    }
+
+    public function formDefinitionItemsProcFunc(&$params)
+    {
+        $formPersistenceManager = GeneralUtility::makeInstance(FormPersistenceManagerInterface::class);
+
+        foreach ($formPersistenceManager->listForms() as $form) {
+            $persistenceIdentifier = $form['persistenceIdentifier'];
+            $formDefinition = $formPersistenceManager->load($persistenceIdentifier);
+            $finishers = $formDefinition['finishers'] ?? [];
+
+            foreach ($finishers as $finisher) {
+                if ($finisher['identifier'] === DsNotifierFormFrameworkFinisher::getIdentifier()) {
+                    $params['items'][] = [
+                        'label' => $formDefinition['label'] . ' (' . $persistenceIdentifier . ')',
+                        'value' => $persistenceIdentifier,
                     ];
                 }
             }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Devsk\DsNotifier\Domain\Model\Notification;
@@ -14,11 +15,9 @@ use TYPO3Fluid\Fluid\View\Exception\InvalidTemplateResourceException;
 
 /**
  * Class Email
- * @package Devsk\DsNotifier\Domain\Model
  */
 class Email extends Notification
 {
-
     protected ?Notification\Email\Recipients $to = null;
     protected ?Notification\Email\Recipients $cc = null;
     protected ?Notification\Email\Recipients $bcc = null;
@@ -39,11 +38,11 @@ class Email extends Notification
             ->cc(...$this->getCc($event))
             ->bcc(...$this->getBcc($event));
 
-        if ($GLOBALS['TYPO3_REQUEST'] instanceof ServerRequestInterface) {
+        if (isset($GLOBALS['TYPO3_REQUEST']) && $GLOBALS['TYPO3_REQUEST'] instanceof ServerRequestInterface) {
             $message->setRequest($GLOBALS['TYPO3_REQUEST']);
         }
 
-        # Try to compile email body for Event specific template if not exists fallback to Default template
+        // Try to compile email body for Event specific template if not exists fallback to Default template
         try {
             $message->getBody();
         } catch (InvalidTemplateResourceException) {
@@ -58,9 +57,10 @@ class Email extends Notification
         if ($event) {
             foreach ($recipients as $key => $recipient) {
                 if (is_string($recipient) && str_contains($recipient, '{') && str_contains($recipient, '}')) {
-                    $recipients->unsetRecipient($key);
-                    $recipients->addRecipients(
-                        $this->parseTemplateString($recipient, $event->getEmailProperties(), false)
+                    $parsedEmail = $this->parseTemplateString($recipient, $event->getEmailProperties(), false);
+                    $recipients->updateRecipient(
+                        Address::create($parsedEmail),
+                        $key
                     );
                 }
             }
