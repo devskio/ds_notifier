@@ -78,57 +78,48 @@ $eventDispatcher->dispatch(new CacheFlush(new CacheFlushEvent($groups)));
 Developers can extend the functionality by creating custom layouts, event handlers or notification channels.
 
 ### Custom layouts and templates override
-You can create custom layouts for your notifications by adding new layout paths in TypoScript configuration.
+You can override email templates via Typo3's Fluid email paths.
+
 ```php
-notiz {
- notifications {
-    entityEmail {
-      settings {
-        view {
-          layouts {
-            customLayout {
-              label = Custom Layout
-              path = Email/Custom
-            }
-          }
-          layoutRootPaths.10 = EXT:ext_name/Resources/Private/Layouts/
-          templateRootPaths.10 = EXT:ext_name/Resources/Private/Templates/Email/
-          partialRootPaths.10 = EXT:ext_name/Resources/Private/Partials/
-        }
-      }
-    }
-  }
-}
+$GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][700]
+    = 'EXT:my_site_extension/Resources/Private/Templates/Email';
+$GLOBALS['TYPO3_CONF_VARS']['MAIL']['layoutRootPaths'][700]
+    = 'EXT:my_site_extension/Resources/Private/Layouts';
+$GLOBALS['TYPO3_CONF_VARS']['MAIL']['layoutRootPaths'][700]
+    = 'EXT:my_site_extension/Resources/Private/Layouts';
 ```
 
-### Predefined recipients and default sender
-You can set up predefined recipients and default sender in TypoScript configuration.
+To create a custom layouts for your notifications you need to add it to via `TCEFORM.tsconfig`.
+
 ```php
-notiz {
- notifications {
-    entityEmail {
-      settings {
-        defaultSender = no-reply@domain.io
-        globalRecipients {
-          10 = tester@test.io
-          20 = TYPO3 Admin <admin@domain.io>
+tx_dsnotifier_domain_model_notification {
+    layout {
+        addItems {
+            TestLayout = Test
+            AdminLayout = Admin
         }
-      }
     }
-  }
 }
 ```
 
 ### Custom events
 You can create custom events by implementing the `EventInterface` via our class  `AbstractEvent` and dispatching them via TYPO3's `EventDispatcher` in your code.
-Each event should have a label and group defined via tags, that are displayed in notification configuration. Language translations can be used. Next each event
+Each event should have a label, group defined via tags, that are displayed in notification configuration and optional flexibleConfiguration for adding custom Flex form. Language translations can be used. Next each event
 can have a specific markers, that can be used in notification body, and specific recipients, that will receive the notification. All this data can be passed from
-class to constructor, and then used in event object. All markers will are displayed in notification configuration.
+class to constructor, and then used in event object. All markers and emails are displayed in notification configuration.
+
+> **NOTE**: Group must be enumeration.
 
 ```php
+use Devsk\DsNotifier\Attribute\Event\Email;
+use Devsk\DsNotifier\Attribute\Event\Marker;
+use Devsk\DsNotifier\Attribute\NotifierEvent;
+use Devsk\DsNotifier\Event\AbstractEvent;
+
 #[NotifierEvent(
     label: 'Custom event notification',
-    group: 'Custom events'
+    group: 'Custom events' - musi byt enumeration 
+     flexibleConfigurationFile: 'FILE:EXT:my_site_extension/Configuration/FlexForms/Notifier/Challenge/CustomEvent.xml',
 )]
 class CustomEvent extends AbstractEvent
 {
@@ -138,14 +129,14 @@ class CustomEvent extends AbstractEvent
     #[Marker('Custom event other')]
     protected string $customOtherValue = '';
 
-    #[Email('Custom event emails')]
-    protected $customEmails;
+    #[Email('Custom event email')]
+    protected $customEmail;
 
-    public function __construct(string $customValue,string $customOtherValue, $customEmails)
+    public function __construct(string $customValue,string $customOtherValue, $customEmail)
     {
         $this->customValue = $customValue;
         $this->customOtherValue = $customOtherValue;
-        $this->customEmails = $customEmails;
+        $this->customEmail = $customEmail;
     }
     
     public function getCustomValue(): string
@@ -158,39 +149,10 @@ class CustomEvent extends AbstractEvent
         return $this->customOtherValue;
     }
 
-    public function getCustomEmails()
+    public function getCustomEmail()
     {
-        return $this->customEmails;
+        return $this->customEmail;
     }
-}
-```
-
-All custom events should be registered in TypoScript configuration, where we can define more information regarding notification.
-
-```php
-notiz {
-  eventGroups {
-    customEvents {
-      label = Custom events
-      events {
-        CustomEvent {
-          label = Custom event notification
-          description = This event will be triggered at custom code
-          className = YourExtension\Domain\Model\NotizEvent\CustomEvent
-          configuration {
-            flexForm {
-              file = EXT:your_extension/Configuration/FlexForms/NotiZ/CustomEvent.xml
-            }
-          }
-          connection { //opytat sa 
-            type = signal
-            className = Digitalwerk\DwIoeb\Controller\FrontendSimulatorController
-            name = CustomEvent
-          }
-        }
-      }
-    }
-  }
 }
 ```
 
@@ -223,6 +185,60 @@ Model\Notification::class => [
         'tableName' => Model\Notification\CustomNotificationChannel::tableName(),
     ],
 ];
+```
+
+And of course don't forget to override notification TCA for new channel to display and configure it in notification record.
+
+```php
+$tca = [
+        'columns' => [
+            'channel' => [
+                'config' => [
+                    'items' => array_merge($GLOBALS['TCA']['tx_dsnotifier_domain_model_notification']['columns']['channel']['config']['items'],[
+                        [
+                            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.channel.customNotificationChannel",
+                            'value' => CustomNotificationChannel::class,
+                            'icon' => 'custom-notification-channel.svg
+                        ],
+                    ]),
+                ],
+            ],
+        ],
+        'types' => [
+            CustomNotificationChannel::class => [
+                'showitem' => "
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+                    --palette--;;general,
+                --div--;{$lll}:tx_dsnotifier_domain_model_notification.tab.customNotificationChannel,
+                    --palette--;;customNotificationChannel,
+                --div--;LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.tab.configuration,
+                    --palette--;;configuration,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+                    --palette--;;access,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,
+                    --palette--;;language,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
+                ",
+                'subtype_value_field' => 'event',
+                'columnsOverrides' => [
+                    'body' => [
+                        'config' => [
+                            'renderType' => ((new Typo3Version())->getMajorVersion() > 12) ? 'codeEditor' : 't3editor',
+                            'format' => 'html',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'palettes' => [
+            'customNotificationChannel' => [
+                'label' => "{$lll}:tx_dsnotifier_domain_model_notification.palette.customNotificationChannel",
+                'showitem' => 'body',
+            ],
+        ],
+    ];
+
+    $GLOBALS['TCA']['tx_dsnotifier_domain_model_notification'] = array_replace_recursive($GLOBALS['TCA']['tx_dsnotifier_domain_model_notification'], $tca);
 ```
 ## Support
 
