@@ -33,7 +33,7 @@ class NotificationRepository extends Repository
         $constraints[] = $query->equals('event', $event);
         $constraints[] = $query->logicalOr(
             $query->equals('sites', ''),
-            $query->equals('sites', $this->site()?->getRootPageId())
+            $query->contains('sites', $this->site()?->getRootPageId())
         );
 
         $query->matching(
