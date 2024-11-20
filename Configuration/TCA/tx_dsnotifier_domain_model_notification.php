@@ -268,6 +268,25 @@ return [
                 ],
             ],
         ],
+        'slack_channels' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.slack_channels",
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
+                'foreign_table' => 'tx_dsnotifier_domain_model_recipient',
+                'foreign_table_where' => 'AND {#tx_dsnotifier_domain_model_recipient}.{#pid} IN (###CURRENT_PID###, ###SITEROOT###, ###SITE:settings.ds_notifier.recipients.storagePid###)
+                                          AND {#tx_dsnotifier_domain_model_recipient}.{#channel} = ' . NotifierUtility::escapeFQCNForTCA(Devsk\DsNotifier\Domain\Model\Notification\Slack::class),
+                'foreign_table_item_group' => 'channel',
+                'allowNonIdValues' => true,
+                'itemGroups' => [
+                    'event' => "LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.email.itemGroup.event",
+                    Devsk\DsNotifier\Domain\Model\Notification\Email::class => "{$lll}:tx_dsnotifier_domain_model_notification.email.itemGroup.db",
+                    Devsk\DsNotifier\Domain\Model\Notification\Slack::class => "{$lll}:tx_dsnotifier_domain_model_notification.slack.itemGroup.db", // opytat sa Ondrej
+                    'site' => "LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.email.itemGroup.site",
+                    'form' => "LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.email.itemGroup.form",
+                ],
+            ],
+        ],
     ],
     'types' => [
         '0' => [
@@ -288,6 +307,30 @@ return [
                 --div--;{$lll}:tx_dsnotifier_domain_model_notification.tab.email,
                     --palette--;;email,
                 --div--;{$lll}:tx_dsnotifier_domain_model_notification.tab.configuration,
+                    --palette--;;configuration,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+                    --palette--;;access,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,
+                    --palette--;;language,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
+                ",
+            'subtype_value_field' => 'event',
+            'columnsOverrides' => [
+                'body' => [
+                    'config' => [
+                        'renderType' => ((new Typo3Version())->getMajorVersion() > 12) ? 'codeEditor' : 't3editor',
+                        'format' => 'html',
+                    ],
+                ],
+            ],
+        ],
+        \Devsk\DsNotifier\Domain\Model\Notification\Slack::class => [
+            'showitem' => "
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+                    --palette--;;general,
+                --div--;{$lll}:tx_dsnotifier_domain_model_notification.tab.slack,
+                    --palette--;;slack,
+                --div--;LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.tab.configuration,
                     --palette--;;configuration,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
                     --palette--;;access,
@@ -336,6 +379,11 @@ return [
         'language' => [
             'label' => 'LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language',
             'showitem' => 'sys_language_uid, l10n_parent',
+        ],
+        'slack' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.palette.slack",
+            'showitem' => 'body, markers,
+                --linebreak--, slack_channels',
         ],
     ],
 ];

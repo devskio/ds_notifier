@@ -33,5 +33,9 @@ return [
     Model\Site::class => [
         'tableName' => Model\Site::tableName(),
     ],
+    Model\Notification\Slack\Workspace::class => [
+        'recordType' => Model\Notification\Slack\Workspace::class,
+        'tableName' => 'tx_dsnotifier_domain_model_slack_workspace',
+    ],
 
 ];

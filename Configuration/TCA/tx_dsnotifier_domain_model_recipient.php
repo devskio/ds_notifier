@@ -5,6 +5,7 @@ return [
     'ctrl' => [
         'label' => 'name',
         'label_alt' => 'email',
+        'label_userFunc' => Tca::class . '->notificationLabelProcFunc',
         'label_alt_force' => true,
         'tstamp' => 'tstamp',
         'title' => "{$lll}:tx_dsnotifier_domain_model_recipient",
@@ -83,6 +84,11 @@ return [
                         'value' => \Devsk\DsNotifier\Domain\Model\Notification\Email::class,
                         'icon' => 'content-elements-mailform'
                     ],
+                   [
+                        'label' => "{$lll}:tx_dsnotifier_domain_model_recipient.channel.slack",
+                        'value' => \Devsk\DsNotifier\Domain\Model\Notification\Slack::class,
+                        'icon' => 'actions-brand-slack'
+                    ],
                 ],
                 'fieldWizard' => [
                     'selectIcons' => [
@@ -108,7 +114,25 @@ return [
                 'eval' => 'trim',
             ],
         ],
-
+        'workspace' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_recipient.workspace",
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'tx_dsnotifier_domain_model_slack_workspace',
+                'foreign_table_where' => 'AND {#tx_dsnotifier_domain_model_slack_workspace}.{#pid} IN (###CURRENT_PID###, ###SITEROOT###, ###SITE:settings.ds_notifier.recipients.storagePid###)',
+                'allowNonIdValues' => true,
+            ],
+        ],
+        'slack_channel' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_recipient.slack_channel",
+            'config' => [
+                'required' => true,
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+            ],
+        ],
     ],
     'types' => [
         '0' => [
@@ -129,6 +153,15 @@ return [
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
                 '
         ],
+        \Devsk\DsNotifier\Domain\Model\Notification\Slack::class => [
+            'showitem' => '
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+                    --palette--;;general, --palette--;;slack,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+                    --palette--;;access,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
+                '
+        ],
     ],
     'palettes' => [
         'general' => [
@@ -142,6 +175,10 @@ return [
             'label' => 'LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access',
             'showitem' => 'disable,
                            --linebreak--, starttime, endtime'
+        ],
+        'slack' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.palette.slack",
+            'showitem' => 'name, workspace, slack_channel'
         ],
     ],
 ];

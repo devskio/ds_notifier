@@ -5,6 +5,8 @@ namespace Devsk\DsNotifier\UserFunction\FormEngine;
 
 use Devsk\DsNotifier\Attribute\NotifierEvent;
 use Devsk\DsNotifier\Domain\Model\Event\Property\Placeholder;
+use Devsk\DsNotifier\Domain\Model\Notification\Email;
+use Devsk\DsNotifier\Domain\Model\Notification\Slack;
 use Devsk\DsNotifier\Event\EventInterface;
 use Devsk\DsNotifier\Event\Form\SubmitFinisherEvent;
 use Devsk\DsNotifier\FormFramework\Finisher\DsNotifierFormFrameworkFinisher;
@@ -188,5 +190,20 @@ class Tca
                 }
             }
         }
+    }
+
+    /**
+     * Adapt recipient displayed name by its type
+     * @param $params
+     * @return void
+     */
+    public function notificationLabelProcFunc(&$params)
+    {
+        $params['title'] = '';
+        if ($params['row']['channel'] == Email::class) {
+            $params['title'] .= !empty($params['row']['email']) ? $params['row']['email'] : '';
+
+        }
+        $params['title'] .= !empty($params['row']['name']) ? $params['row']['name'] : '';
     }
 }
