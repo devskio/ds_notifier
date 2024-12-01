@@ -1,11 +1,12 @@
 <?php
+
 $lll = 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf';
 
 return [
     'ctrl' => [
         'label' => 'name',
         'label_alt' => 'email',
-        'label_userFunc' => Tca::class . '->notificationLabelProcFunc',
+        'label_userFunc' => Devsk\DsNotifier\UserFunction\FormEngine\Tca::class . '->notificationLabelProcFunc',
         'label_alt_force' => true,
         'tstamp' => 'tstamp',
         'title' => "{$lll}:tx_dsnotifier_domain_model_recipient",
@@ -23,6 +24,7 @@ return [
         'typeicon_classes' => [
             'default' => 'actions-envelope-open-text',
             \Devsk\DsNotifier\Domain\Model\Notification\Email::class => 'actions-envelope',
+            \Devsk\DsNotifier\Domain\Model\Notification\Slack::class => 'actions-brand-slack',
         ],
         'searchFields' => 'name,email',
     ],
