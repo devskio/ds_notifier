@@ -4,7 +4,7 @@ $lll = 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf';
 return [
     'ctrl' => [
         'label' => 'name',
-        'label_alt' => 'token',
+        'label_alt' => 'webhook',
         'label_alt_force' => true,
         'tstamp' => 'tstamp',
         'title' => "{$lll}:tx_dsnotifier_domain_model_slack_workspace",
@@ -95,7 +95,7 @@ return [
     'palettes' => [
         'general' => [
             'label' => "{$lll}:tx_dsnotifier_domain_model_slack_workspace.palette.general",
-            'showitem' => 'name, token'
+            'showitem' => 'name, webhook'
         ],
         'access' => [
             'label' => 'LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access',
