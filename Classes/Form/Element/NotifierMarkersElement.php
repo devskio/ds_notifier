@@ -7,6 +7,8 @@ use Devsk\DsNotifier\Event\EventInterface;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Form\Domain\Model\FormDefinition;
+use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 
 /**
  * Class NotifierMarkersElement
@@ -21,13 +23,28 @@ class NotifierMarkersElement extends AbstractFormElement
         $row = $this->data['databaseRow'];
         $eventClass = $row['event'][0] ?? null;
         $view = $this->getMarkersView();
-
+        $formValues = [];
         if (is_subclass_of($eventClass, EventInterface::class)) {
+            if ($eventClass == 'Devsk\DsNotifier\Event\Form\SubmitFinisherEvent') {
+                $formPersistenceIdentifier = $row['configuration']['data']['sDEF']['lDEF']['formDefinition']['vDEF'][0]?? null;
+                if ($formPersistenceIdentifier) {
+                    $formPersistenceManager = GeneralUtility::makeInstance(FormPersistenceManagerInterface::class);
+                    if ($formPersistenceManager->exists($formPersistenceIdentifier)) {
+                        $form = $formPersistenceManager->load($formPersistenceIdentifier);
+                        foreach ($form['renderables']['0']['renderables'] as $renderable) {
+                            if ($renderable['type'] != 'GridRow' && $renderable['type'] != 'Fieldset') {
+                                $formValues[] = ['identifier' => '{formValues}.{' . $renderable['identifier'] . '}', 'label' => $renderable['label']];
+                            }
+                        }
+                    }
+                }
+            }
             $view->assignMultiple([
                 'event' => [
                     'identifier' => $eventClass,
                     'attribute' => $eventClass::getNotifierEventAttribute(),
-                    'markers' => $eventClass::getMarkerPlaceholders()
+                    'markers' => $eventClass::getMarkerPlaceholders(),
+                    'formValues' => $formValues,
                 ],
             ]);
         }
