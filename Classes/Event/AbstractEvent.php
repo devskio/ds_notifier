@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Devsk\DsNotifier\Event;
@@ -18,7 +19,6 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 
 /**
  * Class AbstractEvent
- * @package Digitalwerk\DwIoeb\Notifier
  */
 abstract class AbstractEvent implements EventInterface, Stringable
 {
@@ -44,7 +44,7 @@ abstract class AbstractEvent implements EventInterface, Stringable
         }
 
         throw new NotifierException(
-            sprintf("Event %s has no %s attribute defined", static::class, NotifierEvent::class),
+            sprintf('Event %s has no %s attribute defined', static::class, NotifierEvent::class),
             1721219875
         );
     }
@@ -129,7 +129,9 @@ abstract class AbstractEvent implements EventInterface, Stringable
 
     public function getTerminationException(): ?EventNotificationTerminatedException
     {
-        return $this->terminationException;
+        $exception = $this->terminationException;
+        $this->terminationException = null;
+        return $exception;
     }
 
     public function isTerminated(): bool
