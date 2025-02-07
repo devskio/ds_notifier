@@ -30,7 +30,7 @@ class Slack extends Notification
      */
     public function sendToRecipient(array $recipient, EventInterface $event): void
     {
-        if ((isset($recipient['webhook']) && !empty($recipient['webhook'])) && (isset($recipient['slack_channel']) && !empty($recipient['slack_channel']))) {
+        if (isset($recipient['slack_channel']) && !empty($recipient['slack_channel'])) {
             $body = $this->getBody();
             $markers = $event->getMarkerProperties();
             foreach ($markers as $key => $value) {
@@ -38,11 +38,11 @@ class Slack extends Notification
             }
             $additionOptions = [
                 'headers' => ['Content-Type' => 'application/json; charset=utf-8'],
-                'body' => json_encode(['channel' => $recipient['slack_channel'],'text' => $body]),
+                'body' => json_encode(['text' => $body]),
             ];
             $request = GeneralUtility::makeInstance(RequestFactory::class);
             $request->request(
-                $recipient['webhook'],
+                $recipient['slack_channel'],
                 'POST',
                 $additionOptions);
         }

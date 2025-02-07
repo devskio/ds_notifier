@@ -116,22 +116,12 @@ return [
                 'eval' => 'trim',
             ],
         ],
-        'workspace' => [
-            'label' => "{$lll}:tx_dsnotifier_domain_model_recipient.workspace",
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'foreign_table' => 'tx_dsnotifier_domain_model_slack_workspace',
-                'foreign_table_where' => 'AND {#tx_dsnotifier_domain_model_slack_workspace}.{#pid} IN (###CURRENT_PID###, ###SITEROOT###, ###SITE:settings.ds_notifier.recipients.storagePid###)',
-                'allowNonIdValues' => true,
-            ],
-        ],
         'slack_channel' => [
             'label' => "{$lll}:tx_dsnotifier_domain_model_recipient.slack_channel",
             'config' => [
                 'required' => true,
                 'type' => 'input',
-                'size' => 30,
+                'size' => 255,
                 'eval' => 'trim',
             ],
         ],

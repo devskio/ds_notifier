@@ -159,26 +159,8 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.channel.slack">
         <source>Slack</source>
       </trans-unit>
-      <trans-unit id="tx_dsnotifier_domain_model_slack_workspace">
-        <source>Slack workspace</source>
-      </trans-unit>
-      <trans-unit id="tx_dsnotifier_domain_model_slack_workspace.palette.general">
-        <source>Slack workspace</source>
-      </trans-unit>
-      <trans-unit id="tx_dsnotifier_domain_model_slack_workspace.webhook">
-        <source>Slack workspace webhook</source>
-      </trans-unit>
-      <trans-unit id="tx_dsnotifier_domain_model_slack_workspace.name">
-        <source>Slack workspace name</source>
-      </trans-unit>
-      <trans-unit id="tx_dsnotifier_domain_model_recipient.channel.slack">
-        <source>Slack workspace name</source>
-      </trans-unit>
-      <trans-unit id="tx_dsnotifier_domain_model_recipient.workspace">
-        <source>Slack workspace</source>
-      </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_recipient.slack_channel">
-        <source>Slack channel</source>
+        <source>Slack channel webhook</source>
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.slack_channels">
         <source>Slack channels</source>
