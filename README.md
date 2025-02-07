@@ -48,11 +48,7 @@ We need to set up Recipient record first, so we can use it later in Notification
 
 ![recipientSlack.png](readme/recipientSlack.png)
 
-> **NOTE**: For slack notification use slack channel name without #.
-
-For slack we also need to define slack workspace record, so we can use it in slack recipient record. You will need your slack webhook for this. [Here](https://api.slack.com/messaging/webhooks) you can find more information on how to get your slack webhook.
-
-![slackWorkspace.png](readme/slackWorkspace.png)
+For slack we also need to define slack webhook for specific channel. [Here](https://api.slack.com/messaging/webhooks) you can find more information on how to get your slack webhook.
 
 #### Create a notification
 To create a notification, in Backend navigate to List module and create a new record of type "Notification". We select for which communication channel is this notification meant, then we can select specific event when this notification is supposed to be sent and for which sites it's supposed to available. 
