@@ -13,22 +13,22 @@ use TYPO3\CMS\Scheduler\Task\AbstractTask;
  * Class CacheFlush
  */
 #[NotifierEvent(
-    label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Scheduler\TaskFailure',
+    label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\TaskFailure',
     group: EventGroup::NOTIFIER,
 )]
 class TaskFailure extends AbstractEvent
 {
 
-    #[Marker(label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Scheduler\TaskFailure.marker.uid')]
+    #[Marker(label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\TaskFailure.marker.uid')]
     protected ?int $uid = 0;
 
-    #[Marker(label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Scheduler\TaskFailure.marker.name')]
+    #[Marker(label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\TaskFailure.marker.name')]
     protected ?string $name = '';
 
-    #[Marker(label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Scheduler\TaskFailure.marker.time')]
+    #[Marker(label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\TaskFailure.marker.time')]
     protected ?int $time = 0;
 
-    #[Marker(label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Typo3\Core\Scheduler\TaskFailure.marker.error')]
+    #[Marker(label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\TaskFailure.marker.error')]
     protected ?string $error = '';
 
     public function __construct(
