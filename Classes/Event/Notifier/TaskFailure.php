@@ -26,7 +26,7 @@ class TaskFailure extends AbstractEvent
     protected ?string $name = '';
 
     #[Marker(label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\TaskFailure.marker.time')]
-    protected ?int $time = 0;
+    protected ?string $time = '';
 
     #[Marker(label: 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\TaskFailure.marker.error')]
     protected ?string $error = '';
@@ -38,7 +38,7 @@ class TaskFailure extends AbstractEvent
     {
         $this->uid = $task->getTaskUid();
         $this->name = $task->getTaskTitle();
-        $this->time = $task->getExecutionTime();
+        $this->time = date('Y-m-d H:i:s');
         $this->error = $errorMessage;
     }
 
@@ -59,9 +59,9 @@ class TaskFailure extends AbstractEvent
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getTime(): ?int
+    public function getTime(): ?string
     {
         return $this->time;
     }
