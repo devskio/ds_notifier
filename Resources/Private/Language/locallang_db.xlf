@@ -100,7 +100,7 @@
         <source>Event</source>
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\TaskFailure">
-        <source>TYPO3: Scheduer task failure</source>
+        <source>Scheduler: Task failure</source>
       </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\TaskFailure.marker.uid">
         <source>Task uid</source>

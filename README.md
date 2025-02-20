@@ -34,6 +34,9 @@ The [CacheFlush](./Classes/Event/Typo3/Core/Cache/CacheFlush.php) event is trigg
 ##### Notifier: Notification Send Error
 The [NotificationSendError](./Classes/Event/Notifier/NotificationSendError.php) event is triggered when there is an error during the notification sending process. This event allows for handling errors specifically related to the notification system, such as logging errors, sending alerts to administrators, or attempting to resend notifications. It provides a mechanism to robustly manage failures in the notification delivery process.
 
+##### Scheduler: Task failure
+The [TaskFailure](./Classes/Event/Notifier/TaskFailure.php) event is triggered when there is scheduler task failure. This allow for prompt notification of system administrators when a scheduled task fails. Tha can also serve as logging mechanism for task failures.
+
 
 ##### Form: Submit Finisher
 The [SubmitFinisherEvent](./Classes/Event/Form/SubmitFinisherEvent.php) adds new [Form Framework finisher](https://docs.typo3.org/p/typo3/cms-form/main/en-us/DeveloperGuide/Finishers/Index.html) which is triggered at the end of the form submission process in TYPO3's form framework. This event allows for custom actions to be executed after a form has been successfully submitted and processed. It is particularly useful for integrating additional notifications related to form submissions.
