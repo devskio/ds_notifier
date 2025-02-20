@@ -34,7 +34,7 @@ class Slack extends Notification
             $body = $this->getBody();
             $markers = $event->getMarkerProperties();
             foreach ($markers as $key => $value) {
-                $body = str_replace('{'.$key.'}', $value, $body);
+                $body = str_replace('{'.$key.'}', strval($value), $body);
             }
             $additionOptions = [
                 'headers' => ['Content-Type' => 'application/json; charset=utf-8'],
