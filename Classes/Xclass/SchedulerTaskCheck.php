@@ -17,7 +17,7 @@ class SchedulerTaskCheck extends Scheduler
         } catch (\Exception $e) {
             $eventDispatcher = GeneralUtility::makeInstance(EventDispatcher::class);
             $eventDispatcher->dispatch(new TaskFailure($task, $e->getMessage()));
-            return false;
+            throw $e;
         }
     }
 }
