@@ -19,8 +19,8 @@
     "minimum-stability": "dev",
     "require": {
         "php" : "^8.3",
-        "typo3/cms-core": "^12.4",
-        "spatie/php-structure-discoverer": "^2.1"
+        "typo3/cms-core": "^12.4 || ^13.4",
+        "spatie/php-structure-discoverer": "^2.3"
     },
     "require-dev": {
 
