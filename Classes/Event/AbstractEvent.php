@@ -52,7 +52,7 @@ abstract class AbstractEvent implements EventInterface, Stringable
     /**
      * @return Placeholder[]
      */
-    private static function getPlaceholders(string $placeholderType = null): array
+    private static function getPlaceholders(?string $placeholderType = null): array
     {
         $placeholders = [];
         foreach (static::getReflectionClass()->getProperties() as $property) {

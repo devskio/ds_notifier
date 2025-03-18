@@ -16,7 +16,7 @@ class NotifierMarkersElement extends AbstractFormElement
 
     const string DEFAULT_TEMPLATE_PATH = 'EXT:ds_notifier/Resources/Private/Templates/Form/Element/NotifierMarkers.html';
 
-    public function render()
+    public function render(): array
     {
         $row = $this->data['databaseRow'];
         $eventClass = $row['event'][0] ?? null;

@@ -2,9 +2,12 @@
     <sheets>
         <sDEF>
             <ROOT>
-                <TCEforms>
-                    <sheetTitle>Default</sheetTitle>
-                </TCEforms>
+                <sheetTitle>Default</sheetTitle>
+                <el>
+                    <dummy>
+                        <label>Dummy</label>
+                    </dummy>
+                </el>
             </ROOT>
         </sDEF>
     </sheets>
