@@ -13,6 +13,8 @@ use Devsk\DsNotifier\Utility\NotifierUtility;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Form\Mvc\Configuration\ConfigurationManagerInterface as FormConfigurationManagerInterface;
 use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 
 /**
@@ -130,15 +132,14 @@ class Tca
                 $formPersistenceIdentifier = $row['configuration']['data']['sDEF']['lDEF']['formDefinition']['vDEF'][0] ?? null;
                 if ($formPersistenceIdentifier) {
                     $formPersistenceManager = GeneralUtility::makeInstance(FormPersistenceManagerInterface::class);
-                    if ($formPersistenceManager->exists($formPersistenceIdentifier)) {
-                        $formDefinition = $formPersistenceManager->load($formPersistenceIdentifier);
-                        foreach (NotifierUtility::collectFormEmailRenderables($formDefinition['renderables']) as $emailRenderable) {
-                            $parsedEmails[] = [
-                                'label' => $emailRenderable['label'],
-                                'value' => "{form.{$emailRenderable['identifier']}}",
-                                'group' => 'form',
-                            ];
-                        }
+                    [$formSettings, $typoScriptSettings] = $this->getFormSettings();
+                    $formDefinition = $formPersistenceManager->load($formPersistenceIdentifier, $formSettings, $typoScriptSettings);
+                    foreach (NotifierUtility::collectFormEmailRenderables($formDefinition['renderables']) as $emailRenderable) {
+                        $parsedEmails[] = [
+                            'label' => $emailRenderable['label'],
+                            'value' => "{form.{$emailRenderable['identifier']}}",
+                            'group' => 'form',
+                        ];
                     }
                 }
             }
@@ -173,10 +174,10 @@ class Tca
     public function formDefinitionItemsProcFunc(&$params)
     {
         $formPersistenceManager = GeneralUtility::makeInstance(FormPersistenceManagerInterface::class);
-
-        foreach ($formPersistenceManager->listForms() as $form) {
+        [$formSettings, $typoScriptSettings] = $this->getFormSettings();
+        foreach ($formPersistenceManager->listForms($formSettings) as $form) {
             $persistenceIdentifier = $form['persistenceIdentifier'];
-            $formDefinition = $formPersistenceManager->load($persistenceIdentifier);
+            $formDefinition = $formPersistenceManager->load($persistenceIdentifier, $formSettings, $typoScriptSettings);
             $finishers = $formDefinition['finishers'] ?? [];
 
             foreach ($finishers as $finisher) {
@@ -188,5 +189,19 @@ class Tca
                 }
             }
         }
+    }
+
+    protected function getFormSettings(): array
+    {
+        $configurationManager = GeneralUtility::makeInstance(ConfigurationManagerInterface::class);
+        $extFormConfigurationManager = GeneralUtility::makeInstance(FormConfigurationManagerInterface::class);
+        $typoScriptSettings = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS, 'form');
+        $formSettings = $extFormConfigurationManager->getYamlConfiguration($typoScriptSettings, false);
+        if (!isset($formSettings['formManager'])) {
+            // Config sub array formManager is crucial and should always exist. If it does
+            // not, this indicates an issue in config loading logic. Except in this case.
+            throw new \LogicException('Configuration could not be loaded', 1723717461);
+        }
+        return [$formSettings, $typoScriptSettings];
     }
 }
