@@ -156,6 +156,9 @@
       <trans-unit id="tx_dsnotifier_domain_model_recipient.channel.email">
         <source>Email</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_recipient.channel.slack">
+        <source>Slack</source>
+      </trans-unit>
       <trans-unit id="tx_dsnotifier_domain_model_recipient.email">
         <source>Email Address</source>
       </trans-unit>
@@ -164,6 +167,21 @@
       </trans-unit>
       <trans-unit id="form.notifierFinisher.label">
         <source>Notifier Finisher</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.tab.slack">
+        <source>Slack</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.palette.slack">
+        <source>Slack</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.channel.slack">
+        <source>Slack</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_recipient.slack_channel">
+        <source>Slack channel webhook</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.slack_channels">
+        <source>Slack channels</source>
       </trans-unit>
     </body>
   </file>

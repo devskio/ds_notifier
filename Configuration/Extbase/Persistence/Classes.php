@@ -33,5 +33,4 @@ return [
     Model\Site::class => [
         'tableName' => Model\Site::tableName(),
     ],
-
 ];

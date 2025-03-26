@@ -1,11 +1,11 @@
 <?php
+
 $lll = 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf';
 
 return [
     'ctrl' => [
         'label' => 'name',
-        'label_alt' => 'email',
-        'label_alt_force' => true,
+        'label_alt' => 'email,slack_channel',
         'tstamp' => 'tstamp',
         'title' => "{$lll}:tx_dsnotifier_domain_model_recipient",
         'crdate' => 'crdate',
@@ -22,6 +22,7 @@ return [
         'typeicon_classes' => [
             'default' => 'actions-envelope-open-text',
             \Devsk\DsNotifier\Domain\Model\Notification\Email::class => 'actions-envelope',
+            \Devsk\DsNotifier\Domain\Model\Notification\Slack::class => 'actions-brand-slack',
         ],
         'searchFields' => 'name,email',
     ],
@@ -83,6 +84,11 @@ return [
                         'value' => \Devsk\DsNotifier\Domain\Model\Notification\Email::class,
                         'icon' => 'content-elements-mailform'
                     ],
+                   [
+                        'label' => "{$lll}:tx_dsnotifier_domain_model_recipient.channel.slack",
+                        'value' => \Devsk\DsNotifier\Domain\Model\Notification\Slack::class,
+                        'icon' => 'actions-brand-slack'
+                    ],
                 ],
                 'fieldWizard' => [
                     'selectIcons' => [
@@ -108,7 +114,15 @@ return [
                 'eval' => 'trim',
             ],
         ],
-
+        'slack_channel' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_recipient.slack_channel",
+            'config' => [
+                'required' => true,
+                'type' => 'input',
+                'size' => 255,
+                'eval' => 'trim',
+            ],
+        ],
     ],
     'types' => [
         '0' => [
@@ -129,6 +143,15 @@ return [
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
                 '
         ],
+        \Devsk\DsNotifier\Domain\Model\Notification\Slack::class => [
+            'showitem' => '
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+                    --palette--;;general, --palette--;;slack,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+                    --palette--;;access,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
+                '
+        ],
     ],
     'palettes' => [
         'general' => [
@@ -142,6 +165,10 @@ return [
             'label' => 'LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access',
             'showitem' => 'disable,
                            --linebreak--, starttime, endtime'
+        ],
+        'slack' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.palette.slack",
+            'showitem' => 'slack_channel,name'
         ],
     ],
 ];
