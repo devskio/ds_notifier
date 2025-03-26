@@ -23,6 +23,10 @@ call_user_func(function ($extKey) {
         'class' => \Devsk\DsNotifier\Form\Element\NotifierMarkersElement::class,
     ];
 
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Scheduler\Scheduler::class] = [
+        'className' => \Devsk\DsNotifier\Xclass\SchedulerTaskCheck::class
+    ];
+
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1721307957]
         = "EXT:{$extKey}/Resources/Private/Templates/Email";
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['partialRootPaths'][1721307957]
