@@ -12,7 +12,7 @@ The `ds_notifier` extension for TYPO3 CMS provides a flexible notification syste
 ## Requirements
 
 - PHP 8.3 or higher
-- TYPO3 CMS 12.4 or higher
+- TYPO3 CMS 13.4 or higher
 
 ## Installation
 
@@ -54,13 +54,13 @@ We need to set up Recipient record first, so we can use it later in Notification
 For slack we also need to define slack webhook for specific channel. [Here](https://api.slack.com/messaging/webhooks) you can find more information on how to get your slack webhook.
 
 #### Create a notification
-To create a notification, in Backend navigate to List module and create a new record of type "Notification". We select for which communication channel is this notification meant, then we can select specific event when this notification is supposed to be sent and for which sites it's supposed to available. 
+To create a notification, in Backend navigate to List module and create a new record of type "Notification". We select for which communication channel is this notification meant, then we can select specific event when this notification is supposed to be sent and for which sites it's supposed to available.
 
 > **NOTE**: For "Form: Submit Finisher event", we first need to add Notifier finisher as Finisher in form configuration, so we can select this form later in notification record.
 
 ![notification1.png](readme/notification1.png)
 
-After event is selected, we can define, notifications body, layout and see available markers for body, that can be used inside body. 
+After event is selected, we can define, notifications body, layout and see available markers for body, that can be used inside body.
 
 > **NOTE**: For "Form: Submit Finisher event", we can use form fields like {formValues}.{formFieldHandle} for example {formValues}.{text-1}.
 
@@ -76,7 +76,7 @@ For slack setting up notification is similar to email, but we need to select sla
 After save, notification should be ready to be sent when respective event is triggered.
 
 ### Triggering notifications
-Predefined events are triggered by their respective events (cache flush, form submit finisher, error occurrence). But all notifications can be triggered in code by calling TYPO3's `EventDispatcher` and passing event object with optional data. 
+Predefined events are triggered by their respective events (cache flush, form submit finisher, error occurrence). But all notifications can be triggered in code by calling TYPO3's `EventDispatcher` and passing event object with optional data.
 
 ```php
 $eventDispatcher = GeneralUtility::makeInstance(EventDispatcher::class);
@@ -136,7 +136,7 @@ class CustomEvent extends AbstractEvent
 {
     #[Marker('Custom event value')]
     protected string $customValue = '';
-    
+
     #[Marker('Custom event other')]
     protected string $customOtherValue = '';
 
@@ -149,12 +149,12 @@ class CustomEvent extends AbstractEvent
         $this->customOtherValue = $customOtherValue;
         $this->customEmail = $customEmail;
     }
-    
+
     public function getCustomValue(): string
     {
         return $this->customValue;
     }
-    
+
     public function getCustomOtherValue(): string
     {
         return $this->customOtherValue;
@@ -171,7 +171,7 @@ If email template is created for custom event, it should be placed in `your_exte
 
 ### Extending Notification Channels
 
-Custom notification channel can be created by extending the `NotificationInterface` via our custom class  `Notification`. 
+Custom notification channel can be created by extending the `NotificationInterface` via our custom class  `Notification`.
 In your custom channel class you need to define your notification login in `send()` function.
 
 ```php
