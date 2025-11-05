@@ -84,11 +84,17 @@ class SubmitFinisherEvent extends AbstractEvent
     {
         $markerPlaceholders = [];
         foreach ($data['renderables'] as $renderable) {
+            if (isset($renderable['type'])
+                && in_array($renderable['type'], ['StaticText'])
+            ) {
+                continue;
+            }
+
             if (isset($renderable['renderables'])) {
                 $markerPlaceholders = array_merge($markerPlaceholders, self::getRenderablePlaceholders($renderable));
             } else {
                 $markerPlaceholders[] = [
-                    'placeholder' => '{formValues.' . $renderable['identifier'] . '}',
+                    'placeholder' => "{formValues.{$renderable['identifier']}}",
                     'label' => $renderable['label']
                 ];
             }
