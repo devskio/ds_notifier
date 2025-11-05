@@ -7,7 +7,6 @@ namespace Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Event\EventInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\MailerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -40,6 +39,13 @@ class Email extends Notification
 
         if (isset($GLOBALS['TYPO3_REQUEST']) && $GLOBALS['TYPO3_REQUEST'] instanceof ServerRequestInterface) {
             $message->setRequest($GLOBALS['TYPO3_REQUEST']);
+        }
+
+        if ($event->attachments()->isNotEmpty()) {
+            /** @var Attachment $attachment */
+            foreach ($event->attachments() as $attachment) {
+                $message->attach($attachment->getContent(), $attachment->getName(), $attachment->getContentType());
+            }
         }
 
         // Try to compile email body for Event specific template if not exists fallback to Default template
