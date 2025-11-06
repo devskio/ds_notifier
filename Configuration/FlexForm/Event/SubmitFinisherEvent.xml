@@ -14,6 +14,14 @@
                             <eval>required</eval>
                         </config>
                     </formDefinition>
+                    <attachUploads>
+                        <label>LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Form\SubmitFinisherEvent.flexForm.attachUploads</label>
+                        <description>LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Form\SubmitFinisherEvent.flexForm.attachUploads.description</description>
+                        <config>
+                            <type>check</type>
+                            <renderType>checkboxToggle</renderType>
+                        </config>
+                    </attachUploads>
                 </el>
             </ROOT>
         </sDEF>

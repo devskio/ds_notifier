@@ -90,6 +90,12 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Form\SubmitFinisherEvent.flexForm.formDefinition">
         <source>Form definition</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Form\SubmitFinisherEvent.flexForm.attachUploads">
+        <source>Attach uploaded files to email as attachments</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Form\SubmitFinisherEvent.flexForm.attachUploads.description">
+        <source>If enabled, uploaded files will be attached to the email as attachments. Please note that this will increase the size of the email and may cause issues with some email providers.</source>
+      </trans-unit>
         <trans-unit id="tx_dsnotifier_domain_model_notification.event.Devsk\DsNotifier\Event\Notifier\NotificationSendError.marker.error.message">
         <source>Error Message</source>
       </trans-unit>

@@ -5,11 +5,13 @@ namespace Devsk\DsNotifier\Event\Form;
 
 use Devsk\DsNotifier\Attribute\Event\Marker;
 use Devsk\DsNotifier\Attribute\NotifierEvent;
+use Devsk\DsNotifier\Domain\Model\Notification\Attachment;
 use Devsk\DsNotifier\Domain\Model\Notification\FlexibleConfiguration;
 use Devsk\DsNotifier\Enum\EventGroup;
 use Devsk\DsNotifier\Event\AbstractEvent;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Form\Domain\Finishers\FinisherContext;
 use TYPO3\CMS\Form\Domain\Model\Renderable\AbstractRenderable;
 use TYPO3\CMS\Form\Mvc\Configuration\ConfigurationManagerInterface as FormConfigurationManagerInterface;
@@ -42,6 +44,15 @@ class SubmitFinisherEvent extends AbstractEvent
     {
         if ($configuration->getFormDefinition() !== $this->finisherContext->getFormRuntime()->getFormDefinition()->getPersistenceIdentifier()) {
             $this->terminateEventNotification("Form notification not configured for form {$configuration->getFormDefinition()}");
+            return;
+        }
+
+        if ((bool)$configuration->getAttachUploads()) {
+            foreach ($this->formValues as $value) {
+                if ($value instanceof FileReference) {
+                    $this->attachments()->add(Attachment::fromFileReference($value));
+                }
+            }
         }
     }
 
@@ -95,7 +106,7 @@ class SubmitFinisherEvent extends AbstractEvent
             } else {
                 $markerPlaceholders[] = [
                     'placeholder' => "{formValues.{$renderable['identifier']}}",
-                    'label' => $renderable['label']
+                    'label' => $renderable['label'] ?: $renderable['identifier'],
                 ];
             }
         }
