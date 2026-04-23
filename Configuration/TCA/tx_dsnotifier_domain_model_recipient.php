@@ -5,7 +5,7 @@ $lll = 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf';
 return [
     'ctrl' => [
         'label' => 'name',
-        'label_alt' => 'email,slack_channel',
+        'label_alt' => 'email,slack_channel,discord_webhook',
         'tstamp' => 'tstamp',
         'title' => "{$lll}:tx_dsnotifier_domain_model_recipient",
         'crdate' => 'crdate',
@@ -23,6 +23,7 @@ return [
             'default' => 'actions-envelope-open-text',
             \Devsk\DsNotifier\Domain\Model\Notification\Email::class => 'actions-envelope',
             \Devsk\DsNotifier\Domain\Model\Notification\Slack::class => 'actions-brand-slack',
+            \Devsk\DsNotifier\Domain\Model\Notification\Discord::class => 'actions-brand-discord',
         ],
         'searchFields' => 'name,email',
     ],
@@ -89,6 +90,11 @@ return [
                         'value' => \Devsk\DsNotifier\Domain\Model\Notification\Slack::class,
                         'icon' => 'actions-brand-slack'
                     ],
+                   [
+                        'label' => "{$lll}:tx_dsnotifier_domain_model_recipient.channel.discord",
+                        'value' => \Devsk\DsNotifier\Domain\Model\Notification\Discord::class,
+                        'icon' => 'actions-brand-discord'
+                    ],
                 ],
                 'fieldWizard' => [
                     'selectIcons' => [
@@ -116,6 +122,15 @@ return [
         ],
         'slack_channel' => [
             'label' => "{$lll}:tx_dsnotifier_domain_model_recipient.slack_channel",
+            'config' => [
+                'required' => true,
+                'type' => 'input',
+                'size' => 255,
+                'eval' => 'trim',
+            ],
+        ],
+        'discord_webhook' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_recipient.discord_webhook",
             'config' => [
                 'required' => true,
                 'type' => 'input',
@@ -152,6 +167,15 @@ return [
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
                 '
         ],
+        \Devsk\DsNotifier\Domain\Model\Notification\Discord::class => [
+            'showitem' => '
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+                    --palette--;;general, --palette--;;discord,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+                    --palette--;;access,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
+                '
+        ],
     ],
     'palettes' => [
         'general' => [
@@ -169,6 +193,10 @@ return [
         'slack' => [
             'label' => "{$lll}:tx_dsnotifier_domain_model_notification.palette.slack",
             'showitem' => 'slack_channel,name'
+        ],
+        'discord' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.palette.discord",
+            'showitem' => 'discord_webhook,name'
         ],
     ],
 ];

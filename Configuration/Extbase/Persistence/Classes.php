@@ -9,6 +9,7 @@ return [
         'subclasses' => [
             Model\Notification\Email::class => Model\Notification\Email::class,
             Model\Notification\Slack::class => Model\Notification\Slack::class,
+            Model\Notification\Discord::class => Model\Notification\Discord::class,
         ],
     ],
     Model\Notification\Email::class => [

@@ -189,6 +189,21 @@
       <trans-unit id="tx_dsnotifier_domain_model_notification.slack_channels">
         <source>Slack channels</source>
       </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.tab.discord">
+        <source>Discord</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.palette.discord">
+        <source>Discord</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.channel.discord">
+        <source>Discord</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_recipient.discord_webhook">
+        <source>Discord channel webhook</source>
+      </trans-unit>
+      <trans-unit id="tx_dsnotifier_domain_model_notification.discord_channels">
+        <source>Discord channels</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

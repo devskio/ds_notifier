@@ -16,6 +16,7 @@ CREATE TABLE tx_dsnotifier_domain_model_notification (
     email_cc varchar(255) DEFAULT '' NOT NULL,
     email_bcc varchar(255) DEFAULT '' NOT NULL,
     slack_channels varchar(255) DEFAULT '' NOT NULL,
+    discord_channels varchar(255) DEFAULT '' NOT NULL,
 );
 
 #
@@ -26,5 +27,6 @@ CREATE TABLE tx_dsnotifier_domain_model_recipient (
     email varchar(255) DEFAULT '' NOT NULL,
     name varchar(255) DEFAULT '' NOT NULL,
     slack_channel varchar(255) DEFAULT '' NOT NULL,
+    discord_webhook varchar(255) DEFAULT '' NOT NULL,
 );
 

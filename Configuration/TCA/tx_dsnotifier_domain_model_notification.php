@@ -28,6 +28,8 @@ return [
         'typeicon_classes' => [
             'default' => 'content-elements-mailform',
             \Devsk\DsNotifier\Domain\Model\Notification\Email::class => 'content-elements-mailform',
+            \Devsk\DsNotifier\Domain\Model\Notification\Slack::class => 'actions-brand-slack',
+            \Devsk\DsNotifier\Domain\Model\Notification\Discord::class => 'actions-brand-discord',
         ],
         'searchFields' => 'title',
     ],
@@ -133,6 +135,11 @@ return [
                         'label' => "{$lll}:tx_dsnotifier_domain_model_notification.channel.slack",
                         'value' => \Devsk\DsNotifier\Domain\Model\Notification\Slack::class,
                         'icon' => 'actions-brand-slack'
+                    ],
+                    [
+                        'label' => "{$lll}:tx_dsnotifier_domain_model_notification.channel.discord",
+                        'value' => \Devsk\DsNotifier\Domain\Model\Notification\Discord::class,
+                        'icon' => 'actions-brand-discord'
                     ],
                 ],
                 'fieldWizard' => [
@@ -280,6 +287,18 @@ return [
                 'allowNonIdValues' => true,
             ],
         ],
+        'discord_channels' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.discord_channels",
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
+                'foreign_table' => 'tx_dsnotifier_domain_model_recipient',
+                'foreign_table_where' => 'AND {#tx_dsnotifier_domain_model_recipient}.{#pid} IN (###CURRENT_PID###, ###SITEROOT###, ###SITE:settings.ds_notifier.recipients.storagePid###)
+                                          AND {#tx_dsnotifier_domain_model_recipient}.{#channel} = ' . NotifierUtility::escapeFQCNForTCA(Devsk\DsNotifier\Domain\Model\Notification\Discord::class),
+                'foreign_table_item_group' => 'channel',
+                'allowNonIdValues' => true,
+            ],
+        ],
     ],
     'types' => [
         '0' => [
@@ -341,6 +360,30 @@ return [
                 ],
             ],
         ],
+        \Devsk\DsNotifier\Domain\Model\Notification\Discord::class => [
+            'showitem' => "
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+                    --palette--;;general,
+                --div--;{$lll}:tx_dsnotifier_domain_model_notification.tab.discord,
+                    --palette--;;discord,
+                --div--;LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf:tx_dsnotifier_domain_model_notification.tab.configuration,
+                    --palette--;;configuration,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+                    --palette--;;access,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,
+                    --palette--;;language,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
+                ",
+            'subtype_value_field' => 'event',
+            'columnsOverrides' => [
+                'body' => [
+                    'config' => [
+                        'renderType' => ((new Typo3Version())->getMajorVersion() > 12) ? 'codeEditor' : 't3editor',
+                        'format' => 'html',
+                    ],
+                ],
+            ],
+        ],
     ],
     'palettes' => [
         'general' => [
@@ -377,6 +420,11 @@ return [
             'label' => "{$lll}:tx_dsnotifier_domain_model_notification.palette.slack",
             'showitem' => 'body, markers,
                 --linebreak--, slack_channels',
+        ],
+        'discord' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.palette.discord",
+            'showitem' => 'body, markers,
+                --linebreak--, discord_channels',
         ],
     ],
 ];

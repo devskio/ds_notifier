@@ -29,7 +29,7 @@ class Email extends Notification
             ->assignMultiple([
                 '_notification' => $this,
                 '_subject' => $this->subject,
-                '_body' => $this->body,
+                '_body' => ($this->replaceMarkers($this->getBody(),  $event->getMarkerProperties())),
                 ...$event->getMarkerProperties(),
             ])
             ->subject($this->getCompiledSubject($event->getMarkerProperties()))
