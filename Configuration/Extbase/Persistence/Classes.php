@@ -31,6 +31,10 @@ return [
         'recordType' => Model\Notification\Slack::class,
         'tableName' => Model\Notification\Slack::tableName(),
     ],
+    Model\Notification\Discord::class => [
+        'recordType' => Model\Notification\Discord::class,
+        'tableName' => Model\Notification\Discord::tableName(),
+    ],
     Model\Site::class => [
         'tableName' => Model\Site::tableName(),
     ],
