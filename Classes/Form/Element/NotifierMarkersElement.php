@@ -5,11 +5,9 @@ namespace Devsk\DsNotifier\Form\Element;
 
 use Devsk\DsNotifier\Event\EventInterface;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3Fluid\Fluid\View\ViewInterface;
 
 /**
@@ -49,14 +47,8 @@ class NotifierMarkersElement extends AbstractFormElement
         $templatePath = $this->data['parameterArray']['fieldConf']['config']['templatePath']
             ?? self::DEFAULT_TEMPLATE_PATH;
 
-        if ((new Typo3Version())->getMajorVersion() < 13) {
-            // @extensionScannerIgnoreLine
-            // @todo: Remove this once we drop support for TYPO3 v12
-            $view = GeneralUtility::makeInstance(StandaloneView::class);
-        } else {
-            $view = GeneralUtility::makeInstance(ViewFactoryInterface::class)
-                ->create(new ViewFactoryData());
-        }
+        $view = GeneralUtility::makeInstance(ViewFactoryInterface::class)
+            ->create(new ViewFactoryData());
 
         $view->setTemplatePathAndFilename($templatePath);
 

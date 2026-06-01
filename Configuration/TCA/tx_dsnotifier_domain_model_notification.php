@@ -1,7 +1,6 @@
 <?php
 
 use Devsk\DsNotifier\Utility\NotifierUtility;
-use TYPO3\CMS\Core\Information\Typo3Version;
 
 $lll = 'LLL:EXT:ds_notifier/Resources/Private/Language/locallang_db.xlf';
 
@@ -311,7 +310,7 @@ return [
             'columnsOverrides' => [
                 'body' => [
                     'config' => [
-                        'renderType' => ((new Typo3Version())->getMajorVersion() > 12) ? 'codeEditor' : 't3editor',
+                        'renderType' => 'codeEditor',
                         'format' => 'html',
                     ],
                 ],
@@ -335,7 +334,7 @@ return [
             'columnsOverrides' => [
                 'body' => [
                     'config' => [
-                        'renderType' => ((new Typo3Version())->getMajorVersion() > 12) ? 'codeEditor' : 't3editor',
+                        'renderType' => 'codeEditor',
                         'format' => 'html',
                     ],
                 ],

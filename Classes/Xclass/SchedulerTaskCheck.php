@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Devsk\DsNotifier\Xclass;
 
 use Devsk\DsNotifier\Event\Notifier\TaskFailure;
@@ -21,4 +23,3 @@ class SchedulerTaskCheck extends Scheduler
         }
     }
 }
-

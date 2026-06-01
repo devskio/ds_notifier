@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-
 defined('TYPO3') or die();
 
-call_user_func(function ($extKey) {
+call_user_func(function (string $extKey): void {
     /**
      * Cache configuration
      */
@@ -24,7 +22,7 @@ call_user_func(function ($extKey) {
     ];
 
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Scheduler\Scheduler::class] = [
-        'className' => \Devsk\DsNotifier\Xclass\SchedulerTaskCheck::class
+        'className' => \Devsk\DsNotifier\Xclass\SchedulerTaskCheck::class,
     ];
 
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1721307957]
