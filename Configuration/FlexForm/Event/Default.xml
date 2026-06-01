@@ -6,6 +6,9 @@
                 <el>
                     <dummy>
                         <label>Dummy</label>
+                        <config>
+                            <type>passthrough</type>
+                        </config>
                     </dummy>
                 </el>
             </ROOT>

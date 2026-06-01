@@ -11,7 +11,7 @@
                             <renderType>selectSingle</renderType>
                             <itemsProcFunc>Devsk\DsNotifier\UserFunction\FormEngine\Tca->formDefinitionItemsProcFunc</itemsProcFunc>
                             <size>8</size>
-                            <eval>required</eval>
+                            <required>1</required>
                         </config>
                     </formDefinition>
                     <attachUploads>

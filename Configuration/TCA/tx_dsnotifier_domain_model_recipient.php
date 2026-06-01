@@ -24,7 +24,6 @@ return [
             \Devsk\DsNotifier\Domain\Model\Notification\Email::class => 'actions-envelope',
             \Devsk\DsNotifier\Domain\Model\Notification\Slack::class => 'actions-brand-slack',
         ],
-        'searchFields' => 'name,email',
     ],
     'columns' => [
         'crdate' => [
@@ -48,18 +47,20 @@ return [
         ],
         'starttime' => [
             'exclude' => false,
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.field.starttime',
             'config' => [
                 'type' => 'datetime',
                 'default' => 0,
+                'searchable' => false,
             ],
         ],
         'endtime' => [
             'exclude' => false,
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.field.endtime',
             'config' => [
                 'type' => 'datetime',
                 'default' => 0,
+                'searchable' => false,
                 'range' => [
                     'upper' => mktime(0, 0, 0, 1, 1, 2038),
                 ],
@@ -121,6 +122,7 @@ return [
                 'type' => 'input',
                 'size' => 255,
                 'eval' => 'trim',
+                'searchable' => false,
             ],
         ],
     ],

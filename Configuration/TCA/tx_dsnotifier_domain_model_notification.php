@@ -28,7 +28,6 @@ return [
             'default' => 'content-elements-mailform',
             \Devsk\DsNotifier\Domain\Model\Notification\Email::class => 'content-elements-mailform',
         ],
-        'searchFields' => 'title',
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -40,7 +39,7 @@ return [
         ],
         'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.transOrigPointerField',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -87,18 +86,20 @@ return [
         ],
         'starttime' => [
             'exclude' => false,
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.field.starttime',
             'config' => [
                 'type' => 'datetime',
                 'default' => 0,
+                'searchable' => false,
             ],
         ],
         'endtime' => [
             'exclude' => false,
-            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.field.endtime',
             'config' => [
                 'type' => 'datetime',
                 'default' => 0,
+                'searchable' => false,
                 'range' => [
                     'upper' => mktime(0, 0, 0, 1, 1, 2038),
                 ],
@@ -173,6 +174,7 @@ return [
                 'eval' => 'trim',
                 'required' => true,
                 'max' => 255,
+                'searchable' => false,
             ],
         ],
         'body' => [
@@ -182,6 +184,7 @@ return [
                 'eval' => 'trim',
                 'required' => true,
                 'rows' => 14,
+                'searchable' => false,
             ],
         ],
         'markers' => [
@@ -207,6 +210,7 @@ return [
         ],
         'configuration' => array_merge_recursive(
             ['label' => "{$lll}:tx_dsnotifier_domain_model_notification.configuration"],
+            ['config' => ['searchable' => false]],
             \Devsk\DsNotifier\UserFunction\FormEngine\Tca::flexFormTcaConfiguration(),
         ),
         'email_to' => [
@@ -330,7 +334,6 @@ return [
                     --palette--;;language,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
                 ",
-            'subtype_value_field' => 'event',
             'columnsOverrides' => [
                 'body' => [
                     'config' => [
