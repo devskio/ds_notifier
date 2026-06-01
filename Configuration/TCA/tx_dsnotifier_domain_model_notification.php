@@ -171,7 +171,6 @@ return [
             'label' => "{$lll}:tx_dsnotifier_domain_model_notification.subject",
             'config' => [
                 'type' => 'input',
-                'eval' => 'trim',
                 'required' => true,
                 'max' => 255,
                 'searchable' => false,
@@ -181,7 +180,6 @@ return [
             'label' => "{$lll}:tx_dsnotifier_domain_model_notification.body",
             'config' => [
                 'type' => 'text',
-                'eval' => 'trim',
                 'required' => true,
                 'rows' => 14,
                 'searchable' => false,

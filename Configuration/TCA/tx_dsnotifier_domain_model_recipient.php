@@ -104,7 +104,6 @@ return [
                 'type' => 'email',
                 'required' => true,
                 'max' => 255,
-                'eval' => 'trim',
             ],
         ],
         'name' => [
@@ -112,7 +111,6 @@ return [
             'config' => [
                 'type' => 'input',
                 'max' => 255,
-                'eval' => 'trim',
             ],
         ],
         'slack_channel' => [
@@ -121,7 +119,6 @@ return [
                 'required' => true,
                 'type' => 'input',
                 'size' => 255,
-                'eval' => 'trim',
                 'searchable' => false,
             ],
         ],

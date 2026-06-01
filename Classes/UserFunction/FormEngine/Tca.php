@@ -74,7 +74,9 @@ class Tca
      */
     public static function flexFormTcaConfiguration(): array
     {
-        $definitionsStructures = [];
+        $definitionsStructures = [
+            'default' => 'FILE:EXT:ds_notifier/Configuration/FlexForm/Event/Default.xml',
+        ];
 
         /** @var EventInterface $eventClass */
         foreach (NotifierEventStructureScout::create()->get() as $eventClass) {
@@ -83,28 +85,18 @@ class Tca
             }
         }
 
-        if (!empty($definitionsStructures)) {
-            $definitionsStructures['default'] = 'FILE:EXT:ds_notifier/Configuration/FlexForm/Event/Default.xml';
-
-            return [
-                'displayCond' => 'FIELD:event:IN:'.implode(',', array_keys($definitionsStructures)),
-                'config' => [
-                    'type' => 'flex',
-                    'ds_pointerField' => 'event',
-                    'ds' => $definitionsStructures,
-                    'behaviour' => [
-                        'allowLanguageSynchronization' => true,
-                    ],
-                ],
-            ];
-        }
-
         return [
             'config' => [
-                'type' => 'passthrough',
+                'type' => 'flex',
+                'ds_pointerField' => 'event',
+                'ds' => $definitionsStructures,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ];
     }
+
 
     /**
      * @param array $parsedEmails
