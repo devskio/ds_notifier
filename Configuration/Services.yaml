@@ -11,6 +11,11 @@ services:
       - '../Classes/Event/*'
       - '../Classes/Domain/Model/*'
 
+  # Expose form persistence manager so GeneralUtility::makeInstance() can resolve it
+  # from the container in static contexts (e.g. SubmitFinisherEvent::getMarkerPlaceholders).
+  TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManager:
+    public: true
+
   Devsk\DsNotifier\EventListener\NotifierListener:
     tags:
       - name: event.listener
@@ -22,3 +27,13 @@ services:
   Devsk\DsNotifier\EventListener\Typo3\Core\Cache\CacheWarmupListener:
     tags:
       - name: event.listener
+
+  Devsk\DsNotifier\EventListener\FlexForm\NotifierFlexFormListener:
+    tags:
+      - name: event.listener
+        method: modifyIdentifier
+        event: TYPO3\CMS\Core\Configuration\Event\AfterFlexFormDataStructureIdentifierInitializedEvent
+      - name: event.listener
+        method: provideDataStructure
+        event: TYPO3\CMS\Core\Configuration\Event\BeforeFlexFormDataStructureParsedEvent
+

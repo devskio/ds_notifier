@@ -15,6 +15,7 @@ use TYPO3\CMS\Extbase\Domain\Model\FileReference;
 use TYPO3\CMS\Form\Domain\Finishers\FinisherContext;
 use TYPO3\CMS\Form\Domain\Model\Renderable\AbstractRenderable;
 use TYPO3\CMS\Form\Mvc\Configuration\ConfigurationManagerInterface as FormConfigurationManagerInterface;
+use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManager;
 use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
 
 /**
@@ -82,9 +83,9 @@ class SubmitFinisherEvent extends AbstractEvent
         $formPersistenceIdentifier = $notificationData['configuration']['data']['sDEF']['lDEF']['formDefinition']['vDEF'][0] ?? null;
 
         if ($formPersistenceIdentifier) {
-            $formPersistenceManager = GeneralUtility::makeInstance(FormPersistenceManagerInterface::class);
+            $formPersistenceManager = GeneralUtility::makeInstance(FormPersistenceManager::class);
             [$formSettings, $typoScriptSettings] = self::getFormSettings();
-            $form = $formPersistenceManager->load($formPersistenceIdentifier, $formSettings, $typoScriptSettings);
+            $form = $formPersistenceManager->load($formPersistenceIdentifier, $formSettings);
             $markerPlaceholders = array_merge($markerPlaceholders, self::getRenderablePlaceholders($form));
         }
 

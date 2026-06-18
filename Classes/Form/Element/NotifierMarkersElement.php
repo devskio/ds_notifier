@@ -50,7 +50,7 @@ class NotifierMarkersElement extends AbstractFormElement
         $view = GeneralUtility::makeInstance(ViewFactoryInterface::class)
             ->create(new ViewFactoryData());
 
-        $view->setTemplatePathAndFilename($templatePath);
+        $view->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename($templatePath);
 
         return $view;
     }

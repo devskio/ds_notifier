@@ -12,14 +12,17 @@ use Devsk\DsNotifier\StructureScout\NotifierEventStructureScout;
 use Devsk\DsNotifier\Utility\NotifierUtility;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Site\Entity\Site;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Mvc\Persistence\FormPersistenceManagerInterface;
+use TYPO3\CMS\Form\Domain\DTO\SearchCriteria;
 
 /**
  * Class Tca
  */
 class Tca
 {
+    public function __construct(
+        private readonly FormPersistenceManagerInterface $formPersistenceManager,
+    ) {}
 
     /**
      * Populate items with discovered Notifier Events and group them
@@ -121,9 +124,8 @@ class Tca
             if ($eventClass === SubmitFinisherEvent::class) {
                 $formPersistenceIdentifier = $row['configuration']['data']['sDEF']['lDEF']['formDefinition']['vDEF'][0] ?? null;
                 if ($formPersistenceIdentifier) {
-                    $formPersistenceManager = GeneralUtility::makeInstance(FormPersistenceManagerInterface::class);
                     [$formSettings, $typoScriptSettings] = SubmitFinisherEvent::getFormSettings();
-                    $formDefinition = $formPersistenceManager->load($formPersistenceIdentifier, $formSettings, $typoScriptSettings);
+                    $formDefinition = $this->formPersistenceManager->load($formPersistenceIdentifier, $formSettings);
                     foreach (NotifierUtility::collectFormEmailRenderables($formDefinition['renderables']) as $emailRenderable) {
                         $parsedEmails[] = [
                             'label' => $emailRenderable['label'],
@@ -161,11 +163,10 @@ class Tca
 
     public function formDefinitionItemsProcFunc(&$params): void
     {
-        $formPersistenceManager = GeneralUtility::makeInstance(FormPersistenceManagerInterface::class);
         [$formSettings, $typoScriptSettings] = SubmitFinisherEvent::getFormSettings();
-        foreach ($formPersistenceManager->listForms($formSettings) as $form) {
-            $persistenceIdentifier = $form['persistenceIdentifier'];
-            $formDefinition = $formPersistenceManager->load($persistenceIdentifier, $formSettings, $typoScriptSettings);
+        foreach ($this->formPersistenceManager->listForms($formSettings, new SearchCriteria()) as $form) {
+            $persistenceIdentifier = $form->toArray()['persistenceIdentifier'];
+            $formDefinition = $this->formPersistenceManager->load($persistenceIdentifier, $formSettings);
             $finishers = $formDefinition['finishers'] ?? [];
 
             foreach ($finishers as $finisher) {

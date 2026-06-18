@@ -206,11 +206,20 @@ return [
                 ],
             ],
         ],
-        'configuration' => array_merge_recursive(
-            ['label' => "{$lll}:tx_dsnotifier_domain_model_notification.configuration"],
-            ['config' => ['searchable' => false]],
-            \Devsk\DsNotifier\UserFunction\FormEngine\Tca::flexFormTcaConfiguration(),
-        ),
+        'configuration' => [
+            'label' => "{$lll}:tx_dsnotifier_domain_model_notification.configuration",
+            'config' => [
+                'type' => 'flex',
+                'ds_pointerField' => 'event',
+                'ds' => [
+                    'default' => 'FILE:EXT:ds_notifier/Configuration/FlexForm/Event/Default.xml',
+                ],
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
+                'searchable' => false,
+            ],
+        ],
         'email_to' => [
             'label' => "{$lll}:tx_dsnotifier_domain_model_notification.email_to",
             'config' => [

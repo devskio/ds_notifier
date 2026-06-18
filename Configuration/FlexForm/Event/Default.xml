@@ -5,9 +5,9 @@
                 <sheetTitle>Default</sheetTitle>
                 <el>
                     <dummy>
-                        <label>Dummy</label>
+                        <label>Nothing to configure for this event</label>
                         <config>
-                            <type>passthrough</type>
+                            <type>none</type>
                         </config>
                     </dummy>
                 </el>

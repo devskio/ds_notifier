@@ -25,6 +25,14 @@ call_user_func(function (string $extKey): void {
         'className' => \Devsk\DsNotifier\Xclass\SchedulerTaskCheck::class,
     ];
 
+    /**
+     * Register Form Data Provider to inject dynamic flex form DS before TcaFlexPrepare
+     */
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord']
+        [\Devsk\DsNotifier\Form\FormDataProvider\NotifierFlexFormDataProvider::class] = [
+            'before' => [\TYPO3\CMS\Backend\Form\FormDataProvider\TcaFlexPrepare::class],
+        ];
+
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['templateRootPaths'][1721307957]
         = "EXT:{$extKey}/Resources/Private/Templates/Email";
     $GLOBALS['TYPO3_CONF_VARS']['MAIL']['partialRootPaths'][1721307957]
