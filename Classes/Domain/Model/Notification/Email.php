@@ -27,9 +27,9 @@ class Email extends Notification
 
         $message->setTemplate($event::modelName())
             ->assignMultiple([
-                '_notification' => $this,
-                '_subject' => $this->subject,
-                '_body' => $this->body,
+                'notification' => $this,
+                'subject' => $this->subject,
+                'body' => $this->body,
                 ...$event->getMarkerProperties(),
             ])
             ->subject($this->getCompiledSubject($event->getMarkerProperties()))
