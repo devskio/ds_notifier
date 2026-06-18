@@ -15,7 +15,7 @@ final class CacheWarmupListener
         protected readonly LoggerInterface $logger
     ){}
 
-    public function __invoke(CacheWarmupEvent $event)
+    public function __invoke(CacheWarmupEvent $event): void
     {
         $this->logger->info('Caching structure scouts...');
 

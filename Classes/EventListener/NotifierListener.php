@@ -22,7 +22,7 @@ final class NotifierListener
     )
     {}
 
-    public function __invoke(EventInterface $event)
+    public function __invoke(EventInterface $event): void
     {
         $this->logger->info("Event " . $event::class . " triggered");
 

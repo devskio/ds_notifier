@@ -14,7 +14,7 @@ final class CacheFlushListener
         protected readonly EventDispatcher $eventDispatcher,
     ){}
 
-    public function __invoke(CacheFlushEvent $event)
+    public function __invoke(CacheFlushEvent $event): void
     {
         $this->eventDispatcher->dispatch(new CacheFlush($event));
     }

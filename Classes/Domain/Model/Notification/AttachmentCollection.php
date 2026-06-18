@@ -31,7 +31,7 @@ class AttachmentCollection implements  \IteratorAggregate, Countable
         return yield from $this->attachments;
     }
 
-    public function add(Attachment $attachment)
+    public function add(Attachment $attachment): void
     {
         $this->attachments[] = $attachment;
     }

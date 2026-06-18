@@ -27,7 +27,7 @@ class Tca
      * @return void
      * @throws \ReflectionException
      */
-    public function notificationEventItemsProcFunc(&$params)
+    public function notificationEventItemsProcFunc(&$params): void
     {
         $groups = [];
 
@@ -62,7 +62,7 @@ class Tca
      * @param $params
      * @return void
      */
-    public function notificationEmailItemsProcFunc(&$params)
+    public function notificationEmailItemsProcFunc(&$params): void
     {
         $this->addEventEmails($params['items'], $params['row']['event'][0] ?? '', $params['row']);
         $this->addSiteGlobalEmails($params['items'], $params['site']);
@@ -103,7 +103,7 @@ class Tca
      * @param string|EventInterface $eventClass
      * @return void
      */
-    private function addEventEmails(array &$parsedEmails, string|EventInterface $eventClass, array $row = [])
+    private function addEventEmails(array &$parsedEmails, string|EventInterface $eventClass, array $row = []): void
     {
         if (is_subclass_of($eventClass, EventInterface::class)) {
             $emailPlaceholders = $eventClass::getEmailPlaceholders();
@@ -139,7 +139,7 @@ class Tca
     /**
      * Add emails from Site settings.
      */
-    private function addSiteGlobalEmails(array &$parsedEmails, $site)
+    private function addSiteGlobalEmails(array &$parsedEmails, $site): void
     {
         if ($site instanceof Site) {
             $siteSettings = $site->getSettings()->get('ds_notifier');
@@ -159,7 +159,7 @@ class Tca
         }
     }
 
-    public function formDefinitionItemsProcFunc(&$params)
+    public function formDefinitionItemsProcFunc(&$params): void
     {
         $formPersistenceManager = GeneralUtility::makeInstance(FormPersistenceManagerInterface::class);
         [$formSettings, $typoScriptSettings] = SubmitFinisherEvent::getFormSettings();

@@ -285,13 +285,13 @@ return [
     'types' => [
         '0' => [
             'showitem' => '
-                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
+                --div--;core.form.tabs:general,
                     --palette--;;general,
-                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+                --div--;core.form.tabs:access,
                     --palette--;;access,
-                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,
+                --div--;core.form.tabs:language,
                     --palette--;;language,
-                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
+                --div--;core.form.tabs:extended,
                 '
         ],
         \Devsk\DsNotifier\Domain\Model\Notification\Email::class => [
