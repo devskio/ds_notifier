@@ -5,40 +5,42 @@ namespace Devsk\DsNotifier\Domain\Model\Notification;
 
 use Devsk\DsNotifier\Domain\Model\Notification;
 use Devsk\DsNotifier\Event\EventInterface;
-use Devsk\DsNotifier\Domain\Model\Notification\Slack\Recipients;
+use Devsk\DsNotifier\Domain\Model\Notification\Discord\Recipients;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Symfony\Component\Notifier\Exception\TransportExceptionInterface;
 use TYPO3\CMS\Core\Http\RequestFactory;
 
 /**
- * Class Slack
+ * Class Discord
  * @package Devsk\DsNotifier\Domain\Model
  */
-class Slack extends Notification
+class Discord extends Notification
 {
-    protected ?Recipients $slackChannels = null;
+    protected ?Recipients $discordChannels = null;
 
     public function send(EventInterface $event): void
     {
-        foreach ($this->slackChannels->getRecipients() as $recipient) {
+        foreach ($this->discordChannels->getRecipients() as $recipient) {
             $this->sendToRecipient($recipient, $event);
         }
     }
-
-    /**
-     * @throws TransportExceptionInterface
-     */
     public function sendToRecipient(array $recipient, EventInterface $event): void
     {
-        if (!empty($recipient['slack_channel'])) {
+        if (!empty($recipient['discord_webhook'])) {
             $body = $this->replaceMarkers($this->getBody(),  $event->getMarkerProperties());
+            // Discord webhook payload structure
+            $payload = [
+                'content' => $body,
+                'username' => $this->getTitle() ?? 'Notification',
+            ];
+
             $additionOptions = [
                 'headers' => ['Content-Type' => 'application/json; charset=utf-8'],
-                'body' => json_encode(['text' => $body]),
+                'body' => json_encode($payload),
             ];
             $request = GeneralUtility::makeInstance(RequestFactory::class);
             $request->request(
-                $recipient['slack_channel'],
+                $recipient['discord_webhook'],
                 'POST',
                 $additionOptions);
         }

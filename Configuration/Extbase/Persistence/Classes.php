@@ -9,6 +9,7 @@ return [
         'subclasses' => [
             Model\Notification\Email::class => Model\Notification\Email::class,
             Model\Notification\Slack::class => Model\Notification\Slack::class,
+            Model\Notification\Discord::class => Model\Notification\Discord::class,
         ],
     ],
     Model\Notification\Email::class => [
@@ -29,6 +30,10 @@ return [
     Model\Notification\Slack::class => [
         'recordType' => Model\Notification\Slack::class,
         'tableName' => Model\Notification\Slack::tableName(),
+    ],
+    Model\Notification\Discord::class => [
+        'recordType' => Model\Notification\Discord::class,
+        'tableName' => Model\Notification\Discord::tableName(),
     ],
     Model\Site::class => [
         'tableName' => Model\Site::tableName(),

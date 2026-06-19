@@ -45,13 +45,17 @@ The [SubmitFinisherEvent](./Classes/Event/Form/SubmitFinisherEvent.php) adds new
 The extension can be configured via TYPO3's backend configuration modules. You can set up different notification channels, layouts, and more.
 
 #### Create a notification recipient
-We need to set up Recipient record first, so we can use it later in Notification record. To set up a notification recipient, in Backend navigate to List module and create a new record of type "Recipient". Here we can define for which type of communication channel recipient is meant, either Email or Slack, then fill in the required fields and save the record.
+We need to set up Recipient record first, so we can use it later in Notification record. To set up a notification recipient, in Backend navigate to List module and create a new record of type "Recipient". Here we can define for which type of communication channel recipient is meant, either Email, Slack, or Discord, then fill in the required fields and save the record.
 
 ![recipient.png](readme/recipient.png)
 
 ![recipientSlack.png](readme/recipientSlack.png)
 
-For slack we also need to define slack webhook for specific channel. [Here](https://api.slack.com/messaging/webhooks) you can find more information on how to get your slack webhook.
+For Slack we need to define Slack webhook for specific channel. [Here](https://api.slack.com/messaging/webhooks) you can find more information on how to get your Slack webhook.
+
+![recipientDiscord.png](readme/recipientDiscord.png)
+
+For Discord we need to define Discord webhook for specific channel. [Here](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) you can find more information on how to get your Discord webhook.
 
 #### Create a notification
 To create a notification, in Backend navigate to List module and create a new record of type "Notification". We select for which communication channel is this notification meant, then we can select specific event when this notification is supposed to be sent and for which sites it's supposed to available.
@@ -69,9 +73,11 @@ Next we select recipient of the notification, we can select multiple recipients 
 
 ![notification3.png](readme/notification3.png)
 
-For slack setting up notification is similar to email, but we need to select slack recipient where notification will be sent.
+For Slack and Discord, setting up notification is similar to email, but we need to select Slack or Discord recipient where notification will be sent.
 
 ![notification4.png](readme/notification4.png)
+
+![notification5.png](readme/notification5.png)
 
 After save, notification should be ready to be sent when respective event is triggered.
 
