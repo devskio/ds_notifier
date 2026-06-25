@@ -3,6 +3,8 @@ prototypes:
     finishersDefinition:
       DsNotifierFormFrameworkFinisher:
         implementationClassName: 'Devsk\DsNotifier\FormFramework\Finisher\DsNotifierFormFrameworkFinisher'
+        predefinedDefaults:
+          options: {  }
         formEditor:
           iconIdentifier: 'form-finisher'
           label: form.notifierFinisher.label
