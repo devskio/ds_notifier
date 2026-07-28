@@ -101,9 +101,10 @@ abstract class Notification extends AbstractEntity implements NotificationInterf
     }
 
     /**
-     * Recursively replace markers in body with values from nested arrays
-     * Converts {key.subkey} to corresponding array value
-     * Array values are converted to comma-separated lists
+     * Replace markers in body using Fluid template engine.
+     * Supports {key}, {key.subkey} dot-notation natively.
+     * Array leaf values are converted to comma-separated strings so Fluid
+     * can render them without throwing "Cannot cast an array to string".
      *
      * @param string $body
      * @param array $markers
@@ -111,49 +112,30 @@ abstract class Notification extends AbstractEntity implements NotificationInterf
      */
     protected function replaceMarkers(string $body, array $markers): string
     {
-        foreach ($markers as $key => $value) {
-            if (is_array($value)) {
-                // Recursively process nested arrays
-                $body = $this->replaceNestedMarkers($body, $key, $value);
-            } else {
-                // Replace simple markers
-                $body = str_replace('{' . $key . '}', strval($value), $body);
-            }
-        }
-        return $body;
+        return $this->compileTemplateString($body, $this->flattenMarkersForFluid($markers), false);
     }
 
     /**
-     * Recursively process nested array markers
-     * Converts array values to comma-separated lists
+     * Recursively walk markers and convert any leaf-level array values
+     * (e.g. multi-checkbox form values) to comma-separated strings so
+     * Fluid can render them as plain text without throwing a cast error.
      *
-     * @param string $body
-     * @param string $prefix
-     * @param array $array
-     * @return string
+     * @param array $markers
+     * @return array
      */
-    protected function replaceNestedMarkers(string $body, string $prefix, array $array): string
+    protected function flattenMarkersForFluid(array $markers): array
     {
-        foreach ($array as $key => $value) {
-            $marker = '{' . $prefix . '.' . $key . '}';
+        foreach ($markers as $key => $value) {
             if (is_array($value)) {
-                // Recursively process deeper nested arrays
-                $body = $this->replaceNestedMarkers($body, $prefix . '.' . $key, $value);
-            } else {
-                // Replace the marker with the value
-                $body = str_replace($marker, strval($value), $body);
+                // Check if all children are scalar — if so, join them; otherwise recurse
+                $hasNestedArrays = array_filter($value, 'is_array');
+                if ($hasNestedArrays) {
+                    $markers[$key] = $this->flattenMarkersForFluid($value);
+                } else {
+                    $markers[$key] = implode(', ', array_map('strval', array_filter($value, fn($v) => !is_object($v))));
+                }
             }
         }
-
-        // Also handle the case where the marker points to the entire array (e.g., {formValues.multicheckbox-1})
-        // Convert array values to comma-separated list
-        $arrayMarker = '{' . $prefix . '}';
-        if (strpos($body, $arrayMarker) !== false) {
-            $arrayValues = array_filter($array, fn($v) => !is_array($v));
-            $listValue = implode(', ', array_map('strval', $arrayValues));
-            $body = str_replace($arrayMarker, $listValue, $body);
-        }
-
-        return $body;
+        return $markers;
     }
 }
